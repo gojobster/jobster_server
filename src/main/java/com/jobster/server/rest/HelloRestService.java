@@ -1,7 +1,6 @@
 package com.jobster.server.rest;
 
 import com.jobster.server.BLL.Constantes;
-import com.jobster.server.model.tables.Users;
 import com.jobster.server.model.tables.records.UsersRecord;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
@@ -35,7 +34,7 @@ public class HelloRestService {
             DSLContext create = DSL.using(conn, SQLDialect.MYSQL);
 
             UsersRecord user = create.select()
-                    .from(USERS).where(USERS.ID_USERS.equal(1)).fetchAnyInto(UsersRecord.class);
+                    .from(USERS).where(USERS.ID_USER.equal(1)).fetchAnyInto(UsersRecord.class);
 
             result = user.getName();
         } catch (InstantiationException | IllegalAccessException | SQLException | ClassNotFoundException e) {

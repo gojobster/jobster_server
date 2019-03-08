@@ -41,7 +41,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users extends TableImpl<UsersRecord> {
 
-    private static final long serialVersionUID = 1388550579;
+    private static final long serialVersionUID = -493762227;
 
     /**
      * The reference instance of <code>jobster.users</code>
@@ -100,6 +100,66 @@ public class Users extends TableImpl<UsersRecord> {
      * The column <code>jobster.users.headline</code>.
      */
     public final TableField<UsersRecord, String> HEADLINE = createField("headline", org.jooq.impl.SQLDataType.VARCHAR(45), this, "");
+
+    /**
+     * The column <code>jobster.users.picture_url</code>.
+     */
+    public final TableField<UsersRecord, String> PICTURE_URL = createField("picture_url", org.jooq.impl.SQLDataType.VARCHAR(45), this, "");
+
+    /**
+     * The column <code>jobster.users.apikey</code>.
+     */
+    public final TableField<UsersRecord, String> APIKEY = createField("apikey", org.jooq.impl.SQLDataType.VARCHAR(45), this, "");
+
+    /**
+     * The column <code>jobster.users.verified_email</code>.
+     */
+    public final TableField<UsersRecord, Integer> VERIFIED_EMAIL = createField("verified_email", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+
+    /**
+     * The column <code>jobster.users.user_name</code>.
+     */
+    public final TableField<UsersRecord, String> USER_NAME = createField("user_name", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "");
+
+    /**
+     * The column <code>jobster.users.password</code>.
+     */
+    public final TableField<UsersRecord, String> PASSWORD = createField("password", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "");
+
+    /**
+     * The column <code>jobster.users.salt</code>.
+     */
+    public final TableField<UsersRecord, String> SALT = createField("salt", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "");
+
+    /**
+     * The column <code>jobster.users.last_connection</code>.
+     */
+    public final TableField<UsersRecord, Timestamp> LAST_CONNECTION = createField("last_connection", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false), this, "");
+
+    /**
+     * The column <code>jobster.users.phone_number</code>.
+     */
+    public final TableField<UsersRecord, String> PHONE_NUMBER = createField("phone_number", org.jooq.impl.SQLDataType.VARCHAR(45), this, "");
+
+    /**
+     * The column <code>jobster.users.verified_phone_number</code>.
+     */
+    public final TableField<UsersRecord, Integer> VERIFIED_PHONE_NUMBER = createField("verified_phone_number", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+
+    /**
+     * The column <code>jobster.users.userscol</code>.
+     */
+    public final TableField<UsersRecord, String> USERSCOL = createField("userscol", org.jooq.impl.SQLDataType.VARCHAR(45), this, "");
+
+    /**
+     * The column <code>jobster.users.date_created</code>.
+     */
+    public final TableField<UsersRecord, Timestamp> DATE_CREATED = createField("date_created", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false), this, "");
+
+    /**
+     * The column <code>jobster.users.idiom</code>.
+     */
+    public final TableField<UsersRecord, String> IDIOM = createField("idiom", org.jooq.impl.SQLDataType.VARCHAR(45).defaultValue(org.jooq.impl.DSL.inline("en", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
 
     /**
      * Create a <code>jobster.users</code> table reference
