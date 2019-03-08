@@ -9,6 +9,7 @@ import com.jobster.server.model.Jobster;
 import com.jobster.server.model.Keys;
 import com.jobster.server.model.tables.records.UsersRecord;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,7 +41,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users extends TableImpl<UsersRecord> {
 
-    private static final long serialVersionUID = -1996475932;
+    private static final long serialVersionUID = 1388550579;
 
     /**
      * The reference instance of <code>jobster.users</code>
@@ -56,24 +57,49 @@ public class Users extends TableImpl<UsersRecord> {
     }
 
     /**
-     * The column <code>jobster.users.id_users</code>.
+     * The column <code>jobster.users.id_user</code>.
      */
-    public final TableField<UsersRecord, Integer> ID_USERS = createField("id_users", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<UsersRecord, Integer> ID_USER = createField("id_user", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>jobster.users.name</code>.
      */
-    public final TableField<UsersRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(45), this, "");
+    public final TableField<UsersRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "");
 
     /**
      * The column <code>jobster.users.surrname</code>.
      */
-    public final TableField<UsersRecord, String> SURRNAME = createField("surrname", org.jooq.impl.SQLDataType.VARCHAR(45), this, "");
+    public final TableField<UsersRecord, String> SURRNAME = createField("surrname", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "");
 
     /**
      * The column <code>jobster.users.email</code>.
      */
-    public final TableField<UsersRecord, String> EMAIL = createField("email", org.jooq.impl.SQLDataType.VARCHAR(45), this, "");
+    public final TableField<UsersRecord, String> EMAIL = createField("email", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "");
+
+    /**
+     * The column <code>jobster.users.current_position</code>.
+     */
+    public final TableField<UsersRecord, String> CURRENT_POSITION = createField("current_position", org.jooq.impl.SQLDataType.VARCHAR(45), this, "");
+
+    /**
+     * The column <code>jobster.users.date_birthday</code>.
+     */
+    public final TableField<UsersRecord, Timestamp> DATE_BIRTHDAY = createField("date_birthday", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false), this, "");
+
+    /**
+     * The column <code>jobster.users.gender</code>.
+     */
+    public final TableField<UsersRecord, String> GENDER = createField("gender", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "");
+
+    /**
+     * The column <code>jobster.users.sector</code>.
+     */
+    public final TableField<UsersRecord, String> SECTOR = createField("sector", org.jooq.impl.SQLDataType.VARCHAR(45), this, "");
+
+    /**
+     * The column <code>jobster.users.headline</code>.
+     */
+    public final TableField<UsersRecord, String> HEADLINE = createField("headline", org.jooq.impl.SQLDataType.VARCHAR(45), this, "");
 
     /**
      * Create a <code>jobster.users</code> table reference

@@ -4,7 +4,14 @@
 package com.jobster.server.model;
 
 
+import com.jobster.server.model.tables.Idioms;
+import com.jobster.server.model.tables.Offers;
+import com.jobster.server.model.tables.OffersSkills;
+import com.jobster.server.model.tables.Referrals;
+import com.jobster.server.model.tables.Skills;
+import com.jobster.server.model.tables.UserIdiom;
 import com.jobster.server.model.tables.Users;
+import com.jobster.server.model.tables.UsersSkills;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +37,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Jobster extends SchemaImpl {
 
-    private static final long serialVersionUID = 889565012;
+    private static final long serialVersionUID = -2094311880;
 
     /**
      * The reference instance of <code>jobster</code>
@@ -38,9 +45,44 @@ public class Jobster extends SchemaImpl {
     public static final Jobster JOBSTER = new Jobster();
 
     /**
+     * The table <code>jobster.idioms</code>.
+     */
+    public final Idioms IDIOMS = com.jobster.server.model.tables.Idioms.IDIOMS;
+
+    /**
+     * The table <code>jobster.offers</code>.
+     */
+    public final Offers OFFERS = com.jobster.server.model.tables.Offers.OFFERS;
+
+    /**
+     * The table <code>jobster.offers_skills</code>.
+     */
+    public final OffersSkills OFFERS_SKILLS = com.jobster.server.model.tables.OffersSkills.OFFERS_SKILLS;
+
+    /**
+     * The table <code>jobster.referrals</code>.
+     */
+    public final Referrals REFERRALS = com.jobster.server.model.tables.Referrals.REFERRALS;
+
+    /**
+     * The table <code>jobster.skills</code>.
+     */
+    public final Skills SKILLS = com.jobster.server.model.tables.Skills.SKILLS;
+
+    /**
      * The table <code>jobster.users</code>.
      */
     public final Users USERS = com.jobster.server.model.tables.Users.USERS;
+
+    /**
+     * The table <code>jobster.users_skills</code>.
+     */
+    public final UsersSkills USERS_SKILLS = com.jobster.server.model.tables.UsersSkills.USERS_SKILLS;
+
+    /**
+     * The table <code>jobster.user_idiom</code>.
+     */
+    public final UserIdiom USER_IDIOM = com.jobster.server.model.tables.UserIdiom.USER_IDIOM;
 
     /**
      * No further instances allowed
@@ -67,6 +109,13 @@ public class Jobster extends SchemaImpl {
 
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
-            Users.USERS);
+            Idioms.IDIOMS,
+            Offers.OFFERS,
+            OffersSkills.OFFERS_SKILLS,
+            Referrals.REFERRALS,
+            Skills.SKILLS,
+            Users.USERS,
+            UsersSkills.USERS_SKILLS,
+            UserIdiom.USER_IDIOM);
     }
 }

@@ -4,11 +4,26 @@
 package com.jobster.server.model;
 
 
+import com.jobster.server.model.tables.Idioms;
+import com.jobster.server.model.tables.Offers;
+import com.jobster.server.model.tables.OffersSkills;
+import com.jobster.server.model.tables.Referrals;
+import com.jobster.server.model.tables.Skills;
+import com.jobster.server.model.tables.UserIdiom;
 import com.jobster.server.model.tables.Users;
+import com.jobster.server.model.tables.UsersSkills;
+import com.jobster.server.model.tables.records.IdiomsRecord;
+import com.jobster.server.model.tables.records.OffersRecord;
+import com.jobster.server.model.tables.records.OffersSkillsRecord;
+import com.jobster.server.model.tables.records.ReferralsRecord;
+import com.jobster.server.model.tables.records.SkillsRecord;
+import com.jobster.server.model.tables.records.UserIdiomRecord;
 import com.jobster.server.model.tables.records.UsersRecord;
+import com.jobster.server.model.tables.records.UsersSkillsRecord;
 
 import javax.annotation.Generated;
 
+import org.jooq.ForeignKey;
 import org.jooq.UniqueKey;
 import org.jooq.impl.Internal;
 
@@ -36,18 +51,51 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<IdiomsRecord> KEY_IDIOMS_PRIMARY = UniqueKeys0.KEY_IDIOMS_PRIMARY;
+    public static final UniqueKey<OffersRecord> KEY_OFFERS_PRIMARY = UniqueKeys0.KEY_OFFERS_PRIMARY;
+    public static final UniqueKey<OffersSkillsRecord> KEY_OFFERS_SKILLS_PRIMARY = UniqueKeys0.KEY_OFFERS_SKILLS_PRIMARY;
+    public static final UniqueKey<ReferralsRecord> KEY_REFERRALS_PRIMARY = UniqueKeys0.KEY_REFERRALS_PRIMARY;
+    public static final UniqueKey<SkillsRecord> KEY_SKILLS_PRIMARY = UniqueKeys0.KEY_SKILLS_PRIMARY;
     public static final UniqueKey<UsersRecord> KEY_USERS_PRIMARY = UniqueKeys0.KEY_USERS_PRIMARY;
+    public static final UniqueKey<UsersSkillsRecord> KEY_USERS_SKILLS_PRIMARY = UniqueKeys0.KEY_USERS_SKILLS_PRIMARY;
+    public static final UniqueKey<UserIdiomRecord> KEY_USER_IDIOM_PRIMARY = UniqueKeys0.KEY_USER_IDIOM_PRIMARY;
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final ForeignKey<OffersSkillsRecord, SkillsRecord> ID_SKILL3 = ForeignKeys0.ID_SKILL3;
+    public static final ForeignKey<OffersSkillsRecord, OffersRecord> ID_OFFER = ForeignKeys0.ID_OFFER;
+    public static final ForeignKey<ReferralsRecord, UsersRecord> ID_JOBSTER = ForeignKeys0.ID_JOBSTER;
+    public static final ForeignKey<ReferralsRecord, UsersRecord> ID_CANDIDATE = ForeignKeys0.ID_CANDIDATE;
+    public static final ForeignKey<UsersSkillsRecord, UsersRecord> ID_USER2 = ForeignKeys0.ID_USER2;
+    public static final ForeignKey<UsersSkillsRecord, SkillsRecord> ID_SKILL2 = ForeignKeys0.ID_SKILL2;
+    public static final ForeignKey<UserIdiomRecord, UsersRecord> ID_USER = ForeignKeys0.ID_USER;
+    public static final ForeignKey<UserIdiomRecord, IdiomsRecord> ID_IDIOM = ForeignKeys0.ID_IDIOM;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
     // -------------------------------------------------------------------------
 
     private static class UniqueKeys0 {
-        public static final UniqueKey<UsersRecord> KEY_USERS_PRIMARY = Internal.createUniqueKey(Users.USERS, "KEY_users_PRIMARY", Users.USERS.ID_USERS);
+        public static final UniqueKey<IdiomsRecord> KEY_IDIOMS_PRIMARY = Internal.createUniqueKey(Idioms.IDIOMS, "KEY_idioms_PRIMARY", Idioms.IDIOMS.ID_IDIOM);
+        public static final UniqueKey<OffersRecord> KEY_OFFERS_PRIMARY = Internal.createUniqueKey(Offers.OFFERS, "KEY_offers_PRIMARY", Offers.OFFERS.ID_OFFER);
+        public static final UniqueKey<OffersSkillsRecord> KEY_OFFERS_SKILLS_PRIMARY = Internal.createUniqueKey(OffersSkills.OFFERS_SKILLS, "KEY_offers_skills_PRIMARY", OffersSkills.OFFERS_SKILLS.ID_OFFER_SKILL);
+        public static final UniqueKey<ReferralsRecord> KEY_REFERRALS_PRIMARY = Internal.createUniqueKey(Referrals.REFERRALS, "KEY_referrals_PRIMARY", Referrals.REFERRALS.ID_REFERRAL);
+        public static final UniqueKey<SkillsRecord> KEY_SKILLS_PRIMARY = Internal.createUniqueKey(Skills.SKILLS, "KEY_skills_PRIMARY", Skills.SKILLS.ID_SKILL);
+        public static final UniqueKey<UsersRecord> KEY_USERS_PRIMARY = Internal.createUniqueKey(Users.USERS, "KEY_users_PRIMARY", Users.USERS.ID_USER);
+        public static final UniqueKey<UsersSkillsRecord> KEY_USERS_SKILLS_PRIMARY = Internal.createUniqueKey(UsersSkills.USERS_SKILLS, "KEY_users_skills_PRIMARY", UsersSkills.USERS_SKILLS.ID_USER_SKILL);
+        public static final UniqueKey<UserIdiomRecord> KEY_USER_IDIOM_PRIMARY = Internal.createUniqueKey(UserIdiom.USER_IDIOM, "KEY_user_idiom_PRIMARY", UserIdiom.USER_IDIOM.ID_USER_IDIOM);
+    }
+
+    private static class ForeignKeys0 {
+        public static final ForeignKey<OffersSkillsRecord, SkillsRecord> ID_SKILL3 = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_SKILLS_PRIMARY, OffersSkills.OFFERS_SKILLS, "id_skill3", OffersSkills.OFFERS_SKILLS.ID_SKILL);
+        public static final ForeignKey<OffersSkillsRecord, OffersRecord> ID_OFFER = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_OFFERS_PRIMARY, OffersSkills.OFFERS_SKILLS, "id_offer", OffersSkills.OFFERS_SKILLS.ID_OFFER);
+        public static final ForeignKey<ReferralsRecord, UsersRecord> ID_JOBSTER = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_USERS_PRIMARY, Referrals.REFERRALS, "id_jobster", Referrals.REFERRALS.ID_JOBSTER);
+        public static final ForeignKey<ReferralsRecord, UsersRecord> ID_CANDIDATE = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_USERS_PRIMARY, Referrals.REFERRALS, "id_candidate", Referrals.REFERRALS.ID_CANDIDATE);
+        public static final ForeignKey<UsersSkillsRecord, UsersRecord> ID_USER2 = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_USERS_PRIMARY, UsersSkills.USERS_SKILLS, "id_user2", UsersSkills.USERS_SKILLS.ID_USER);
+        public static final ForeignKey<UsersSkillsRecord, SkillsRecord> ID_SKILL2 = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_SKILLS_PRIMARY, UsersSkills.USERS_SKILLS, "id_skill2", UsersSkills.USERS_SKILLS.ID_SKILL);
+        public static final ForeignKey<UserIdiomRecord, UsersRecord> ID_USER = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_USERS_PRIMARY, UserIdiom.USER_IDIOM, "id_user", UserIdiom.USER_IDIOM.ID_USER);
+        public static final ForeignKey<UserIdiomRecord, IdiomsRecord> ID_IDIOM = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_IDIOMS_PRIMARY, UserIdiom.USER_IDIOM, "id_idiom", UserIdiom.USER_IDIOM.ID_IDIOM);
     }
 }
