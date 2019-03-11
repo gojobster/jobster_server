@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
@@ -41,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users extends TableImpl<UsersRecord> {
 
-    private static final long serialVersionUID = -493762227;
+    private static final long serialVersionUID = 942793392;
 
     /**
      * The reference instance of <code>jobster.users</code>
@@ -59,7 +60,7 @@ public class Users extends TableImpl<UsersRecord> {
     /**
      * The column <code>jobster.users.id_user</code>.
      */
-    public final TableField<UsersRecord, Integer> ID_USER = createField("id_user", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<UsersRecord, Integer> ID_USER = createField("id_user", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>jobster.users.name</code>.
@@ -104,7 +105,7 @@ public class Users extends TableImpl<UsersRecord> {
     /**
      * The column <code>jobster.users.picture_url</code>.
      */
-    public final TableField<UsersRecord, String> PICTURE_URL = createField("picture_url", org.jooq.impl.SQLDataType.VARCHAR(45), this, "");
+    public final TableField<UsersRecord, String> PICTURE_URL = createField("picture_url", org.jooq.impl.SQLDataType.VARCHAR(90), this, "");
 
     /**
      * The column <code>jobster.users.apikey</code>.
@@ -119,7 +120,7 @@ public class Users extends TableImpl<UsersRecord> {
     /**
      * The column <code>jobster.users.user_name</code>.
      */
-    public final TableField<UsersRecord, String> USER_NAME = createField("user_name", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "");
+    public final TableField<UsersRecord, String> USER_NAME = createField("user_name", org.jooq.impl.SQLDataType.VARCHAR(45), this, "");
 
     /**
      * The column <code>jobster.users.password</code>.
@@ -129,7 +130,7 @@ public class Users extends TableImpl<UsersRecord> {
     /**
      * The column <code>jobster.users.salt</code>.
      */
-    public final TableField<UsersRecord, String> SALT = createField("salt", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "");
+    public final TableField<UsersRecord, String> SALT = createField("salt", org.jooq.impl.SQLDataType.VARCHAR(45), this, "");
 
     /**
      * The column <code>jobster.users.last_connection</code>.
@@ -145,11 +146,6 @@ public class Users extends TableImpl<UsersRecord> {
      * The column <code>jobster.users.verified_phone_number</code>.
      */
     public final TableField<UsersRecord, Integer> VERIFIED_PHONE_NUMBER = createField("verified_phone_number", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.INTEGER)), this, "");
-
-    /**
-     * The column <code>jobster.users.userscol</code>.
-     */
-    public final TableField<UsersRecord, String> USERSCOL = createField("userscol", org.jooq.impl.SQLDataType.VARCHAR(45), this, "");
 
     /**
      * The column <code>jobster.users.date_created</code>.
@@ -208,6 +204,14 @@ public class Users extends TableImpl<UsersRecord> {
     @Override
     public List<Index> getIndexes() {
         return Arrays.<Index>asList(Indexes.USERS_PRIMARY);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Identity<UsersRecord, Integer> getIdentity() {
+        return Keys.IDENTITY_USERS;
     }
 
     /**

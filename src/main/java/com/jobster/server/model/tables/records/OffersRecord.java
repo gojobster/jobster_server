@@ -30,7 +30,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class OffersRecord extends UpdatableRecordImpl<OffersRecord> implements Record8<Integer, String, String, String, String, Timestamp, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -1963488862;
+    private static final long serialVersionUID = 135328936;
 
     /**
      * Setter for <code>jobster.offers.id_offer</code>.
@@ -103,16 +103,16 @@ public class OffersRecord extends UpdatableRecordImpl<OffersRecord> implements R
     }
 
     /**
-     * Setter for <code>jobster.offers.date_ini</code>.
+     * Setter for <code>jobster.offers.date_init</code>.
      */
-    public void setDateIni(Timestamp value) {
+    public void setDateInit(Timestamp value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>jobster.offers.date_ini</code>.
+     * Getter for <code>jobster.offers.date_init</code>.
      */
-    public Timestamp getDateIni() {
+    public Timestamp getDateInit() {
         return (Timestamp) get(5);
     }
 
@@ -131,16 +131,16 @@ public class OffersRecord extends UpdatableRecordImpl<OffersRecord> implements R
     }
 
     /**
-     * Setter for <code>jobster.offers.date_creation</code>.
+     * Setter for <code>jobster.offers.date_created</code>.
      */
-    public void setDateCreation(Timestamp value) {
+    public void setDateCreated(Timestamp value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>jobster.offers.date_creation</code>.
+     * Getter for <code>jobster.offers.date_created</code>.
      */
-    public Timestamp getDateCreation() {
+    public Timestamp getDateCreated() {
         return (Timestamp) get(7);
     }
 
@@ -221,7 +221,7 @@ public class OffersRecord extends UpdatableRecordImpl<OffersRecord> implements R
      */
     @Override
     public Field<Timestamp> field6() {
-        return Offers.OFFERS.DATE_INI;
+        return Offers.OFFERS.DATE_INIT;
     }
 
     /**
@@ -237,7 +237,7 @@ public class OffersRecord extends UpdatableRecordImpl<OffersRecord> implements R
      */
     @Override
     public Field<Timestamp> field8() {
-        return Offers.OFFERS.DATE_CREATION;
+        return Offers.OFFERS.DATE_CREATED;
     }
 
     /**
@@ -285,7 +285,7 @@ public class OffersRecord extends UpdatableRecordImpl<OffersRecord> implements R
      */
     @Override
     public Timestamp component6() {
-        return getDateIni();
+        return getDateInit();
     }
 
     /**
@@ -301,7 +301,7 @@ public class OffersRecord extends UpdatableRecordImpl<OffersRecord> implements R
      */
     @Override
     public Timestamp component8() {
-        return getDateCreation();
+        return getDateCreated();
     }
 
     /**
@@ -349,7 +349,7 @@ public class OffersRecord extends UpdatableRecordImpl<OffersRecord> implements R
      */
     @Override
     public Timestamp value6() {
-        return getDateIni();
+        return getDateInit();
     }
 
     /**
@@ -365,7 +365,7 @@ public class OffersRecord extends UpdatableRecordImpl<OffersRecord> implements R
      */
     @Override
     public Timestamp value8() {
-        return getDateCreation();
+        return getDateCreated();
     }
 
     /**
@@ -418,7 +418,7 @@ public class OffersRecord extends UpdatableRecordImpl<OffersRecord> implements R
      */
     @Override
     public OffersRecord value6(Timestamp value) {
-        setDateIni(value);
+        setDateInit(value);
         return this;
     }
 
@@ -436,7 +436,7 @@ public class OffersRecord extends UpdatableRecordImpl<OffersRecord> implements R
      */
     @Override
     public OffersRecord value8(Timestamp value) {
-        setDateCreation(value);
+        setDateCreated(value);
         return this;
     }
 
@@ -470,7 +470,7 @@ public class OffersRecord extends UpdatableRecordImpl<OffersRecord> implements R
     /**
      * Create a detached, initialised OffersRecord
      */
-    public OffersRecord(Integer idOffer, String position, String summary, String experience, String jobFunctions, Timestamp dateIni, Timestamp dateEnd, Timestamp dateCreation) {
+    public OffersRecord(Integer idOffer, String position, String summary, String experience, String jobFunctions, Timestamp dateInit, Timestamp dateEnd, Timestamp dateCreated) {
         super(Offers.OFFERS);
 
         set(0, idOffer);
@@ -478,8 +478,8 @@ public class OffersRecord extends UpdatableRecordImpl<OffersRecord> implements R
         set(2, summary);
         set(3, experience);
         set(4, jobFunctions);
-        set(5, dateIni);
+        set(5, dateInit);
         set(6, dateEnd);
-        set(7, dateCreation);
+        set(7, dateCreated);
     }
 }

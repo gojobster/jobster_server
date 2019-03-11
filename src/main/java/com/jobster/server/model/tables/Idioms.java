@@ -9,6 +9,7 @@ import com.jobster.server.model.Jobster;
 import com.jobster.server.model.Keys;
 import com.jobster.server.model.tables.records.IdiomsRecord;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import javax.annotation.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
@@ -40,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Idioms extends TableImpl<IdiomsRecord> {
 
-    private static final long serialVersionUID = -1085850003;
+    private static final long serialVersionUID = 272952752;
 
     /**
      * The reference instance of <code>jobster.idioms</code>
@@ -58,12 +60,17 @@ public class Idioms extends TableImpl<IdiomsRecord> {
     /**
      * The column <code>jobster.idioms.id_idiom</code>.
      */
-    public final TableField<IdiomsRecord, Integer> ID_IDIOM = createField("id_idiom", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<IdiomsRecord, Integer> ID_IDIOM = createField("id_idiom", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>jobster.idioms.name</code>.
      */
     public final TableField<IdiomsRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "");
+
+    /**
+     * The column <code>jobster.idioms.date_created</code>.
+     */
+    public final TableField<IdiomsRecord, Timestamp> DATE_CREATED = createField("date_created", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false), this, "");
 
     /**
      * Create a <code>jobster.idioms</code> table reference
@@ -112,6 +119,14 @@ public class Idioms extends TableImpl<IdiomsRecord> {
     @Override
     public List<Index> getIndexes() {
         return Arrays.<Index>asList(Indexes.IDIOMS_PRIMARY);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Identity<IdiomsRecord, Integer> getIdentity() {
+        return Keys.IDENTITY_IDIOMS;
     }
 
     /**

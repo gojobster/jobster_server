@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
@@ -40,7 +41,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class OffersSkills extends TableImpl<OffersSkillsRecord> {
 
-    private static final long serialVersionUID = 241792083;
+    private static final long serialVersionUID = -332500974;
 
     /**
      * The reference instance of <code>jobster.offers_skills</code>
@@ -58,7 +59,7 @@ public class OffersSkills extends TableImpl<OffersSkillsRecord> {
     /**
      * The column <code>jobster.offers_skills.id_offer_skill</code>.
      */
-    public final TableField<OffersSkillsRecord, Integer> ID_OFFER_SKILL = createField("id_offer_skill", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<OffersSkillsRecord, Integer> ID_OFFER_SKILL = createField("id_offer_skill", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>jobster.offers_skills.id_skill</code>.
@@ -116,7 +117,15 @@ public class OffersSkills extends TableImpl<OffersSkillsRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.OFFERS_SKILLS_ID_OFFER_IDX, Indexes.OFFERS_SKILLS_ID_SKILL2_IDX, Indexes.OFFERS_SKILLS_PRIMARY);
+        return Arrays.<Index>asList(Indexes.OFFERS_SKILLS_OFFER_SKILLS_OFFER_IDX, Indexes.OFFERS_SKILLS_OFFER_SKILLS_SKILL_IDX, Indexes.OFFERS_SKILLS_PRIMARY);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Identity<OffersSkillsRecord, Integer> getIdentity() {
+        return Keys.IDENTITY_OFFERS_SKILLS;
     }
 
     /**
@@ -140,15 +149,15 @@ public class OffersSkills extends TableImpl<OffersSkillsRecord> {
      */
     @Override
     public List<ForeignKey<OffersSkillsRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<OffersSkillsRecord, ?>>asList(Keys.ID_SKILL3, Keys.ID_OFFER);
+        return Arrays.<ForeignKey<OffersSkillsRecord, ?>>asList(Keys.OFFER_SKILLS_SKILL, Keys.OFFER_SKILLS_OFFER);
     }
 
     public Skills skills() {
-        return new Skills(this, Keys.ID_SKILL3);
+        return new Skills(this, Keys.OFFER_SKILLS_SKILL);
     }
 
     public Offers offers() {
-        return new Offers(this, Keys.ID_OFFER);
+        return new Offers(this, Keys.OFFER_SKILLS_OFFER);
     }
 
     /**

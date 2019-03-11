@@ -18,6 +18,7 @@ import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.*;
 
 import static com.jobster.server.model.Tables.USERS;
@@ -57,33 +58,41 @@ public class UserManagement {
         }
     }
 
-    public static String InsertarUsuario(String email, String password, String nombreUsuario, String salt, String idioma, String telefono, String url) throws JobsterException {
+    public static String InsertarUsuario(String email, String password, String name, String surname, String birthday, String gender,
+                                         String salt, String idioma, String telefono, String url) throws JobsterException {
         email = email.trim();
         password = password.trim();
-        nombreUsuario = nombreUsuario.trim();
-        ValidacionParametros(email, password, nombreUsuario, salt);
+        name = name.trim();
+        surname = surname.trim();
+        ValidacionParametros(email, password, name, surname, salt);
+        String emailEncriptado = EncriptarEmailoTelefono(email.toLowerCase());
         try {
             Class.forName(Constantes.DB_DRIVER).newInstance();
             Connection conn = DriverManager.getConnection(Constantes.DB_URL, Constantes.DB_USER, Constantes.DB_PASS);
             DSLContext create = DSL.using(conn, SQLDialect.MYSQL);
             UsersRecord usuario = create.select()
                     .from(USERS)
-                    .where(USERS.EMAIL.equal(email))
+                    .where(USERS.EMAIL.equal(emailEncriptado))
                     .fetchAnyInto(UsersRecord.class);
 
             if (usuario != null) throw new JobsterException(JobsterErrorType.USER_ALREADY_EXISTS);
 
             UsersRecord usr = create.newRecord(USERS);
-            usr.setEmail(EncriptarEmailoTelefono(email.toLowerCase()));
+
+            usr.setEmail(emailEncriptado);
             usr.setApikey(UUID.randomUUID().toString());
-            usr.setName(nombreUsuario);
+            usr.setName(name);
+            usr.setSurrname(surname);
             usr.setPictureUrl("/Upload/User/" + Seguridad.GenerateSecureRandomString() + "/" + Seguridad.GenerarRandomFileName() + "_thumb.jpg");
+            usr.setDateBirthday(Fechas.GetCurrentTimestampLong());
+            usr.setLastConnection(Fechas.GetCurrentTimestampLong());
             usr.setPassword(password);
-            usr.setSalt(Seguridad.GenerarSHA56(String.valueOf(Integer.parseInt(salt) * 8)));
+            usr.setSalt(salt);//Seguridad.GenerarSHA56(String.valueOf(Integer.parseInt(salt) * 8)));
             usr.setPhoneNumber(EncriptarEmailoTelefono(telefono));
             usr.setVerifiedPhoneNumber(1);
             usr.setIdiom(idioma);
             usr.setDateCreated(Fechas.GetCurrentTimestampLong());
+            usr.setGender(gender);
             usr.store();
 
             String subjectCorreoEstablecimiento;
@@ -101,8 +110,8 @@ public class UserManagement {
             String enlace = url + "Activate?enlace=" + URLEncoder.encode(EncriptarEnlace(usr.getApikey()), java.nio.charset.StandardCharsets.UTF_8.toString());
             Email correo = new Email(Constantes.SRV_EMAIL_FROM_ACCOUNT, Constantes.SRV_EMAIL_HOST, Constantes.SRV_EMAIL_PORT, Constantes.SRV_EMAIL_USR, Constantes.SRV_EMAIL_PWD, Constantes.SRV_EMAIL_ENABLE_SSL);
             //TODO: arreglar plantilla
-            String textoEmail = "Prueba";//TextoMail(enlace + "&lang=" + idioma, "mail/Activate.aspx", url, "&lang=" + idioma);
-            correo.sendEmail(usr.getEmail(), subjectCorreoEstablecimiento, textoEmail, true);
+            //String textoEmail = "Prueba";//TextoMail(enlace + "&lang=" + idioma, "mail/Activate.aspx", url, "&lang=" + idioma);
+            //correo.sendEmail(usr.getEmail(), subjectCorreoEstablecimiento, textoEmail, true);
 
             create.close();
             conn.close();
@@ -140,38 +149,14 @@ public class UserManagement {
             Email correo = new Email(Constantes.SRV_EMAIL_FROM_ACCOUNT, Constantes.SRV_EMAIL_HOST, Constantes.SRV_EMAIL_PORT, Constantes.SRV_EMAIL_USR, Constantes.SRV_EMAIL_PWD, Constantes.SRV_EMAIL_ENABLE_SSL);
             String textoEmail = TextoMail(enlace + "&lang=" + usuario.getIdiom(), "/mail/RecoverPWD.aspx", url, "&lang=" + usuario.getIdiom());
 
+            create.close();
             correo.sendEmail(email, subjectCorreoEstablecimiento, textoEmail, true);
         } catch (UnsupportedEncodingException | ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             throw new JobsterException(JobsterErrorType.GENERIC_ERROR);
         }
     }
 
-    public static void CambiarPwdDesdeApp(String email, String oldPassword, String newPassword, String saltNewPassword) throws JobsterException {
-        try {
-            if (Integer.parseInt(saltNewPassword) <= (UserManagement.MIN_LEN_PWD - 1))
-                throw new JobsterException(JobsterErrorType.PASSWORD_TOO_SHORT);
-            // ¿Login correcto?
-            Login(email, oldPassword);
-            Class.forName(Constantes.DB_DRIVER).newInstance();
-            Connection conn = DriverManager.getConnection(Constantes.DB_URL, Constantes.DB_USER, Constantes.DB_PASS);
-            DSLContext create = DSL.using(conn, SQLDialect.MYSQL);
-            //miramos si existe ya el mail o el telefono y si existe se le dice q repetido!
-            UsersRecord usuario = create.select()
-                    .from(USERS)
-                    .where(USERS.EMAIL.equal(email))
-                    .fetchAnyInto(UsersRecord.class);
-            if (usuario == null) throw new JobsterException(JobsterErrorType.USER_NOT_FOUND);
-            usuario.setPassword(newPassword);
-            usuario.setSalt(Seguridad.GenerarSHA56(String.valueOf(Integer.parseInt(saltNewPassword) * 8)));
-            usuario.store();
-            create.close();
-            conn.close();
-        } catch (IllegalAccessException | InstantiationException | SQLException | ClassNotFoundException ex) {
-            throw new JobsterException(JobsterErrorType.GENERIC_ERROR);
-        }
-    }
-
-    private static void ValidacionParametros(String email, String password, String nombreUsuario, String salt) throws JobsterException {
+    private static void ValidacionParametros(String email, String password, String name, String surname, String salt) throws JobsterException {
 
         if (!ValidarTipos.EsEmailValido(email))
             throw new JobsterException(JobsterErrorType.INVALID_MAIL_FORMAT);
@@ -179,10 +164,13 @@ public class UserManagement {
         if (!ValidarTipos.ValidatePassword(password))
             throw new JobsterException(JobsterErrorType.INVALID_PASSWORD_FORMAT);
 
-        if ((nombreUsuario == null) || (nombreUsuario.isEmpty()))
+        if ((name == null) || (name.isEmpty()))
             throw new JobsterException(JobsterErrorType.INVALID_NAME);
 
-        if (Integer.parseInt(salt) <= (UserManagement.MIN_LEN_PWD - 1))
+        if ((surname == null) || (surname.isEmpty()))
+            throw new JobsterException(JobsterErrorType.INVALID_SURNAME);
+
+        if (password.length() <= (UserManagement.MIN_LEN_PWD - 1))
             throw new JobsterException(JobsterErrorType.PASSWORD_TOO_SHORT);
     }
 
@@ -252,15 +240,19 @@ public class UserManagement {
     }
 
     public static UsersRecord GetUserfromApiKey(String apiKey) throws JobsterException {
-        try {
-            Class.forName(Constantes.DB_DRIVER).newInstance();
-            Connection conn = DriverManager.getConnection(Constantes.DB_URL, Constantes.DB_USER, Constantes.DB_PASS);
-            DSLContext create = DSL.using(conn, SQLDialect.MYSQL);
+            DSLContext create = CreateContextConnection();
             return create.select()
                     .from(USERS)
                     .where(USERS.APIKEY.equal(apiKey))
                     .fetchAnyInto(UsersRecord.class);
-        } catch (IllegalAccessException | InstantiationException | SQLException | ClassNotFoundException ex) {
+    }
+
+    private static DSLContext CreateContextConnection() throws JobsterException {
+        try {
+            Class.forName(Constantes.DB_DRIVER).newInstance();
+            Connection conn = DriverManager.getConnection(Constantes.DB_URL, Constantes.DB_USER, Constantes.DB_PASS);
+            return DSL.using(conn, SQLDialect.MYSQL);
+        } catch (InstantiationException | IllegalAccessException |ClassNotFoundException | SQLException e) {
             throw new JobsterException(JobsterErrorType.GENERIC_ERROR);
         }
     }

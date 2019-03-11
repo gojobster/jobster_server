@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
@@ -40,7 +41,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UsersSkills extends TableImpl<UsersSkillsRecord> {
 
-    private static final long serialVersionUID = -921558194;
+    private static final long serialVersionUID = -1252515377;
 
     /**
      * The reference instance of <code>jobster.users_skills</code>
@@ -58,7 +59,7 @@ public class UsersSkills extends TableImpl<UsersSkillsRecord> {
     /**
      * The column <code>jobster.users_skills.id_user_skill</code>.
      */
-    public final TableField<UsersSkillsRecord, Integer> ID_USER_SKILL = createField("id_user_skill", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<UsersSkillsRecord, Integer> ID_USER_SKILL = createField("id_user_skill", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>jobster.users_skills.id_user</code>.
@@ -116,7 +117,15 @@ public class UsersSkills extends TableImpl<UsersSkillsRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.USERS_SKILLS_ID_SKILL_IDX, Indexes.USERS_SKILLS_ID_USER_IDX, Indexes.USERS_SKILLS_PRIMARY);
+        return Arrays.<Index>asList(Indexes.USERS_SKILLS_PRIMARY, Indexes.USERS_SKILLS_SKILL_USER_IDX, Indexes.USERS_SKILLS_USERS_SKILLS_SKILL_IDX);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Identity<UsersSkillsRecord, Integer> getIdentity() {
+        return Keys.IDENTITY_USERS_SKILLS;
     }
 
     /**
@@ -140,15 +149,15 @@ public class UsersSkills extends TableImpl<UsersSkillsRecord> {
      */
     @Override
     public List<ForeignKey<UsersSkillsRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<UsersSkillsRecord, ?>>asList(Keys.ID_USER2, Keys.ID_SKILL2);
+        return Arrays.<ForeignKey<UsersSkillsRecord, ?>>asList(Keys.USERS_SKILLS_USER, Keys.USERS_SKILLS_SKILL);
     }
 
     public Users users() {
-        return new Users(this, Keys.ID_USER2);
+        return new Users(this, Keys.USERS_SKILLS_USER);
     }
 
     public Skills skills() {
-        return new Skills(this, Keys.ID_SKILL2);
+        return new Skills(this, Keys.USERS_SKILLS_SKILL);
     }
 
     /**

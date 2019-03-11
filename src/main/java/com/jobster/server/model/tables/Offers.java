@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
@@ -41,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Offers extends TableImpl<OffersRecord> {
 
-    private static final long serialVersionUID = 464848909;
+    private static final long serialVersionUID = -214892284;
 
     /**
      * The reference instance of <code>jobster.offers</code>
@@ -59,12 +60,12 @@ public class Offers extends TableImpl<OffersRecord> {
     /**
      * The column <code>jobster.offers.id_offer</code>.
      */
-    public final TableField<OffersRecord, Integer> ID_OFFER = createField("id_offer", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<OffersRecord, Integer> ID_OFFER = createField("id_offer", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>jobster.offers.position</code>.
      */
-    public final TableField<OffersRecord, String> POSITION = createField("position", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "");
+    public final TableField<OffersRecord, String> POSITION = createField("position", org.jooq.impl.SQLDataType.VARCHAR(120).nullable(false), this, "");
 
     /**
      * The column <code>jobster.offers.summary</code>.
@@ -74,17 +75,17 @@ public class Offers extends TableImpl<OffersRecord> {
     /**
      * The column <code>jobster.offers.experience</code>.
      */
-    public final TableField<OffersRecord, String> EXPERIENCE = createField("experience", org.jooq.impl.SQLDataType.VARCHAR(45), this, "");
+    public final TableField<OffersRecord, String> EXPERIENCE = createField("experience", org.jooq.impl.SQLDataType.VARCHAR(120), this, "");
 
     /**
      * The column <code>jobster.offers.job_functions</code>.
      */
-    public final TableField<OffersRecord, String> JOB_FUNCTIONS = createField("job_functions", org.jooq.impl.SQLDataType.VARCHAR(45), this, "");
+    public final TableField<OffersRecord, String> JOB_FUNCTIONS = createField("job_functions", org.jooq.impl.SQLDataType.VARCHAR(120), this, "");
 
     /**
-     * The column <code>jobster.offers.date_ini</code>.
+     * The column <code>jobster.offers.date_init</code>.
      */
-    public final TableField<OffersRecord, Timestamp> DATE_INI = createField("date_ini", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
+    public final TableField<OffersRecord, Timestamp> DATE_INIT = createField("date_init", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
 
     /**
      * The column <code>jobster.offers.date_end</code>.
@@ -92,9 +93,9 @@ public class Offers extends TableImpl<OffersRecord> {
     public final TableField<OffersRecord, Timestamp> DATE_END = createField("date_end", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
 
     /**
-     * The column <code>jobster.offers.date_creation</code>.
+     * The column <code>jobster.offers.date_created</code>.
      */
-    public final TableField<OffersRecord, Timestamp> DATE_CREATION = createField("date_creation", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
+    public final TableField<OffersRecord, Timestamp> DATE_CREATED = createField("date_created", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
 
     /**
      * Create a <code>jobster.offers</code> table reference
@@ -143,6 +144,14 @@ public class Offers extends TableImpl<OffersRecord> {
     @Override
     public List<Index> getIndexes() {
         return Arrays.<Index>asList(Indexes.OFFERS_PRIMARY);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Identity<OffersRecord, Integer> getIdentity() {
+        return Keys.IDENTITY_OFFERS;
     }
 
     /**

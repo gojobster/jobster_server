@@ -9,6 +9,7 @@ import com.jobster.server.model.Jobster;
 import com.jobster.server.model.Keys;
 import com.jobster.server.model.tables.records.SkillsRecord;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import javax.annotation.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
@@ -40,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Skills extends TableImpl<SkillsRecord> {
 
-    private static final long serialVersionUID = -824841386;
+    private static final long serialVersionUID = 2112486690;
 
     /**
      * The reference instance of <code>jobster.skills</code>
@@ -58,12 +60,17 @@ public class Skills extends TableImpl<SkillsRecord> {
     /**
      * The column <code>jobster.skills.id_skill</code>.
      */
-    public final TableField<SkillsRecord, Integer> ID_SKILL = createField("id_skill", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<SkillsRecord, Integer> ID_SKILL = createField("id_skill", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>jobster.skills.name</code>.
      */
-    public final TableField<SkillsRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(45), this, "");
+    public final TableField<SkillsRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "");
+
+    /**
+     * The column <code>jobster.skills.date_created</code>.
+     */
+    public final TableField<SkillsRecord, Timestamp> DATE_CREATED = createField("date_created", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false), this, "");
 
     /**
      * Create a <code>jobster.skills</code> table reference
@@ -112,6 +119,14 @@ public class Skills extends TableImpl<SkillsRecord> {
     @Override
     public List<Index> getIndexes() {
         return Arrays.<Index>asList(Indexes.SKILLS_PRIMARY);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Identity<SkillsRecord, Integer> getIdentity() {
+        return Keys.IDENTITY_SKILLS;
     }
 
     /**

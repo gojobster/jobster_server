@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
@@ -41,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Referrals extends TableImpl<ReferralsRecord> {
 
-    private static final long serialVersionUID = -431503363;
+    private static final long serialVersionUID = -575798707;
 
     /**
      * The reference instance of <code>jobster.referrals</code>
@@ -59,7 +60,7 @@ public class Referrals extends TableImpl<ReferralsRecord> {
     /**
      * The column <code>jobster.referrals.id_referral</code>.
      */
-    public final TableField<ReferralsRecord, Integer> ID_REFERRAL = createField("id_referral", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<ReferralsRecord, Integer> ID_REFERRAL = createField("id_referral", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>jobster.referrals.id_jobster</code>.
@@ -137,7 +138,15 @@ public class Referrals extends TableImpl<ReferralsRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.REFERRALS_ID_CANDIDATE_IDX, Indexes.REFERRALS_ID_JOBSTER_IDX, Indexes.REFERRALS_PRIMARY);
+        return Arrays.<Index>asList(Indexes.REFERRALS_CANDIDATO_IDX, Indexes.REFERRALS_JOBSTER_IDX, Indexes.REFERRALS_PRIMARY);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Identity<ReferralsRecord, Integer> getIdentity() {
+        return Keys.IDENTITY_REFERRALS;
     }
 
     /**
@@ -161,15 +170,15 @@ public class Referrals extends TableImpl<ReferralsRecord> {
      */
     @Override
     public List<ForeignKey<ReferralsRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<ReferralsRecord, ?>>asList(Keys.ID_JOBSTER, Keys.ID_CANDIDATE);
+        return Arrays.<ForeignKey<ReferralsRecord, ?>>asList(Keys.JOBSTER, Keys.CANDIDATO);
     }
 
-    public Users idJobster() {
-        return new Users(this, Keys.ID_JOBSTER);
+    public Users jobster() {
+        return new Users(this, Keys.JOBSTER);
     }
 
-    public Users idCandidate() {
-        return new Users(this, Keys.ID_CANDIDATE);
+    public Users candidato() {
+        return new Users(this, Keys.CANDIDATO);
     }
 
     /**

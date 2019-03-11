@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Record;
@@ -40,7 +41,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserIdiom extends TableImpl<UserIdiomRecord> {
 
-    private static final long serialVersionUID = -295798463;
+    private static final long serialVersionUID = -1545799098;
 
     /**
      * The reference instance of <code>jobster.user_idiom</code>
@@ -58,7 +59,7 @@ public class UserIdiom extends TableImpl<UserIdiomRecord> {
     /**
      * The column <code>jobster.user_idiom.id_user_idiom</code>.
      */
-    public final TableField<UserIdiomRecord, Integer> ID_USER_IDIOM = createField("id_user_idiom", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<UserIdiomRecord, Integer> ID_USER_IDIOM = createField("id_user_idiom", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
      * The column <code>jobster.user_idiom.id_user</code>.
@@ -116,7 +117,15 @@ public class UserIdiom extends TableImpl<UserIdiomRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.USER_IDIOM_ID_IDIOM_IDX, Indexes.USER_IDIOM_ID_USER_IDX, Indexes.USER_IDIOM_PRIMARY);
+        return Arrays.<Index>asList(Indexes.USER_IDIOM_PRIMARY, Indexes.USER_IDIOM_USER_IDIOM_IDIOM_IDX, Indexes.USER_IDIOM_USUARIO_IDIOMA_IDX);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Identity<UserIdiomRecord, Integer> getIdentity() {
+        return Keys.IDENTITY_USER_IDIOM;
     }
 
     /**
@@ -140,15 +149,15 @@ public class UserIdiom extends TableImpl<UserIdiomRecord> {
      */
     @Override
     public List<ForeignKey<UserIdiomRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<UserIdiomRecord, ?>>asList(Keys.ID_USER, Keys.ID_IDIOM);
+        return Arrays.<ForeignKey<UserIdiomRecord, ?>>asList(Keys.USER_IDIOM_USER, Keys.USER_IDIOM_IDIOM);
     }
 
     public Users users() {
-        return new Users(this, Keys.ID_USER);
+        return new Users(this, Keys.USER_IDIOM_USER);
     }
 
     public Idioms idioms() {
-        return new Idioms(this, Keys.ID_IDIOM);
+        return new Idioms(this, Keys.USER_IDIOM_IDIOM);
     }
 
     /**

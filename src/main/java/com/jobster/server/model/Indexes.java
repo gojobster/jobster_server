@@ -39,20 +39,20 @@ public class Indexes {
 
     public static final Index IDIOMS_PRIMARY = Indexes0.IDIOMS_PRIMARY;
     public static final Index OFFERS_PRIMARY = Indexes0.OFFERS_PRIMARY;
-    public static final Index OFFERS_SKILLS_ID_OFFER_IDX = Indexes0.OFFERS_SKILLS_ID_OFFER_IDX;
-    public static final Index OFFERS_SKILLS_ID_SKILL2_IDX = Indexes0.OFFERS_SKILLS_ID_SKILL2_IDX;
+    public static final Index OFFERS_SKILLS_OFFER_SKILLS_OFFER_IDX = Indexes0.OFFERS_SKILLS_OFFER_SKILLS_OFFER_IDX;
+    public static final Index OFFERS_SKILLS_OFFER_SKILLS_SKILL_IDX = Indexes0.OFFERS_SKILLS_OFFER_SKILLS_SKILL_IDX;
     public static final Index OFFERS_SKILLS_PRIMARY = Indexes0.OFFERS_SKILLS_PRIMARY;
-    public static final Index REFERRALS_ID_CANDIDATE_IDX = Indexes0.REFERRALS_ID_CANDIDATE_IDX;
-    public static final Index REFERRALS_ID_JOBSTER_IDX = Indexes0.REFERRALS_ID_JOBSTER_IDX;
+    public static final Index REFERRALS_CANDIDATO_IDX = Indexes0.REFERRALS_CANDIDATO_IDX;
+    public static final Index REFERRALS_JOBSTER_IDX = Indexes0.REFERRALS_JOBSTER_IDX;
     public static final Index REFERRALS_PRIMARY = Indexes0.REFERRALS_PRIMARY;
     public static final Index SKILLS_PRIMARY = Indexes0.SKILLS_PRIMARY;
     public static final Index USERS_PRIMARY = Indexes0.USERS_PRIMARY;
-    public static final Index USERS_SKILLS_ID_SKILL_IDX = Indexes0.USERS_SKILLS_ID_SKILL_IDX;
-    public static final Index USERS_SKILLS_ID_USER_IDX = Indexes0.USERS_SKILLS_ID_USER_IDX;
     public static final Index USERS_SKILLS_PRIMARY = Indexes0.USERS_SKILLS_PRIMARY;
-    public static final Index USER_IDIOM_ID_IDIOM_IDX = Indexes0.USER_IDIOM_ID_IDIOM_IDX;
-    public static final Index USER_IDIOM_ID_USER_IDX = Indexes0.USER_IDIOM_ID_USER_IDX;
+    public static final Index USERS_SKILLS_SKILL_USER_IDX = Indexes0.USERS_SKILLS_SKILL_USER_IDX;
+    public static final Index USERS_SKILLS_USERS_SKILLS_SKILL_IDX = Indexes0.USERS_SKILLS_USERS_SKILLS_SKILL_IDX;
     public static final Index USER_IDIOM_PRIMARY = Indexes0.USER_IDIOM_PRIMARY;
+    public static final Index USER_IDIOM_USER_IDIOM_IDIOM_IDX = Indexes0.USER_IDIOM_USER_IDIOM_IDIOM_IDX;
+    public static final Index USER_IDIOM_USUARIO_IDIOMA_IDX = Indexes0.USER_IDIOM_USUARIO_IDIOMA_IDX;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
@@ -61,19 +61,19 @@ public class Indexes {
     private static class Indexes0 {
         public static Index IDIOMS_PRIMARY = Internal.createIndex("PRIMARY", Idioms.IDIOMS, new OrderField[] { Idioms.IDIOMS.ID_IDIOM }, true);
         public static Index OFFERS_PRIMARY = Internal.createIndex("PRIMARY", Offers.OFFERS, new OrderField[] { Offers.OFFERS.ID_OFFER }, true);
-        public static Index OFFERS_SKILLS_ID_OFFER_IDX = Internal.createIndex("id_offer_idx", OffersSkills.OFFERS_SKILLS, new OrderField[] { OffersSkills.OFFERS_SKILLS.ID_OFFER }, false);
-        public static Index OFFERS_SKILLS_ID_SKILL2_IDX = Internal.createIndex("id_skill2_idx", OffersSkills.OFFERS_SKILLS, new OrderField[] { OffersSkills.OFFERS_SKILLS.ID_SKILL }, false);
+        public static Index OFFERS_SKILLS_OFFER_SKILLS_OFFER_IDX = Internal.createIndex("offer_skills_offer_idx", OffersSkills.OFFERS_SKILLS, new OrderField[] { OffersSkills.OFFERS_SKILLS.ID_OFFER }, false);
+        public static Index OFFERS_SKILLS_OFFER_SKILLS_SKILL_IDX = Internal.createIndex("offer_skills_skill_idx", OffersSkills.OFFERS_SKILLS, new OrderField[] { OffersSkills.OFFERS_SKILLS.ID_SKILL }, false);
         public static Index OFFERS_SKILLS_PRIMARY = Internal.createIndex("PRIMARY", OffersSkills.OFFERS_SKILLS, new OrderField[] { OffersSkills.OFFERS_SKILLS.ID_OFFER_SKILL }, true);
-        public static Index REFERRALS_ID_CANDIDATE_IDX = Internal.createIndex("id_candidate_idx", Referrals.REFERRALS, new OrderField[] { Referrals.REFERRALS.ID_CANDIDATE }, false);
-        public static Index REFERRALS_ID_JOBSTER_IDX = Internal.createIndex("id_jobster_idx", Referrals.REFERRALS, new OrderField[] { Referrals.REFERRALS.ID_JOBSTER }, false);
+        public static Index REFERRALS_CANDIDATO_IDX = Internal.createIndex("candidato_idx", Referrals.REFERRALS, new OrderField[] { Referrals.REFERRALS.ID_CANDIDATE }, false);
+        public static Index REFERRALS_JOBSTER_IDX = Internal.createIndex("jobster_idx", Referrals.REFERRALS, new OrderField[] { Referrals.REFERRALS.ID_JOBSTER }, false);
         public static Index REFERRALS_PRIMARY = Internal.createIndex("PRIMARY", Referrals.REFERRALS, new OrderField[] { Referrals.REFERRALS.ID_REFERRAL }, true);
         public static Index SKILLS_PRIMARY = Internal.createIndex("PRIMARY", Skills.SKILLS, new OrderField[] { Skills.SKILLS.ID_SKILL }, true);
         public static Index USERS_PRIMARY = Internal.createIndex("PRIMARY", Users.USERS, new OrderField[] { Users.USERS.ID_USER }, true);
-        public static Index USERS_SKILLS_ID_SKILL_IDX = Internal.createIndex("id_skill_idx", UsersSkills.USERS_SKILLS, new OrderField[] { UsersSkills.USERS_SKILLS.ID_SKILL }, false);
-        public static Index USERS_SKILLS_ID_USER_IDX = Internal.createIndex("id_user_idx", UsersSkills.USERS_SKILLS, new OrderField[] { UsersSkills.USERS_SKILLS.ID_USER }, false);
         public static Index USERS_SKILLS_PRIMARY = Internal.createIndex("PRIMARY", UsersSkills.USERS_SKILLS, new OrderField[] { UsersSkills.USERS_SKILLS.ID_USER_SKILL }, true);
-        public static Index USER_IDIOM_ID_IDIOM_IDX = Internal.createIndex("id_idiom_idx", UserIdiom.USER_IDIOM, new OrderField[] { UserIdiom.USER_IDIOM.ID_IDIOM }, false);
-        public static Index USER_IDIOM_ID_USER_IDX = Internal.createIndex("id_user_idx", UserIdiom.USER_IDIOM, new OrderField[] { UserIdiom.USER_IDIOM.ID_USER }, false);
+        public static Index USERS_SKILLS_SKILL_USER_IDX = Internal.createIndex("skill_user_idx", UsersSkills.USERS_SKILLS, new OrderField[] { UsersSkills.USERS_SKILLS.ID_USER }, false);
+        public static Index USERS_SKILLS_USERS_SKILLS_SKILL_IDX = Internal.createIndex("users_skills_skill_idx", UsersSkills.USERS_SKILLS, new OrderField[] { UsersSkills.USERS_SKILLS.ID_SKILL }, false);
         public static Index USER_IDIOM_PRIMARY = Internal.createIndex("PRIMARY", UserIdiom.USER_IDIOM, new OrderField[] { UserIdiom.USER_IDIOM.ID_USER_IDIOM }, true);
+        public static Index USER_IDIOM_USER_IDIOM_IDIOM_IDX = Internal.createIndex("user_idiom_idiom_idx", UserIdiom.USER_IDIOM, new OrderField[] { UserIdiom.USER_IDIOM.ID_IDIOM }, false);
+        public static Index USER_IDIOM_USUARIO_IDIOMA_IDX = Internal.createIndex("usuario_idioma_idx", UserIdiom.USER_IDIOM, new OrderField[] { UserIdiom.USER_IDIOM.ID_USER }, false);
     }
 }
