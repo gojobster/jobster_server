@@ -1,11 +1,17 @@
 package com.jobster.server.BLL;
 
+import com.jobster.server.DTO.RespuestaWS;
+import com.jobster.server.DTO.RespuestaWSAllInfoUser;
 import com.jobster.server.DTO.RespuestaWSLogin;
-import com.jobster.server.DTO.RespuestaWSUsuario;
+import com.jobster.server.DTO.RespuestaWSUser;
+import com.jobster.server.model.Jobster;
+import com.jobster.server.model.tables.records.SkillsRecord;
 import com.jobster.server.model.tables.records.UsersRecord;
 import com.jobster.server.types.JobsterErrorType;
 import com.jobster.server.util.*;
 import org.jooq.DSLContext;
+import org.jooq.Record;
+import org.jooq.Result;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 
@@ -18,10 +24,9 @@ import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.*;
 
-import static com.jobster.server.model.Tables.USERS;
+import static com.jobster.server.model.Tables.*;
 
 public class UserManagement {
 
@@ -257,7 +262,7 @@ public class UserManagement {
         }
     }
 
-    public static RespuestaWSUsuario UserInformation(String apiKey) throws JobsterException {
+    public static RespuestaWSUser UserInformation(String apiKey) throws JobsterException {
         UsersRecord usuario = GetUserfromApiKey(apiKey);
         if (usuario == null) throw new JobsterException(JobsterErrorType.USER_NOT_FOUND);
         String urlThumbnail = usuario.getPictureUrl();
@@ -267,7 +272,7 @@ public class UserManagement {
         }
         usuario.setLastConnection(Fechas.GetCurrentTimestampLong());
         usuario.store();
-        return new RespuestaWSUsuario(urlAvatar, usuario.getEmail(), usuario.getName(), usuario.getSurrname(), usuario.getPhoneNumber());
+        return new RespuestaWSUser(urlAvatar, usuario.getEmail(), usuario.getName(), usuario.getSurrname(), usuario.getPhoneNumber());
     }
 
     public static String LogOut(String apiKey) throws JobsterException {
@@ -290,5 +295,48 @@ public class UserManagement {
         criptografiaSimetrica.setKey(Constantes.CLAVE_ENCRIPTACION);
         criptografiaSimetrica.setIV(Constantes.VI_ENCRIPTACION);
         return criptografiaSimetrica.desencriptar(Base64.getDecoder().decode(dataEnc));
+    }
+
+    public static RespuestaWSAllInfoUser getAllInfoUser(Integer idUser) throws JobsterException{
+        try {
+            Class.forName(Constantes.DB_DRIVER).newInstance();
+            Connection conn = DriverManager.getConnection(Constantes.DB_URL, Constantes.DB_USER, Constantes.DB_PASS);
+            DSLContext create = DSL.using(conn, SQLDialect.MYSQL);
+
+             UsersRecord usr = create.select().from(USERS).where(USERS.ID_USER.equal(idUser)).fetchAnyInto(UsersRecord.class);
+            if (usr == null) throw new JobsterException(JobsterErrorType.USER_NOT_FOUND);
+
+            List<Integer> ids_list = create.select().from(USERS_SKILLS).where(USERS_SKILLS.ID_USER.equal(idUser)).fetch(USERS_SKILLS.ID_SKILL);
+            List<String> skills_list = create.select().from(SKILLS).where(SKILLS.ID_SKILL.in(ids_list)).fetch(SKILLS.NAME);
+
+            ids_list = create.select().from(USER_IDIOM).where(USER_IDIOM.ID_USER.equal(idUser)).fetch(USER_IDIOM.ID_IDIOM);
+            List<String> idioms_list = create.select().from(IDIOMS).where(IDIOMS.ID_IDIOM.in(ids_list)).fetch(SKILLS.NAME);
+
+            return new RespuestaWSAllInfoUser(usr, skills_list, idioms_list);
+
+        } catch (InstantiationException | SQLException | IllegalAccessException | ClassNotFoundException ex) {
+            throw new JobsterException(JobsterErrorType.GENERIC_ERROR);
+        }
+    }
+
+    public static List<RespuestaWSUser> getAllUsers() throws JobsterException{
+        try {
+            Class.forName(Constantes.DB_DRIVER).newInstance();
+            Connection conn = DriverManager.getConnection(Constantes.DB_URL, Constantes.DB_USER, Constantes.DB_PASS);
+            DSLContext create = DSL.using(conn, SQLDialect.MYSQL);
+
+
+            Result<Record> result = create.select().from(USERS).fetch();
+
+            List<RespuestaWSUser> listUsers = new ArrayList<>();
+            for (Record r : result) {
+                RespuestaWSUser user = new RespuestaWSUser ( r.getValue(USERS.NAME), r.getValue(USERS.SURRNAME),
+                        r.getValue(USERS.EMAIL), r.getValue(USERS.PICTURE_URL), r.getValue(USERS.PHONE_NUMBER));
+                listUsers.add(user);
+            }
+            return listUsers;
+        } catch (InstantiationException | SQLException | IllegalAccessException | ClassNotFoundException ex) {
+            throw new JobsterException(JobsterErrorType.GENERIC_ERROR);
+        }
     }
 }

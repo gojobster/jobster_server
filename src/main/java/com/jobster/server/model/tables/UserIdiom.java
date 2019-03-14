@@ -41,7 +41,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UserIdiom extends TableImpl<UserIdiomRecord> {
 
-    private static final long serialVersionUID = -1545799098;
+    private static final long serialVersionUID = 191882491;
 
     /**
      * The reference instance of <code>jobster.user_idiom</code>
@@ -64,12 +64,17 @@ public class UserIdiom extends TableImpl<UserIdiomRecord> {
     /**
      * The column <code>jobster.user_idiom.id_user</code>.
      */
-    public final TableField<UserIdiomRecord, Integer> ID_USER = createField("id_user", org.jooq.impl.SQLDataType.INTEGER, this, "");
+    public final TableField<UserIdiomRecord, Integer> ID_USER = createField("id_user", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>jobster.user_idiom.id_idiom</code>.
      */
-    public final TableField<UserIdiomRecord, Integer> ID_IDIOM = createField("id_idiom", org.jooq.impl.SQLDataType.INTEGER, this, "");
+    public final TableField<UserIdiomRecord, Integer> ID_IDIOM = createField("id_idiom", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+
+    /**
+     * The column <code>jobster.user_idiom.level</code>.
+     */
+    public final TableField<UserIdiomRecord, Integer> LEVEL = createField("level", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * Create a <code>jobster.user_idiom</code> table reference

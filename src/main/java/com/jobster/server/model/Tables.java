@@ -4,6 +4,7 @@
 package com.jobster.server.model;
 
 
+import com.jobster.server.model.tables.Education;
 import com.jobster.server.model.tables.Idioms;
 import com.jobster.server.model.tables.Offers;
 import com.jobster.server.model.tables.OffersSkills;
@@ -28,6 +29,11 @@ import javax.annotation.Generated;
 )
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
+
+    /**
+     * The table <code>jobster.education</code>.
+     */
+    public static final Education EDUCATION = com.jobster.server.model.tables.Education.EDUCATION;
 
     /**
      * The table <code>jobster.idioms</code>.

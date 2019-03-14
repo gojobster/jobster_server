@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Offers extends TableImpl<OffersRecord> {
 
-    private static final long serialVersionUID = -214892284;
+    private static final long serialVersionUID = -595509699;
 
     /**
      * The reference instance of <code>jobster.offers</code>
@@ -96,6 +96,11 @@ public class Offers extends TableImpl<OffersRecord> {
      * The column <code>jobster.offers.date_created</code>.
      */
     public final TableField<OffersRecord, Timestamp> DATE_CREATED = createField("date_created", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
+
+    /**
+     * The column <code>jobster.offers.city</code>.
+     */
+    public final TableField<OffersRecord, String> CITY = createField("city", org.jooq.impl.SQLDataType.VARCHAR(80), this, "");
 
     /**
      * Create a <code>jobster.offers</code> table reference

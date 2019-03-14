@@ -11,7 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 @Path("/{addOffer : (?i)addOffer}")
-public class OffersService {
+public class AddOffers {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)

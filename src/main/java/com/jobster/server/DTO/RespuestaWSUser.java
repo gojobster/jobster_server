@@ -1,6 +1,6 @@
 package com.jobster.server.DTO;
 
-public class RespuestaWSUsuario {
+public class RespuestaWSUser {
 
 	public String urlAvatar;
 	public String email;
@@ -8,7 +8,7 @@ public class RespuestaWSUsuario {
 	public String name;
 	public String surname;
 
-	public RespuestaWSUsuario(String urlAvatar, String email, String telefono, String name, String surname) {
+	public RespuestaWSUser(String name, String surname, String email, String urlAvatar, String telefono) {
 		this.urlAvatar = urlAvatar;
 		this.email = email;
 		this.telefono = telefono;
