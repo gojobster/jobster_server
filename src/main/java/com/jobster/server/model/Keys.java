@@ -80,8 +80,9 @@ public class Keys {
     public static final ForeignKey<EducationRecord, UsersRecord> FK_USER_ID = ForeignKeys0.FK_USER_ID;
     public static final ForeignKey<OffersSkillsRecord, SkillsRecord> OFFER_SKILLS_SKILL = ForeignKeys0.OFFER_SKILLS_SKILL;
     public static final ForeignKey<OffersSkillsRecord, OffersRecord> OFFER_SKILLS_OFFER = ForeignKeys0.OFFER_SKILLS_OFFER;
-    public static final ForeignKey<ReferralsRecord, UsersRecord> JOBSTER = ForeignKeys0.JOBSTER;
-    public static final ForeignKey<ReferralsRecord, UsersRecord> CANDIDATO = ForeignKeys0.CANDIDATO;
+    public static final ForeignKey<ReferralsRecord, UsersRecord> FK_JOBSTER = ForeignKeys0.FK_JOBSTER;
+    public static final ForeignKey<ReferralsRecord, UsersRecord> FK_CANDIDATO = ForeignKeys0.FK_CANDIDATO;
+    public static final ForeignKey<ReferralsRecord, OffersRecord> FK_OFFER = ForeignKeys0.FK_OFFER;
     public static final ForeignKey<UsersSkillsRecord, UsersRecord> USERS_SKILLS_USER = ForeignKeys0.USERS_SKILLS_USER;
     public static final ForeignKey<UsersSkillsRecord, SkillsRecord> USERS_SKILLS_SKILL = ForeignKeys0.USERS_SKILLS_SKILL;
     public static final ForeignKey<UserIdiomRecord, UsersRecord> USER_IDIOM_USER = ForeignKeys0.USER_IDIOM_USER;
@@ -119,8 +120,9 @@ public class Keys {
         public static final ForeignKey<EducationRecord, UsersRecord> FK_USER_ID = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_USERS_PRIMARY, Education.EDUCATION, "FK_user_id", Education.EDUCATION.ID_USER);
         public static final ForeignKey<OffersSkillsRecord, SkillsRecord> OFFER_SKILLS_SKILL = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_SKILLS_PRIMARY, OffersSkills.OFFERS_SKILLS, "offer_skills_skill", OffersSkills.OFFERS_SKILLS.ID_SKILL);
         public static final ForeignKey<OffersSkillsRecord, OffersRecord> OFFER_SKILLS_OFFER = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_OFFERS_PRIMARY, OffersSkills.OFFERS_SKILLS, "offer_skills_offer", OffersSkills.OFFERS_SKILLS.ID_OFFER);
-        public static final ForeignKey<ReferralsRecord, UsersRecord> JOBSTER = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_USERS_PRIMARY, Referrals.REFERRALS, "jobster", Referrals.REFERRALS.ID_JOBSTER);
-        public static final ForeignKey<ReferralsRecord, UsersRecord> CANDIDATO = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_USERS_PRIMARY, Referrals.REFERRALS, "candidato", Referrals.REFERRALS.ID_CANDIDATE);
+        public static final ForeignKey<ReferralsRecord, UsersRecord> FK_JOBSTER = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_USERS_PRIMARY, Referrals.REFERRALS, "fk_jobster", Referrals.REFERRALS.ID_JOBSTER);
+        public static final ForeignKey<ReferralsRecord, UsersRecord> FK_CANDIDATO = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_USERS_PRIMARY, Referrals.REFERRALS, "fk_candidato", Referrals.REFERRALS.ID_CANDIDATE);
+        public static final ForeignKey<ReferralsRecord, OffersRecord> FK_OFFER = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_OFFERS_PRIMARY, Referrals.REFERRALS, "fk_offer", Referrals.REFERRALS.ID_OFFER);
         public static final ForeignKey<UsersSkillsRecord, UsersRecord> USERS_SKILLS_USER = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_USERS_PRIMARY, UsersSkills.USERS_SKILLS, "users_skills_user", UsersSkills.USERS_SKILLS.ID_USER);
         public static final ForeignKey<UsersSkillsRecord, SkillsRecord> USERS_SKILLS_SKILL = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_SKILLS_PRIMARY, UsersSkills.USERS_SKILLS, "users_skills_skill", UsersSkills.USERS_SKILLS.ID_SKILL);
         public static final ForeignKey<UserIdiomRecord, UsersRecord> USER_IDIOM_USER = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_USERS_PRIMARY, UserIdiom.USER_IDIOM, "user_idiom_user", UserIdiom.USER_IDIOM.ID_USER);

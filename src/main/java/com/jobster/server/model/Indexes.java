@@ -46,6 +46,7 @@ public class Indexes {
     public static final Index OFFERS_SKILLS_OFFER_SKILLS_SKILL_IDX = Indexes0.OFFERS_SKILLS_OFFER_SKILLS_SKILL_IDX;
     public static final Index OFFERS_SKILLS_PRIMARY = Indexes0.OFFERS_SKILLS_PRIMARY;
     public static final Index REFERRALS_CANDIDATO_IDX = Indexes0.REFERRALS_CANDIDATO_IDX;
+    public static final Index REFERRALS_FK_OFFER_IDX = Indexes0.REFERRALS_FK_OFFER_IDX;
     public static final Index REFERRALS_JOBSTER_IDX = Indexes0.REFERRALS_JOBSTER_IDX;
     public static final Index REFERRALS_PRIMARY = Indexes0.REFERRALS_PRIMARY;
     public static final Index SKILLS_PRIMARY = Indexes0.SKILLS_PRIMARY;
@@ -70,6 +71,7 @@ public class Indexes {
         public static Index OFFERS_SKILLS_OFFER_SKILLS_SKILL_IDX = Internal.createIndex("offer_skills_skill_idx", OffersSkills.OFFERS_SKILLS, new OrderField[] { OffersSkills.OFFERS_SKILLS.ID_SKILL }, false);
         public static Index OFFERS_SKILLS_PRIMARY = Internal.createIndex("PRIMARY", OffersSkills.OFFERS_SKILLS, new OrderField[] { OffersSkills.OFFERS_SKILLS.ID_OFFER_SKILL }, true);
         public static Index REFERRALS_CANDIDATO_IDX = Internal.createIndex("candidato_idx", Referrals.REFERRALS, new OrderField[] { Referrals.REFERRALS.ID_CANDIDATE }, false);
+        public static Index REFERRALS_FK_OFFER_IDX = Internal.createIndex("fk_offer_idx", Referrals.REFERRALS, new OrderField[] { Referrals.REFERRALS.ID_OFFER }, false);
         public static Index REFERRALS_JOBSTER_IDX = Internal.createIndex("jobster_idx", Referrals.REFERRALS, new OrderField[] { Referrals.REFERRALS.ID_JOBSTER }, false);
         public static Index REFERRALS_PRIMARY = Internal.createIndex("PRIMARY", Referrals.REFERRALS, new OrderField[] { Referrals.REFERRALS.ID_REFERRAL }, true);
         public static Index SKILLS_PRIMARY = Internal.createIndex("PRIMARY", Skills.SKILLS, new OrderField[] { Skills.SKILLS.ID_SKILL }, true);

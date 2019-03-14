@@ -339,4 +339,13 @@ public class UserManagement {
             throw new JobsterException(JobsterErrorType.GENERIC_ERROR);
         }
     }
+
+    public static boolean userExist(DSLContext create, int id_user) {
+        UsersRecord usr = create.select()
+                .from(USERS)
+                .where(USERS.ID_USER.equal(id_user))
+                .fetchAnyInto(UsersRecord.class);
+
+        return usr != null;
+    }
 }

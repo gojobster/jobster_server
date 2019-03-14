@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Referrals extends TableImpl<ReferralsRecord> {
 
-    private static final long serialVersionUID = -956962422;
+    private static final long serialVersionUID = 1680224686;
 
     /**
      * The reference instance of <code>jobster.referrals</code>
@@ -70,7 +70,7 @@ public class Referrals extends TableImpl<ReferralsRecord> {
     /**
      * The column <code>jobster.referrals.id_candidate</code>.
      */
-    public final TableField<ReferralsRecord, Integer> ID_CANDIDATE = createField("id_candidate", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<ReferralsRecord, Integer> ID_CANDIDATE = createField("id_candidate", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
     /**
      * The column <code>jobster.referrals.date_creation</code>.
@@ -90,12 +90,22 @@ public class Referrals extends TableImpl<ReferralsRecord> {
     /**
      * The column <code>jobster.referrals.state</code>.
      */
-    public final TableField<ReferralsRecord, Integer> STATE = createField("state", org.jooq.impl.SQLDataType.INTEGER, this, "");
+    public final TableField<ReferralsRecord, Integer> STATE = createField("state", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
      * The column <code>jobster.referrals.code</code>.
      */
     public final TableField<ReferralsRecord, String> CODE = createField("code", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "");
+
+    /**
+     * The column <code>jobster.referrals.id_offer</code>.
+     */
+    public final TableField<ReferralsRecord, Integer> ID_OFFER = createField("id_offer", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+
+    /**
+     * The column <code>jobster.referrals.email_candidate</code>.
+     */
+    public final TableField<ReferralsRecord, String> EMAIL_CANDIDATE = createField("email_candidate", org.jooq.impl.SQLDataType.VARCHAR(80).nullable(false), this, "");
 
     /**
      * Create a <code>jobster.referrals</code> table reference
@@ -143,7 +153,7 @@ public class Referrals extends TableImpl<ReferralsRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.REFERRALS_CANDIDATO_IDX, Indexes.REFERRALS_JOBSTER_IDX, Indexes.REFERRALS_PRIMARY);
+        return Arrays.<Index>asList(Indexes.REFERRALS_CANDIDATO_IDX, Indexes.REFERRALS_FK_OFFER_IDX, Indexes.REFERRALS_JOBSTER_IDX, Indexes.REFERRALS_PRIMARY);
     }
 
     /**
@@ -175,15 +185,19 @@ public class Referrals extends TableImpl<ReferralsRecord> {
      */
     @Override
     public List<ForeignKey<ReferralsRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<ReferralsRecord, ?>>asList(Keys.JOBSTER, Keys.CANDIDATO);
+        return Arrays.<ForeignKey<ReferralsRecord, ?>>asList(Keys.FK_JOBSTER, Keys.FK_CANDIDATO, Keys.FK_OFFER);
     }
 
-    public Users jobster() {
-        return new Users(this, Keys.JOBSTER);
+    public Users fkJobster() {
+        return new Users(this, Keys.FK_JOBSTER);
     }
 
-    public Users candidato() {
-        return new Users(this, Keys.CANDIDATO);
+    public Users fkCandidato() {
+        return new Users(this, Keys.FK_CANDIDATO);
+    }
+
+    public Offers offers() {
+        return new Offers(this, Keys.FK_OFFER);
     }
 
     /**

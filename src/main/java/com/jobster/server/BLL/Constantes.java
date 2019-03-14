@@ -10,6 +10,8 @@ public class Constantes {
     public static final String VI_ENCRIPTACION = "456";
     public static final String PATHERN_SPLIT= "RFVBGT";
 
+    public static final int NUM_RANDOM_INTENTS_CODE_OFFER = 10;
+
     public static final String EMAIL_REGEX = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
 
 

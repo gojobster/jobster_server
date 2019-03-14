@@ -68,4 +68,13 @@ public class OffersManagement {
             throw new JobsterException(JobsterErrorType.GENERIC_ERROR);
         }
     }
+
+    public static boolean offerExist(DSLContext create, int id_offer) {
+        OffersRecord offer = create.select()
+                .from(OFFERS)
+                .where(OFFERS.ID_OFFER.equal(id_offer))
+                .fetchAnyInto(OffersRecord.class);
+
+        return offer != null;
+    }
 }
