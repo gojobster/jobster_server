@@ -1,107 +1,85 @@
 package com.jobster.server.util;
 
+import com.jobster.server.BLL.Constantes;
+
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Properties;
 
 public class Email {
-	private static String _userFrom;
-	private static String _host;
-	private static int _port;
-	private static String _userServer;
-	private static String _userPwd;
-	private static Boolean _enableSSL;
-	private static String _pickupDirectory;
-	public Email(String nombreUsuarioRemitente, String host, int puerto, String nombreUsuarioServidor,
-                 String pwdServidor, Boolean enableSSL) {
-		_userFrom = nombreUsuarioRemitente;
-		_host = host;
-		_port = puerto;
-		_userServer = nombreUsuarioServidor;
-		_userPwd = pwdServidor;
-		_enableSSL = enableSSL;
-	}
-
-	public String getUserForm() {
-		return _userFrom;
-	}
-
-	public String getHost() {
-		return _host;
-	}
-
-	public int getPort() {
-		return _port;
-	}
-
-	public String getUserServer() {
-		return _userServer;
-	}
-
-	public String getUserPwd() {
-		return _userPwd;
-	}
-
-	public Boolean getEnableSSL() {
-		return _enableSSL;
-	}
-
-	public String getPickupDirectory () {
-		return _pickupDirectory;
-	}
-
-	public void setPickupDirectory (String directory) {
-		_pickupDirectory = directory;
-	}
-
-	public void sendEmail( String toEmail, String subject, String body, Boolean isHtml) {
+	public static void sendEmail( String toEmail, String subject, String body) {
 		//creamos la session
-		Properties props = System.getProperties();
-
-		props.put("mail.smtp.host", _host);
-		props.put("mail.smtp.port", String.valueOf(_port)); //TLS Port
-		props.put("mail.smtp.auth", String.valueOf(_enableSSL));
+		System.out.println("SSLEmail Start");
+		Properties props = new Properties();
+		props.put("mail.smtp.host", Constantes.SRV_EMAIL_HOST); //SMTP Host
+		props.put("mail.smtp.socketFactory.port", Constantes.SRV_EMAIL_PORT); //SSL Port
+		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory"); //SSL Factory Class
+		props.put("mail.smtp.auth", "true"); //Enabling SMTP Authentication
+		props.put("mail.smtp.port", Constantes.SRV_EMAIL_PORT); //SMTP Port
 
 		Authenticator auth = new Authenticator() {
 			//override the getPasswordAuthentication method
-			@Override
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(_userServer, _userPwd);
+				return new PasswordAuthentication(Constantes.SRV_EMAIL_USR, Constantes.SRV_EMAIL_PWD);
 			}
 		};
 
-
 		Session session = Session.getInstance(props, auth);
+		sendEmail(session, toEmail, subject, body);
 
-		MimeMessage msg = new MimeMessage(session);
+		//****************************************
 
-		try {
-			//set message headers
-			if(isHtml)
-			{
-				msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
-			}
-			msg.addHeader("format", "flowed");
-			msg.addHeader("Content-Transfer-Encoding", "8bit");
+		//sendAttachmentEmail(session, toEmail,"SSLEmail Testing Subject with Attachment", "SSLEmail Testing Body with Attachment");
 
-			msg.setFrom(new InternetAddress(_userFrom, "OKO SmartFrame"));
+		//sendImageEmail(session, toEmail,"SSLEmail Testing Subject with Image", "SSLEmail Testing Body with Image");
+	}
 
-			msg.setReplyTo(InternetAddress.parse(_userFrom, false));
-			msg.setSubject(subject, "UTF-8");
-			msg.setText(body, "UTF-8");
-			msg.setSentDate(new Date());
-			msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail, false));
 
-			Transport.send(msg, _userServer, _userPwd);
-			//Transport.send(msg);
-		} catch (MessagingException | UnsupportedEncodingException e) {
+	private static void sendEmail(Session session, String toEmail, String subject, String body){
+		try
+		{
+			MimeMessage msg = createMimeMessage(session, toEmail,subject);
+//			msg.setText(body, "UTF-8");
+			msg.setContent(body, "text/html; charset=utf-8");
+
+			System.out.println("Message is ready");
+			Transport.send(msg);
+			System.out.println("EMail Sent Successfully!!");
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	private static MimeMessage createMimeMessage(Session session, String toEmail, String subject){
+		MimeMessage msg = new MimeMessage(session);
+		try {
+			msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
+			msg.addHeader("format", "flowed");
+			msg.addHeader("Content-Transfer-Encoding", "8bit");
+
+			msg.setFrom(new InternetAddress(Constantes.SRV_EMAIL_FROM_ACCOUNT, "Jobster"));
+
+			msg.setReplyTo(InternetAddress.parse(Constantes.SRV_EMAIL_FROM_ACCOUNT, false));
+
+			msg.setSubject(subject, "UTF-8");
+
+			msg.setSentDate(new Date());
+
+			msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail, false));
+		} catch (MessagingException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return  msg;
+	}
 	public enum TipoFormatoFichero {
 		None,
 		Binario,

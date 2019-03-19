@@ -1,10 +1,9 @@
 package com.jobster.server.BLL;
 
-import com.jobster.server.DTO.RespuestaWS;
-import com.jobster.server.DTO.RespuestaWSAllInfoUser;
-import com.jobster.server.DTO.RespuestaWSLogin;
-import com.jobster.server.DTO.RespuestaWSUser;
+import com.jobster.server.DTO.*;
 import com.jobster.server.model.Jobster;
+import com.jobster.server.model.tables.records.OffersRecord;
+import com.jobster.server.model.tables.records.ReferralsRecord;
 import com.jobster.server.model.tables.records.SkillsRecord;
 import com.jobster.server.model.tables.records.UsersRecord;
 import com.jobster.server.types.JobsterErrorType;
@@ -110,13 +109,12 @@ public class UserManagement {
                 }
             } else {
                 // By default language
-                subjectCorreoEstablecimiento = "ccc"; //TODO: constantes mail HttpContext.GetGlobalResourceObject("Literales", "subject2", System.Globalization.CultureInfo.CreateSpecificCulture("en")).ToString();
+                subjectCorreoEstablecimiento = "Bienvenido a Jobster"; //TODO: constantes mail HttpContext.GetGlobalResourceObject("Literales", "subject2", System.Globalization.CultureInfo.CreateSpecificCulture("en")).ToString();
             }
             String enlace = url + "Activate?enlace=" + URLEncoder.encode(EncriptarEnlace(usr.getApikey()), java.nio.charset.StandardCharsets.UTF_8.toString());
-            Email correo = new Email(Constantes.SRV_EMAIL_FROM_ACCOUNT, Constantes.SRV_EMAIL_HOST, Constantes.SRV_EMAIL_PORT, Constantes.SRV_EMAIL_USR, Constantes.SRV_EMAIL_PWD, Constantes.SRV_EMAIL_ENABLE_SSL);
-            //TODO: arreglar plantilla
-            //String textoEmail = "Prueba";//TextoMail(enlace + "&lang=" + idioma, "mail/Activate.aspx", url, "&lang=" + idioma);
-            //correo.sendEmail(usr.getEmail(), subjectCorreoEstablecimiento, textoEmail, true);
+            String textoEmail = TextoMail(enlace + "&lang=" + idioma, "mail/Activate.aspx", url, "&lang=" + idioma);
+
+            Email.sendEmail(usr.getEmail(), subjectCorreoEstablecimiento, textoEmail);
 
             create.close();
             conn.close();
@@ -135,7 +133,9 @@ public class UserManagement {
             UsersRecord usuario = create.select().from(USERS)
                     .where(USERS.EMAIL.equal(email))
                     .fetchAnyInto(UsersRecord.class);
+
             if (usuario == null) throw new JobsterException(JobsterErrorType.USER_NOT_FOUND);
+
             String subjectCorreoEstablecimiento;
             if (usuario.getIdiom() != null) {
                 if (usuario.getIdiom().toLowerCase().equals("es")) {
@@ -149,13 +149,10 @@ public class UserManagement {
                 subjectCorreoEstablecimiento = Constantes.EMAIL_SUBJECT_RECOVER_PASSWORD_EN;
             }
             String enlace = url + "recuperarpwd.aspx?enlace=" + URLEncoder.encode(EncriptarEnlace(usuario.getApikey()), java.nio.charset.StandardCharsets.UTF_8.toString());
-
-            //TODO GENERAR PLANTILLA HTML
-            Email correo = new Email(Constantes.SRV_EMAIL_FROM_ACCOUNT, Constantes.SRV_EMAIL_HOST, Constantes.SRV_EMAIL_PORT, Constantes.SRV_EMAIL_USR, Constantes.SRV_EMAIL_PWD, Constantes.SRV_EMAIL_ENABLE_SSL);
             String textoEmail = TextoMail(enlace + "&lang=" + usuario.getIdiom(), "/mail/RecoverPWD.aspx", url, "&lang=" + usuario.getIdiom());
 
             create.close();
-            correo.sendEmail(email, subjectCorreoEstablecimiento, textoEmail, true);
+            Email.sendEmail(email, subjectCorreoEstablecimiento, textoEmail);
         } catch (UnsupportedEncodingException | ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             throw new JobsterException(JobsterErrorType.GENERIC_ERROR);
         }
@@ -179,7 +176,7 @@ public class UserManagement {
             throw new JobsterException(JobsterErrorType.PASSWORD_TOO_SHORT);
     }
 
-    private static String EncriptarEnlace(String apiKey) throws JobsterException {
+    public static String EncriptarEnlace(String apiKey) throws JobsterException {
         CriptografiaSimetrica criptografiaSimetrica = new CriptografiaSimetrica(CriptografiaSimetrica.CryptoProvider.AES);
         criptografiaSimetrica.setKey(Constantes.CLAVE_ENCRIPTACION);
         criptografiaSimetrica.setIV(Constantes.VI_ENCRIPTACION);
@@ -197,7 +194,7 @@ public class UserManagement {
         return Base64.getEncoder().encodeToString(criptografiaSimetrica.encriptar(enlace));
     }
 
-    private static String TextoMail(String enlace, String localizacionPlantillaEmail, String url, String idioma) throws JobsterException {
+    public static String TextoMail(String enlace, String localizacionPlantillaEmail, String url, String idioma) throws JobsterException {
         //Util40.ClienteWebPost post = new Util40.ClienteWebPost(url + localizacionPlantillaEmail + "?enlace=" + System.Web.HttpUtility.UrlEncode(enlace));
         //List<KeyValuePair<string, string>> listaParametros = new List<KeyValuePair<string, string>>();
         //listaParametros.Add(new KeyValuePair<string, string>("enlace", enlace));
@@ -219,7 +216,7 @@ public class UserManagement {
     }
 
     private static String GetURLContent(String laURL) {
-
+        laURL = "http://18.221.163.161/jobster/register.html";
         StringBuilder content = new StringBuilder();
         try {
             // create a url object
@@ -347,5 +344,90 @@ public class UserManagement {
                 .fetchAnyInto(UsersRecord.class);
 
         return usr != null;
+    }
+
+    public static String getIdiom(DSLContext create, int id_user) {
+        UsersRecord usr = create.select()
+                .from(USERS)
+                .where(USERS.ID_USER.equal(id_user))
+                .fetchAnyInto(UsersRecord.class);
+        return usr.getIdiom();
+    }
+
+    public static String validateEmail(int id_usuario) throws JobsterException{
+        try {
+            Class.forName(Constantes.DB_DRIVER).newInstance();
+            Connection conn = DriverManager.getConnection(Constantes.DB_URL, Constantes.DB_USER, Constantes.DB_PASS);
+            DSLContext create = DSL.using(conn, SQLDialect.MYSQL);
+
+            UsersRecord user = create.select()
+                    .from(USERS)
+                    .where(USERS.ID_USER.equal(id_usuario))
+                    .fetchAnyInto(UsersRecord.class);
+
+            if (user == null) throw new JobsterException(JobsterErrorType.USER_NOT_FOUND);
+
+            user.setVerifiedEmail(1);
+            user.store();
+            create.close();
+            conn.close();
+        }
+        catch (InstantiationException | SQLException | IllegalAccessException | ClassNotFoundException ex) {
+            throw new JobsterException(JobsterErrorType.GENERIC_ERROR);
+        }
+        return "OK";
+    }
+
+    public static List<RespuestaWSOfferUser> getAllUserOffers(int idUser) throws JobsterException{
+        try {
+            List<RespuestaWSOfferUser> listOffers = new ArrayList<>();
+
+            Class.forName(Constantes.DB_DRIVER).newInstance();
+            Connection conn = DriverManager.getConnection(Constantes.DB_URL, Constantes.DB_USER, Constantes.DB_PASS);
+            DSLContext create = DSL.using(conn, SQLDialect.MYSQL);
+
+            Result<Record> referals = create.select()
+                    .from(REFERRALS)
+                    .where(REFERRALS.ID_CANDIDATE.equal(idUser).or(REFERRALS.ID_JOBSTER.equal(idUser)))
+                    .fetch();
+
+            for (Record ref : referals) {
+                OffersRecord off = create.select()
+                        .from(OFFERS)
+                        .where(OFFERS.ID_OFFER.equal(ref.getValue(REFERRALS.ID_OFFER)))
+                        .fetchAnyInto(OffersRecord.class);
+
+                if (off == null) throw new JobsterException(JobsterErrorType.OFFER_NOT_EXISTS);
+
+                UsersRecord jobster = create.select()
+                        .from(USERS)
+                        .where(USERS.ID_USER.equal(ref.getValue(REFERRALS.ID_JOBSTER)))
+                        .fetchAnyInto(UsersRecord.class);
+
+                if (jobster == null) throw new JobsterException(JobsterErrorType.USER_NOT_FOUND);
+
+                RespuestaWSOfferUser respues = new RespuestaWSOfferUser(ref.getValue(REFERRALS.STATE), ref.getValue(REFERRALS.ID_JOBSTER),
+                        jobster.getName(), jobster.getSurrname(), ref.getValue(REFERRALS.EMAIL_CANDIDATE), off.getPosition(), off.getSummary(),
+                        ref.getValue(REFERRALS.DATE_CREATION), ref.getValue(REFERRALS.DATE_ACCEPTED), off.getDateEnd());
+
+                if(ref.getValue(REFERRALS.ID_CANDIDATE) != null) {
+                    UsersRecord candidate = create.select()
+                            .from(USERS)
+                            .where(USERS.ID_USER.equal(ref.getValue(REFERRALS.ID_CANDIDATE)))
+                            .fetchAnyInto(UsersRecord.class);
+
+                    if (candidate == null) throw new JobsterException(JobsterErrorType.CANDIDATE_NOT_FOUND);
+
+                    respues.setIdCandidato(ref.getValue(REFERRALS.ID_CANDIDATE));
+                    respues.setName_candidate(candidate.getName());
+                    respues.setSurname_candidate(candidate.getSurrname());
+                }
+                listOffers.add(respues);
+            }
+            return  listOffers;
+        }
+        catch (InstantiationException | SQLException | IllegalAccessException | ClassNotFoundException ex) {
+            throw new JobsterException(JobsterErrorType.GENERIC_ERROR);
+        }
     }
 }
