@@ -7,11 +7,14 @@ package com.jobster.server.model;
 import com.jobster.server.model.tables.Companies;
 import com.jobster.server.model.tables.Countries;
 import com.jobster.server.model.tables.Education;
+import com.jobster.server.model.tables.Formations;
 import com.jobster.server.model.tables.Idioms;
+import com.jobster.server.model.tables.OfferFormation;
 import com.jobster.server.model.tables.Offers;
 import com.jobster.server.model.tables.OffersSkills;
 import com.jobster.server.model.tables.Referrals;
 import com.jobster.server.model.tables.Skills;
+import com.jobster.server.model.tables.UserFormation;
 import com.jobster.server.model.tables.UserIdiom;
 import com.jobster.server.model.tables.Users;
 import com.jobster.server.model.tables.UsersSkills;
@@ -40,7 +43,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Jobster extends SchemaImpl {
 
-    private static final long serialVersionUID = -1862577004;
+    private static final long serialVersionUID = -1329071616;
 
     /**
      * The reference instance of <code>jobster</code>
@@ -63,6 +66,11 @@ public class Jobster extends SchemaImpl {
     public final Education EDUCATION = com.jobster.server.model.tables.Education.EDUCATION;
 
     /**
+     * The table <code>jobster.formations</code>.
+     */
+    public final Formations FORMATIONS = com.jobster.server.model.tables.Formations.FORMATIONS;
+
+    /**
      * The table <code>jobster.idioms</code>.
      */
     public final Idioms IDIOMS = com.jobster.server.model.tables.Idioms.IDIOMS;
@@ -76,6 +84,11 @@ public class Jobster extends SchemaImpl {
      * The table <code>jobster.offers_skills</code>.
      */
     public final OffersSkills OFFERS_SKILLS = com.jobster.server.model.tables.OffersSkills.OFFERS_SKILLS;
+
+    /**
+     * The table <code>jobster.offer_formation</code>.
+     */
+    public final OfferFormation OFFER_FORMATION = com.jobster.server.model.tables.OfferFormation.OFFER_FORMATION;
 
     /**
      * The table <code>jobster.referrals</code>.
@@ -96,6 +109,11 @@ public class Jobster extends SchemaImpl {
      * The table <code>jobster.users_skills</code>.
      */
     public final UsersSkills USERS_SKILLS = com.jobster.server.model.tables.UsersSkills.USERS_SKILLS;
+
+    /**
+     * The table <code>jobster.user_formation</code>.
+     */
+    public final UserFormation USER_FORMATION = com.jobster.server.model.tables.UserFormation.USER_FORMATION;
 
     /**
      * The table <code>jobster.user_idiom</code>.
@@ -130,13 +148,16 @@ public class Jobster extends SchemaImpl {
             Companies.COMPANIES,
             Countries.COUNTRIES,
             Education.EDUCATION,
+            Formations.FORMATIONS,
             Idioms.IDIOMS,
             Offers.OFFERS,
             OffersSkills.OFFERS_SKILLS,
+            OfferFormation.OFFER_FORMATION,
             Referrals.REFERRALS,
             Skills.SKILLS,
             Users.USERS,
             UsersSkills.USERS_SKILLS,
+            UserFormation.USER_FORMATION,
             UserIdiom.USER_IDIOM);
     }
 }

@@ -7,11 +7,14 @@ package com.jobster.server.model;
 import com.jobster.server.model.tables.Companies;
 import com.jobster.server.model.tables.Countries;
 import com.jobster.server.model.tables.Education;
+import com.jobster.server.model.tables.Formations;
 import com.jobster.server.model.tables.Idioms;
+import com.jobster.server.model.tables.OfferFormation;
 import com.jobster.server.model.tables.Offers;
 import com.jobster.server.model.tables.OffersSkills;
 import com.jobster.server.model.tables.Referrals;
 import com.jobster.server.model.tables.Skills;
+import com.jobster.server.model.tables.UserFormation;
 import com.jobster.server.model.tables.UserIdiom;
 import com.jobster.server.model.tables.Users;
 import com.jobster.server.model.tables.UsersSkills;
@@ -48,6 +51,11 @@ public class Tables {
     public static final Education EDUCATION = com.jobster.server.model.tables.Education.EDUCATION;
 
     /**
+     * The table <code>jobster.formations</code>.
+     */
+    public static final Formations FORMATIONS = com.jobster.server.model.tables.Formations.FORMATIONS;
+
+    /**
      * The table <code>jobster.idioms</code>.
      */
     public static final Idioms IDIOMS = com.jobster.server.model.tables.Idioms.IDIOMS;
@@ -61,6 +69,11 @@ public class Tables {
      * The table <code>jobster.offers_skills</code>.
      */
     public static final OffersSkills OFFERS_SKILLS = com.jobster.server.model.tables.OffersSkills.OFFERS_SKILLS;
+
+    /**
+     * The table <code>jobster.offer_formation</code>.
+     */
+    public static final OfferFormation OFFER_FORMATION = com.jobster.server.model.tables.OfferFormation.OFFER_FORMATION;
 
     /**
      * The table <code>jobster.referrals</code>.
@@ -81,6 +94,11 @@ public class Tables {
      * The table <code>jobster.users_skills</code>.
      */
     public static final UsersSkills USERS_SKILLS = com.jobster.server.model.tables.UsersSkills.USERS_SKILLS;
+
+    /**
+     * The table <code>jobster.user_formation</code>.
+     */
+    public static final UserFormation USER_FORMATION = com.jobster.server.model.tables.UserFormation.USER_FORMATION;
 
     /**
      * The table <code>jobster.user_idiom</code>.
