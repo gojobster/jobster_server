@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Skills extends TableImpl<SkillsRecord> {
 
-    private static final long serialVersionUID = 2112486690;
+    private static final long serialVersionUID = -2057940160;
 
     /**
      * The reference instance of <code>jobster.skills</code>
@@ -70,7 +70,12 @@ public class Skills extends TableImpl<SkillsRecord> {
     /**
      * The column <code>jobster.skills.date_created</code>.
      */
-    public final TableField<SkillsRecord, Timestamp> DATE_CREATED = createField("date_created", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false), this, "");
+    public final TableField<SkillsRecord, Timestamp> DATE_CREATED = createField("date_created", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+
+    /**
+     * The column <code>jobster.skills.num_validations</code>.
+     */
+    public final TableField<SkillsRecord, Integer> NUM_VALIDATIONS = createField("num_validations", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
      * Create a <code>jobster.skills</code> table reference

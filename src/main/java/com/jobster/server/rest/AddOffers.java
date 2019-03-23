@@ -18,7 +18,7 @@ public class AddOffers {
     public RespuestaWS<String> addOffer(
         @FormParam("position") String position,
         @FormParam("summary") String summary,
-        @FormParam("experience") String experience,
+        @FormParam("experience") int experience,
         @FormParam("job_functions") String job_functions,
         @FormParam("date_init") String date_init,
         @FormParam("date_end") String date_end

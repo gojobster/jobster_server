@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Education extends TableImpl<EducationRecord> {
 
-    private static final long serialVersionUID = 110373425;
+    private static final long serialVersionUID = 145489504;
 
     /**
      * The reference instance of <code>jobster.education</code>
@@ -61,6 +61,11 @@ public class Education extends TableImpl<EducationRecord> {
      * The column <code>jobster.education.id_education</code>.
      */
     public final TableField<EducationRecord, Integer> ID_EDUCATION = createField("id_education", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+
+    /**
+     * The column <code>jobster.education.id_user</code>.
+     */
+    public final TableField<EducationRecord, Integer> ID_USER = createField("id_user", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>jobster.education.school-name</code>.
@@ -93,9 +98,9 @@ public class Education extends TableImpl<EducationRecord> {
     public final TableField<EducationRecord, String> NOTES = createField("notes", org.jooq.impl.SQLDataType.VARCHAR(45), this, "");
 
     /**
-     * The column <code>jobster.education.id_user</code>.
+     * The column <code>jobster.education.date_created</code>.
      */
-    public final TableField<EducationRecord, Integer> ID_USER = createField("id_user", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<EducationRecord, Timestamp> DATE_CREATED = createField("date_created", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
      * Create a <code>jobster.education</code> table reference

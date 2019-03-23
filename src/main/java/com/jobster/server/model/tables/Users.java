@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users extends TableImpl<UsersRecord> {
 
-    private static final long serialVersionUID = 942793392;
+    private static final long serialVersionUID = 575401033;
 
     /**
      * The reference instance of <code>jobster.users</code>
@@ -115,7 +115,7 @@ public class Users extends TableImpl<UsersRecord> {
     /**
      * The column <code>jobster.users.verified_email</code>.
      */
-    public final TableField<UsersRecord, Integer> VERIFIED_EMAIL = createField("verified_email", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+    public final TableField<UsersRecord, Integer> VERIFIED_EMAIL = createField("verified_email", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
      * The column <code>jobster.users.user_name</code>.
@@ -145,17 +145,22 @@ public class Users extends TableImpl<UsersRecord> {
     /**
      * The column <code>jobster.users.verified_phone_number</code>.
      */
-    public final TableField<UsersRecord, Integer> VERIFIED_PHONE_NUMBER = createField("verified_phone_number", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.INTEGER)), this, "");
-
-    /**
-     * The column <code>jobster.users.date_created</code>.
-     */
-    public final TableField<UsersRecord, Timestamp> DATE_CREATED = createField("date_created", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false), this, "");
+    public final TableField<UsersRecord, Integer> VERIFIED_PHONE_NUMBER = createField("verified_phone_number", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
      * The column <code>jobster.users.idiom</code>.
      */
     public final TableField<UsersRecord, String> IDIOM = createField("idiom", org.jooq.impl.SQLDataType.VARCHAR(45).defaultValue(org.jooq.impl.DSL.inline("en", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
+
+    /**
+     * The column <code>jobster.users.date_created</code>.
+     */
+    public final TableField<UsersRecord, Timestamp> DATE_CREATED = createField("date_created", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+
+    /**
+     * The column <code>jobster.users.date_modification</code>.
+     */
+    public final TableField<UsersRecord, Timestamp> DATE_MODIFICATION = createField("date_modification", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
      * Create a <code>jobster.users</code> table reference

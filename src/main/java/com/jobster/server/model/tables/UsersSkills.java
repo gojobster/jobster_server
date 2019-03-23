@@ -41,7 +41,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UsersSkills extends TableImpl<UsersSkillsRecord> {
 
-    private static final long serialVersionUID = -1252515377;
+    private static final long serialVersionUID = 1348328887;
 
     /**
      * The reference instance of <code>jobster.users_skills</code>
@@ -149,15 +149,15 @@ public class UsersSkills extends TableImpl<UsersSkillsRecord> {
      */
     @Override
     public List<ForeignKey<UsersSkillsRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<UsersSkillsRecord, ?>>asList(Keys.USERS_SKILLS_USER, Keys.USERS_SKILLS_SKILL);
+        return Arrays.<ForeignKey<UsersSkillsRecord, ?>>asList(Keys.FK_USERS_SKILLS_USER, Keys.KF_USERS_SKILLS_SKILL);
     }
 
     public Users users() {
-        return new Users(this, Keys.USERS_SKILLS_USER);
+        return new Users(this, Keys.FK_USERS_SKILLS_USER);
     }
 
     public Skills skills() {
-        return new Skills(this, Keys.USERS_SKILLS_SKILL);
+        return new Skills(this, Keys.KF_USERS_SKILLS_SKILL);
     }
 
     /**

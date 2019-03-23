@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Offers extends TableImpl<OffersRecord> {
 
-    private static final long serialVersionUID = -595509699;
+    private static final long serialVersionUID = -144183607;
 
     /**
      * The reference instance of <code>jobster.offers</code>
@@ -63,6 +63,11 @@ public class Offers extends TableImpl<OffersRecord> {
     public final TableField<OffersRecord, Integer> ID_OFFER = createField("id_offer", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
+     * The column <code>jobster.offers.id_company</code>.
+     */
+    public final TableField<OffersRecord, Integer> ID_COMPANY = createField("id_company", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+
+    /**
      * The column <code>jobster.offers.position</code>.
      */
     public final TableField<OffersRecord, String> POSITION = createField("position", org.jooq.impl.SQLDataType.VARCHAR(120).nullable(false), this, "");
@@ -75,7 +80,7 @@ public class Offers extends TableImpl<OffersRecord> {
     /**
      * The column <code>jobster.offers.experience</code>.
      */
-    public final TableField<OffersRecord, String> EXPERIENCE = createField("experience", org.jooq.impl.SQLDataType.VARCHAR(120), this, "");
+    public final TableField<OffersRecord, Integer> EXPERIENCE = createField("experience", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * The column <code>jobster.offers.job_functions</code>.
@@ -83,9 +88,60 @@ public class Offers extends TableImpl<OffersRecord> {
     public final TableField<OffersRecord, String> JOB_FUNCTIONS = createField("job_functions", org.jooq.impl.SQLDataType.VARCHAR(120), this, "");
 
     /**
+     * The column <code>jobster.offers.city</code>.
+     */
+    public final TableField<OffersRecord, String> CITY = createField("city", org.jooq.impl.SQLDataType.VARCHAR(80), this, "");
+
+    /**
+     * The column <code>jobster.offers.country</code>.
+     */
+    public final TableField<OffersRecord, String> COUNTRY = createField("country", org.jooq.impl.SQLDataType.VARCHAR(45), this, "");
+
+    /**
+     * The column <code>jobster.offers.tipo_jornada</code>. Tipo de oferta: temporal, media jornada, jornada completa
+Tipo de jornada:
+1 -  por horas             
+2 -  media jornada      
+3 -  jornada completa 
+     */
+    public final TableField<OffersRecord, Integer> TIPO_JORNADA = createField("tipo_jornada", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "Tipo de oferta: temporal, media jornada, jornada completa\nTipo de jornada:\n1 -  por horas             \n2 -  media jornada      \n3 -  jornada completa ");
+
+    /**
+     * The column <code>jobster.offers.tipo_contrato</code>. Tipo de contrato:
+ - tiempo parcial      1
+ - tiempo indefinido 2
+     */
+    public final TableField<OffersRecord, Integer> TIPO_CONTRATO = createField("tipo_contrato", org.jooq.impl.SQLDataType.INTEGER, this, "Tipo de contrato:\n - tiempo parcial      1\n - tiempo indefinido 2");
+
+    /**
+     * The column <code>jobster.offers.hours</code>.
+     */
+    public final TableField<OffersRecord, Integer> HOURS = createField("hours", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+
+    /**
+     * The column <code>jobster.offers.salary_min</code>.
+     */
+    public final TableField<OffersRecord, Integer> SALARY_MIN = createField("salary_min", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+    /**
+     * The column <code>jobster.offers.salary_max</code>.
+     */
+    public final TableField<OffersRecord, Integer> SALARY_MAX = createField("salary_max", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+    /**
+     * The column <code>jobster.offers.reward</code>.
+     */
+    public final TableField<OffersRecord, Integer> REWARD = createField("reward", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("1000", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+
+    /**
      * The column <code>jobster.offers.date_init</code>.
      */
     public final TableField<OffersRecord, Timestamp> DATE_INIT = createField("date_init", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
+
+    /**
+     * The column <code>jobster.offers.date_created</code>.
+     */
+    public final TableField<OffersRecord, Timestamp> DATE_CREATED = createField("date_created", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
      * The column <code>jobster.offers.date_end</code>.
@@ -93,14 +149,9 @@ public class Offers extends TableImpl<OffersRecord> {
     public final TableField<OffersRecord, Timestamp> DATE_END = createField("date_end", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
 
     /**
-     * The column <code>jobster.offers.date_created</code>.
+     * The column <code>jobster.offers.people_in_charge</code>.
      */
-    public final TableField<OffersRecord, Timestamp> DATE_CREATED = createField("date_created", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
-
-    /**
-     * The column <code>jobster.offers.city</code>.
-     */
-    public final TableField<OffersRecord, String> CITY = createField("city", org.jooq.impl.SQLDataType.VARCHAR(80), this, "");
+    public final TableField<OffersRecord, Integer> PEOPLE_IN_CHARGE = createField("people_in_charge", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
     /**
      * Create a <code>jobster.offers</code> table reference
@@ -148,7 +199,7 @@ public class Offers extends TableImpl<OffersRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.OFFERS_PRIMARY);
+        return Arrays.<Index>asList(Indexes.OFFERS_FK_OFFER_COMPANY_IDX, Indexes.OFFERS_PRIMARY);
     }
 
     /**
@@ -173,6 +224,18 @@ public class Offers extends TableImpl<OffersRecord> {
     @Override
     public List<UniqueKey<OffersRecord>> getKeys() {
         return Arrays.<UniqueKey<OffersRecord>>asList(Keys.KEY_OFFERS_PRIMARY);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<ForeignKey<OffersRecord, ?>> getReferences() {
+        return Arrays.<ForeignKey<OffersRecord, ?>>asList(Keys.FK_OFFER_COMPANY);
+    }
+
+    public Companies companies() {
+        return new Companies(this, Keys.FK_OFFER_COMPANY);
     }
 
     /**

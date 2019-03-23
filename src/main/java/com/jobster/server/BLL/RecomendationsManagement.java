@@ -1,33 +1,17 @@
 package com.jobster.server.BLL;
 
-import com.jobster.server.model.tables.records.OffersRecord;
 import com.jobster.server.model.tables.records.ReferralsRecord;
-import com.jobster.server.model.tables.records.SkillsRecord;
-import com.jobster.server.model.tables.records.UsersRecord;
 import com.jobster.server.types.JobsterErrorType;
-import com.jobster.server.util.CriptografiaSimetrica;
 import com.jobster.server.util.Email;
 import com.jobster.server.util.Fechas;
 import com.jobster.server.util.RandomString;
-import org.apache.tomcat.util.bcel.Const;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 
-import javax.mail.*;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.*;
 
 import static com.jobster.server.model.Tables.*;
 

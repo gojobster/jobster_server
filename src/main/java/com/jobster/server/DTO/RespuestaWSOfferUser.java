@@ -3,6 +3,8 @@ package com.jobster.server.DTO;
 import java.sql.Timestamp;
 
 public class RespuestaWSOfferUser {
+	public int id_recomendation;
+	public int id_offer;
 	public int state;
 	public int idJobster;
 	public Integer idCandidato;
@@ -14,6 +16,8 @@ public class RespuestaWSOfferUser {
 	public String surname_candidate;
 	public String email_candidate;
 
+	public String name_company;
+	public String path_image_company;
 	public String position;
 	public String summary;
 
@@ -21,13 +25,18 @@ public class RespuestaWSOfferUser {
 	public Timestamp date_accepted_candidate;
 	public Timestamp date_end;
 
-	public RespuestaWSOfferUser(int state, int idJobster, String name_jobster, String surname_josbter, String email_candidate, String position,
-								String summary, Timestamp date_created, Timestamp date_accepted_candidate, Timestamp date_end) {
+	public RespuestaWSOfferUser(int id_recomendation, int id_offer, int state, int idJobster, String name_jobster, String surname_josbter,
+								String email_candidate, String name_company, String path_image_company, String position, String summary,
+								Timestamp date_created, Timestamp date_accepted_candidate, Timestamp date_end) {
+		this.id_recomendation = id_recomendation;
+		this.id_offer = id_offer;
 		this.state = state;
 		this.idJobster = idJobster;
 		this.name_jobster = name_jobster;
 		this.surname_josbter = surname_josbter;
 		this.email_candidate = email_candidate;
+		this.name_company = name_company;
+		this.path_image_company = path_image_company;
 		this.position = position;
 		this.summary = summary;
 		this.date_created = date_created;

@@ -2,10 +2,7 @@ package com.jobster.server.BLL;
 
 import com.jobster.server.DTO.*;
 import com.jobster.server.model.Jobster;
-import com.jobster.server.model.tables.records.OffersRecord;
-import com.jobster.server.model.tables.records.ReferralsRecord;
-import com.jobster.server.model.tables.records.SkillsRecord;
-import com.jobster.server.model.tables.records.UsersRecord;
+import com.jobster.server.model.tables.records.*;
 import com.jobster.server.types.JobsterErrorType;
 import com.jobster.server.util.*;
 import org.jooq.DSLContext;
@@ -152,6 +149,7 @@ public class UserManagement {
             String textoEmail = TextoMail(enlace + "&lang=" + usuario.getIdiom(), "/mail/RecoverPWD.aspx", url, "&lang=" + usuario.getIdiom());
 
             create.close();
+            conn.close();
             Email.sendEmail(email, subjectCorreoEstablecimiento, textoEmail);
         } catch (UnsupportedEncodingException | ClassNotFoundException | SQLException | InstantiationException | IllegalAccessException ex) {
             throw new JobsterException(JobsterErrorType.GENERIC_ERROR);
@@ -309,6 +307,8 @@ public class UserManagement {
             ids_list = create.select().from(USER_IDIOM).where(USER_IDIOM.ID_USER.equal(idUser)).fetch(USER_IDIOM.ID_IDIOM);
             List<String> idioms_list = create.select().from(IDIOMS).where(IDIOMS.ID_IDIOM.in(ids_list)).fetch(SKILLS.NAME);
 
+            create.close();
+            conn.close();
             return new RespuestaWSAllInfoUser(usr, skills_list, idioms_list);
 
         } catch (InstantiationException | SQLException | IllegalAccessException | ClassNotFoundException ex) {
@@ -331,6 +331,8 @@ public class UserManagement {
                         r.getValue(USERS.EMAIL), r.getValue(USERS.PICTURE_URL), r.getValue(USERS.PHONE_NUMBER));
                 listUsers.add(user);
             }
+            create.close();
+            conn.close();
             return listUsers;
         } catch (InstantiationException | SQLException | IllegalAccessException | ClassNotFoundException ex) {
             throw new JobsterException(JobsterErrorType.GENERIC_ERROR);
@@ -406,9 +408,13 @@ public class UserManagement {
 
                 if (jobster == null) throw new JobsterException(JobsterErrorType.USER_NOT_FOUND);
 
-                RespuestaWSOfferUser respues = new RespuestaWSOfferUser(ref.getValue(REFERRALS.STATE), ref.getValue(REFERRALS.ID_JOBSTER),
-                        jobster.getName(), jobster.getSurrname(), ref.getValue(REFERRALS.EMAIL_CANDIDATE), off.getPosition(), off.getSummary(),
-                        ref.getValue(REFERRALS.DATE_CREATION), ref.getValue(REFERRALS.DATE_ACCEPTED), off.getDateEnd());
+                CompaniesRecord company = CompaniesManagement.getCompanyRecord(create, off.getValue(OFFERS.ID_COMPANY));
+
+                RespuestaWSOfferUser respues = new RespuestaWSOfferUser(ref.getValue(REFERRALS.ID_REFERRAL), ref.getValue(REFERRALS.ID_OFFER),
+                        ref.getValue(REFERRALS.STATE), ref.getValue(REFERRALS.ID_JOBSTER), jobster.getName(),
+                        jobster.getSurrname(), ref.getValue(REFERRALS.EMAIL_CANDIDATE), company.getValue(COMPANIES.NAME),
+                        company.getValue(COMPANIES.PATH_IMG), off.getPosition(), off.getSummary(), ref.getValue(REFERRALS.DATE_CREATION),
+                        ref.getValue(REFERRALS.DATE_ACCEPTED), off.getDateEnd());
 
                 if(ref.getValue(REFERRALS.ID_CANDIDATE) != null) {
                     UsersRecord candidate = create.select()
@@ -424,6 +430,8 @@ public class UserManagement {
                 }
                 listOffers.add(respues);
             }
+            create.close();
+            conn.close();
             return  listOffers;
         }
         catch (InstantiationException | SQLException | IllegalAccessException | ClassNotFoundException ex) {

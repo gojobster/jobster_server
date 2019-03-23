@@ -50,7 +50,11 @@ public class SkillsManagement {
             Connection conn = DriverManager.getConnection(Constantes.DB_URL, Constantes.DB_USER, Constantes.DB_PASS);
             DSLContext create = DSL.using(conn, SQLDialect.MYSQL);
 
-            return create.select().from(SKILLS).fetch(SKILLS.NAME);
+            List<String> lst_skills = create.select().from(SKILLS).fetch(SKILLS.NAME);
+
+            create.close();
+            conn.close();
+            return lst_skills;
 
         } catch (InstantiationException | SQLException | IllegalAccessException | ClassNotFoundException ex) {
             throw new JobsterException(JobsterErrorType.GENERIC_ERROR);

@@ -4,6 +4,8 @@
 package com.jobster.server.model;
 
 
+import com.jobster.server.model.tables.Companies;
+import com.jobster.server.model.tables.Countries;
 import com.jobster.server.model.tables.Education;
 import com.jobster.server.model.tables.Idioms;
 import com.jobster.server.model.tables.Offers;
@@ -38,12 +40,22 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Jobster extends SchemaImpl {
 
-    private static final long serialVersionUID = -1483560550;
+    private static final long serialVersionUID = -1862577004;
 
     /**
      * The reference instance of <code>jobster</code>
      */
     public static final Jobster JOBSTER = new Jobster();
+
+    /**
+     * The table <code>jobster.companies</code>.
+     */
+    public final Companies COMPANIES = com.jobster.server.model.tables.Companies.COMPANIES;
+
+    /**
+     * The table <code>jobster.countries</code>.
+     */
+    public final Countries COUNTRIES = com.jobster.server.model.tables.Countries.COUNTRIES;
 
     /**
      * The table <code>jobster.education</code>.
@@ -115,6 +127,8 @@ public class Jobster extends SchemaImpl {
 
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
+            Companies.COMPANIES,
+            Countries.COUNTRIES,
             Education.EDUCATION,
             Idioms.IDIOMS,
             Offers.OFFERS,

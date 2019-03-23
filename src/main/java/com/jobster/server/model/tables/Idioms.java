@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Idioms extends TableImpl<IdiomsRecord> {
 
-    private static final long serialVersionUID = 272952752;
+    private static final long serialVersionUID = 231633531;
 
     /**
      * The reference instance of <code>jobster.idioms</code>
@@ -68,9 +68,14 @@ public class Idioms extends TableImpl<IdiomsRecord> {
     public final TableField<IdiomsRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "");
 
     /**
+     * The column <code>jobster.idioms.level</code>.
+     */
+    public final TableField<IdiomsRecord, Integer> LEVEL = createField("level", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+
+    /**
      * The column <code>jobster.idioms.date_created</code>.
      */
-    public final TableField<IdiomsRecord, Timestamp> DATE_CREATED = createField("date_created", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false), this, "");
+    public final TableField<IdiomsRecord, Timestamp> DATE_CREATED = createField("date_created", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
      * Create a <code>jobster.idioms</code> table reference

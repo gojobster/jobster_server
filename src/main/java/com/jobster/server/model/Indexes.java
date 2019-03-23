@@ -4,6 +4,8 @@
 package com.jobster.server.model;
 
 
+import com.jobster.server.model.tables.Companies;
+import com.jobster.server.model.tables.Countries;
 import com.jobster.server.model.tables.Education;
 import com.jobster.server.model.tables.Idioms;
 import com.jobster.server.model.tables.Offers;
@@ -38,9 +40,13 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
+    public static final Index COMPANIES_PRIMARY = Indexes0.COMPANIES_PRIMARY;
+    public static final Index COMPANIES_WRWEG_IDX = Indexes0.COMPANIES_WRWEG_IDX;
+    public static final Index COUNTRIES_PRIMARY = Indexes0.COUNTRIES_PRIMARY;
     public static final Index EDUCATION_FK_USER_ID_IDX = Indexes0.EDUCATION_FK_USER_ID_IDX;
     public static final Index EDUCATION_PRIMARY = Indexes0.EDUCATION_PRIMARY;
     public static final Index IDIOMS_PRIMARY = Indexes0.IDIOMS_PRIMARY;
+    public static final Index OFFERS_FK_OFFER_COMPANY_IDX = Indexes0.OFFERS_FK_OFFER_COMPANY_IDX;
     public static final Index OFFERS_PRIMARY = Indexes0.OFFERS_PRIMARY;
     public static final Index OFFERS_SKILLS_OFFER_SKILLS_OFFER_IDX = Indexes0.OFFERS_SKILLS_OFFER_SKILLS_OFFER_IDX;
     public static final Index OFFERS_SKILLS_OFFER_SKILLS_SKILL_IDX = Indexes0.OFFERS_SKILLS_OFFER_SKILLS_SKILL_IDX;
@@ -63,9 +69,13 @@ public class Indexes {
     // -------------------------------------------------------------------------
 
     private static class Indexes0 {
+        public static Index COMPANIES_PRIMARY = Internal.createIndex("PRIMARY", Companies.COMPANIES, new OrderField[] { Companies.COMPANIES.ID_COMPANY }, true);
+        public static Index COMPANIES_WRWEG_IDX = Internal.createIndex("wrweg_idx", Companies.COMPANIES, new OrderField[] { Companies.COMPANIES.ID_COUNTRY }, false);
+        public static Index COUNTRIES_PRIMARY = Internal.createIndex("PRIMARY", Countries.COUNTRIES, new OrderField[] { Countries.COUNTRIES.ID_COUNTRY }, true);
         public static Index EDUCATION_FK_USER_ID_IDX = Internal.createIndex("FK_user_id_idx", Education.EDUCATION, new OrderField[] { Education.EDUCATION.ID_USER }, false);
         public static Index EDUCATION_PRIMARY = Internal.createIndex("PRIMARY", Education.EDUCATION, new OrderField[] { Education.EDUCATION.ID_EDUCATION }, true);
         public static Index IDIOMS_PRIMARY = Internal.createIndex("PRIMARY", Idioms.IDIOMS, new OrderField[] { Idioms.IDIOMS.ID_IDIOM }, true);
+        public static Index OFFERS_FK_OFFER_COMPANY_IDX = Internal.createIndex("FK_OFFER_COMPANY_idx", Offers.OFFERS, new OrderField[] { Offers.OFFERS.ID_COMPANY }, false);
         public static Index OFFERS_PRIMARY = Internal.createIndex("PRIMARY", Offers.OFFERS, new OrderField[] { Offers.OFFERS.ID_OFFER }, true);
         public static Index OFFERS_SKILLS_OFFER_SKILLS_OFFER_IDX = Internal.createIndex("offer_skills_offer_idx", OffersSkills.OFFERS_SKILLS, new OrderField[] { OffersSkills.OFFERS_SKILLS.ID_OFFER }, false);
         public static Index OFFERS_SKILLS_OFFER_SKILLS_SKILL_IDX = Internal.createIndex("offer_skills_skill_idx", OffersSkills.OFFERS_SKILLS, new OrderField[] { OffersSkills.OFFERS_SKILLS.ID_SKILL }, false);

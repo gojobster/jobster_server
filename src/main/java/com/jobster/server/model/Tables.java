@@ -4,6 +4,8 @@
 package com.jobster.server.model;
 
 
+import com.jobster.server.model.tables.Companies;
+import com.jobster.server.model.tables.Countries;
 import com.jobster.server.model.tables.Education;
 import com.jobster.server.model.tables.Idioms;
 import com.jobster.server.model.tables.Offers;
@@ -29,6 +31,16 @@ import javax.annotation.Generated;
 )
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
+
+    /**
+     * The table <code>jobster.companies</code>.
+     */
+    public static final Companies COMPANIES = com.jobster.server.model.tables.Companies.COMPANIES;
+
+    /**
+     * The table <code>jobster.countries</code>.
+     */
+    public static final Countries COUNTRIES = com.jobster.server.model.tables.Countries.COUNTRIES;
 
     /**
      * The table <code>jobster.education</code>.

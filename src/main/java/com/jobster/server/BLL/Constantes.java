@@ -15,9 +15,6 @@ public class Constantes {
 
     public static final String EMAIL_REGEX = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
 
-
-
-
     public static final String SRV_EMAIL_FROM_ACCOUNT = "hello@gojobster.com";
     public static final String SRV_EMAIL_HOST = "smtp-es.securemail.pro";
 

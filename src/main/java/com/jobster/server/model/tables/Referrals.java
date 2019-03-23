@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Referrals extends TableImpl<ReferralsRecord> {
 
-    private static final long serialVersionUID = 1680224686;
+    private static final long serialVersionUID = -285737958;
 
     /**
      * The reference instance of <code>jobster.referrals</code>
@@ -73,19 +73,9 @@ public class Referrals extends TableImpl<ReferralsRecord> {
     public final TableField<ReferralsRecord, Integer> ID_CANDIDATE = createField("id_candidate", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>jobster.referrals.date_creation</code>.
+     * The column <code>jobster.referrals.score</code>.
      */
-    public final TableField<ReferralsRecord, Timestamp> DATE_CREATION = createField("date_creation", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false), this, "");
-
-    /**
-     * The column <code>jobster.referrals.date_accepted</code>.
-     */
-    public final TableField<ReferralsRecord, Timestamp> DATE_ACCEPTED = createField("date_accepted", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
-
-    /**
-     * The column <code>jobster.referrals.rank_position</code>.
-     */
-    public final TableField<ReferralsRecord, Integer> RANK_POSITION = createField("rank_position", org.jooq.impl.SQLDataType.INTEGER, this, "");
+    public final TableField<ReferralsRecord, Integer> SCORE = createField("score", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
      * The column <code>jobster.referrals.state</code>.
@@ -106,6 +96,16 @@ public class Referrals extends TableImpl<ReferralsRecord> {
      * The column <code>jobster.referrals.email_candidate</code>.
      */
     public final TableField<ReferralsRecord, String> EMAIL_CANDIDATE = createField("email_candidate", org.jooq.impl.SQLDataType.VARCHAR(80).nullable(false), this, "");
+
+    /**
+     * The column <code>jobster.referrals.date_creation</code>.
+     */
+    public final TableField<ReferralsRecord, Timestamp> DATE_CREATION = createField("date_creation", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+
+    /**
+     * The column <code>jobster.referrals.date_accepted</code>.
+     */
+    public final TableField<ReferralsRecord, Timestamp> DATE_ACCEPTED = createField("date_accepted", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
 
     /**
      * Create a <code>jobster.referrals</code> table reference

@@ -2,6 +2,8 @@ package com.jobster.server.BLL;
 
 import com.jobster.server.DTO.RespuestaWSOffer;
 import com.jobster.server.DTO.RespuestaWSUser;
+import com.jobster.server.model.tables.Companies;
+import com.jobster.server.model.tables.records.CompaniesRecord;
 import com.jobster.server.model.tables.records.OffersRecord;
 import com.jobster.server.types.JobsterErrorType;
 import com.jobster.server.util.Fechas;
@@ -17,11 +19,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.jobster.server.model.Tables.OFFERS;
-import static com.jobster.server.model.Tables.USERS;
+import static com.jobster.server.model.Tables.*;
 
 public class OffersManagement {
-    public static String addOffer(String position, String summary, String experience, String job_functions, String date_init, String date_end) throws JobsterException {
+    public static String addOffer(String position, String summary, int experience, String job_functions, String date_init, String date_end) throws JobsterException {
         try {
             Class.forName(Constantes.DB_DRIVER).newInstance();
             Connection conn = DriverManager.getConnection(Constantes.DB_URL, Constantes.DB_USER, Constantes.DB_PASS);
@@ -32,7 +33,6 @@ public class OffersManagement {
             offer.setSummary(summary);
             offer.setExperience(experience);
             offer.setJobFunctions(job_functions);
-            offer.setDateCreated(Fechas.GetCurrentTimestampLong());
             offer.setDateInit(Fechas.GetCurrentTimestampLong());
             offer.setDateEnd(Fechas.GetCurrentTimestampLong());
 
@@ -58,11 +58,17 @@ public class OffersManagement {
 
             List<RespuestaWSOffer> listOffers = new ArrayList<>();
             for (Record r : result) {
-                RespuestaWSOffer offer = new RespuestaWSOffer (r.getValue(OFFERS.POSITION), r.getValue(OFFERS.SUMMARY),
-                        r.getValue(OFFERS.EXPERIENCE), r.getValue(OFFERS.CITY), r.getValue(OFFERS.JOB_FUNCTIONS),
-                        r.getValue(OFFERS.DATE_INIT), r.getValue(OFFERS.DATE_INIT));
+                CompaniesRecord company = CompaniesManagement.getCompanyRecord(create, r.getValue(OFFERS.ID_COMPANY));
+
+                RespuestaWSOffer offer = new RespuestaWSOffer (r.getValue(OFFERS.ID_OFFER), company.getValue(COMPANIES.NAME),
+                        company.getValue(COMPANIES.PATH_IMG), r.getValue(OFFERS.POSITION), r.getValue(OFFERS.SUMMARY),
+                        r.getValue(OFFERS.CITY),  r.getValue(OFFERS.REWARD), r.getValue(OFFERS.SALARY_MIN),
+                        r.getValue(OFFERS.SALARY_MAX), r.getValue(OFFERS.DATE_INIT), r.getValue(OFFERS.DATE_INIT));
                 listOffers.add(offer);
             }
+
+            conn.close();
+            create.close();
             return listOffers;
         } catch (InstantiationException | SQLException | IllegalAccessException | ClassNotFoundException ex) {
             throw new JobsterException(JobsterErrorType.GENERIC_ERROR);
