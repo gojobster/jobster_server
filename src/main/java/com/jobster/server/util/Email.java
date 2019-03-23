@@ -83,6 +83,6 @@ public class Email {
 	public enum TipoFormatoFichero {
 		None,
 		Binario,
-		Plano;
-	}
+		Plano
+    }
 }

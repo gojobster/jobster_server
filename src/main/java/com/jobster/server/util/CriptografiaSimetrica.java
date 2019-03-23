@@ -22,13 +22,14 @@ public class CriptografiaSimetrica {
 		TripleDES,
 		RC2,
 		AES,
-	};
-	public enum CryptoAction {
+	}
+
+    public enum CryptoAction {
 		Encrypt,
 		Desencrypt
-	};
+	}
 
-	//Constructor por defecto.
+    //Constructor por defecto.
 	//Establece el algoritmo de Encripción a utilizar.</param>
 	public CriptografiaSimetrica(CryptoProvider alg)
 	{

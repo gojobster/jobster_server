@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users extends TableImpl<UsersRecord> {
 
-    private static final long serialVersionUID = 575401033;
+    private static final long serialVersionUID = 2077906574;
 
     /**
      * The reference instance of <code>jobster.users</code>
@@ -135,7 +135,7 @@ public class Users extends TableImpl<UsersRecord> {
     /**
      * The column <code>jobster.users.last_connection</code>.
      */
-    public final TableField<UsersRecord, Timestamp> LAST_CONNECTION = createField("last_connection", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false), this, "");
+    public final TableField<UsersRecord, Timestamp> LAST_CONNECTION = createField("last_connection", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
      * The column <code>jobster.users.phone_number</code>.

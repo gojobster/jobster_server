@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Offers extends TableImpl<OffersRecord> {
 
-    private static final long serialVersionUID = -144183607;
+    private static final long serialVersionUID = -794100448;
 
     /**
      * The reference instance of <code>jobster.offers</code>
@@ -98,6 +98,11 @@ public class Offers extends TableImpl<OffersRecord> {
     public final TableField<OffersRecord, String> COUNTRY = createField("country", org.jooq.impl.SQLDataType.VARCHAR(45), this, "");
 
     /**
+     * The column <code>jobster.offers.people_in_charge</code>.
+     */
+    public final TableField<OffersRecord, Integer> PEOPLE_IN_CHARGE = createField("people_in_charge", org.jooq.impl.SQLDataType.INTEGER, this, "");
+
+    /**
      * The column <code>jobster.offers.tipo_jornada</code>. Tipo de oferta: temporal, media jornada, jornada completa
 Tipo de jornada:
 1 -  por horas             
@@ -134,6 +139,11 @@ Tipo de jornada:
     public final TableField<OffersRecord, Integer> REWARD = createField("reward", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("1000", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
+     * The column <code>jobster.offers.priority</code>.
+     */
+    public final TableField<OffersRecord, Integer> PRIORITY = createField("priority", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+
+    /**
      * The column <code>jobster.offers.date_init</code>.
      */
     public final TableField<OffersRecord, Timestamp> DATE_INIT = createField("date_init", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
@@ -147,11 +157,6 @@ Tipo de jornada:
      * The column <code>jobster.offers.date_end</code>.
      */
     public final TableField<OffersRecord, Timestamp> DATE_END = createField("date_end", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
-
-    /**
-     * The column <code>jobster.offers.people_in_charge</code>.
-     */
-    public final TableField<OffersRecord, Integer> PEOPLE_IN_CHARGE = createField("people_in_charge", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
     /**
      * Create a <code>jobster.offers</code> table reference

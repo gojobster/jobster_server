@@ -2,62 +2,36 @@ package com.jobster.server.BLL;
 
 import com.jobster.server.model.tables.records.SkillsRecord;
 import com.jobster.server.types.JobsterErrorType;
-import com.jobster.server.util.Fechas;
-import org.jooq.DSLContext;
-import org.jooq.Record;
-import org.jooq.SQLDialect;
-import org.jooq.impl.DSL;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.List;
 
 import static com.jobster.server.model.Tables.SKILLS;
 
 public class SkillsManagement {
     public static String addSkill(String skillName) throws JobsterException {
-        try {
-            Class.forName(Constantes.DB_DRIVER).newInstance();
-            Connection conn = DriverManager.getConnection(Constantes.DB_URL, Constantes.DB_USER, Constantes.DB_PASS);
-            DSLContext create = DSL.using(conn, SQLDialect.MYSQL);
+        ConnectionBDManager connection = new ConnectionBDManager();
 
-            skillName = skillName.trim();
+        skillName = skillName.trim();
 
-            SkillsRecord idiom = create.select()
-                    .from(SKILLS)
-                    .where(SKILLS.NAME.equal(skillName))
-                    .fetchAnyInto(SkillsRecord.class);
-            if (idiom != null) throw new JobsterException(JobsterErrorType.SKILL_ALREADY_EXISTS);
+        SkillsRecord idiom = connection.create.select()
+                .from(SKILLS)
+                .where(SKILLS.NAME.equal(skillName))
+                .fetchAnyInto(SkillsRecord.class);
+        if (idiom != null) throw new JobsterException(JobsterErrorType.SKILL_ALREADY_EXISTS);
 
-            SkillsRecord skill = create.newRecord(SKILLS);
-            skill.setName(skillName);
-            skill.setDateCreated(Fechas.GetCurrentTimestampLong());
+        SkillsRecord skill = connection.create.newRecord(SKILLS);
+        skill.setName(skillName);
 
-            skill.store();
-            create.close();
-            conn.close();
-        }
-        catch (InstantiationException | SQLException | IllegalAccessException | ClassNotFoundException ex) {
-            throw new JobsterException(JobsterErrorType.GENERIC_ERROR);
-        }
+        skill.store();
+        connection.closeConnection();
         return "OK";
     }
 
     public static List<String> getAllSkills() throws JobsterException {
-        try {
-            Class.forName(Constantes.DB_DRIVER).newInstance();
-            Connection conn = DriverManager.getConnection(Constantes.DB_URL, Constantes.DB_USER, Constantes.DB_PASS);
-            DSLContext create = DSL.using(conn, SQLDialect.MYSQL);
+        ConnectionBDManager connection = new ConnectionBDManager();
 
-            List<String> lst_skills = create.select().from(SKILLS).fetch(SKILLS.NAME);
+        List<String> lst_skills = connection.create.select().from(SKILLS).fetch(SKILLS.NAME);
 
-            create.close();
-            conn.close();
-            return lst_skills;
-
-        } catch (InstantiationException | SQLException | IllegalAccessException | ClassNotFoundException ex) {
-            throw new JobsterException(JobsterErrorType.GENERIC_ERROR);
-        }
+        connection.closeConnection();
+        return lst_skills;
     }
 }

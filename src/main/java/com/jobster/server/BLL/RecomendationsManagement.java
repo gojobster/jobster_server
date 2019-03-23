@@ -3,7 +3,6 @@ package com.jobster.server.BLL;
 import com.jobster.server.model.tables.records.ReferralsRecord;
 import com.jobster.server.types.JobsterErrorType;
 import com.jobster.server.util.Email;
-import com.jobster.server.util.Fechas;
 import com.jobster.server.util.RandomString;
 import org.jooq.DSLContext;
 import org.jooq.SQLDialect;
@@ -52,7 +51,6 @@ public class RecomendationsManagement {
             ReferralsRecord ref = create.newRecord(REFERRALS);
             ref.setIdJobster(id_user);
             ref.setIdOffer(id_offer);
-            ref.setDateCreation(Fechas.GetCurrentTimestampLong());
             ref.setCode(getRandomCodeOffer());
             ref.setEmailCandidate(email);
             ref.store();
