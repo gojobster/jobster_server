@@ -2,20 +2,15 @@ package com.jobster.server.util;
 
 import com.jobster.server.BLL.Constantes;
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Properties;
 
 public class Email {
-	public static void sendEmail( String toEmail, String subject, String body) {
+	public static void sendEmail(String toEmail, String subject, String body) {
 		//creamos la session
 		System.out.println("SSLEmail Start");
 		Properties props = new Properties();
@@ -36,9 +31,7 @@ public class Email {
 		sendEmail(session, toEmail, subject, body);
 
 		//****************************************
-
 		//sendAttachmentEmail(session, toEmail,"SSLEmail Testing Subject with Attachment", "SSLEmail Testing Body with Attachment");
-
 		//sendImageEmail(session, toEmail,"SSLEmail Testing Subject with Image", "SSLEmail Testing Body with Image");
 	}
 
@@ -47,7 +40,6 @@ public class Email {
 		try
 		{
 			MimeMessage msg = createMimeMessage(session, toEmail,subject);
-//			msg.setText(body, "UTF-8");
 			msg.setContent(body, "text/html; charset=utf-8");
 
 			System.out.println("Message is ready");

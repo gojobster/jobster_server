@@ -17,50 +17,44 @@ import static com.jobster.server.model.Tables.*;
 public class RecomendationsManagement {
 
     public static String addRecommendations(int id_offer, int id_user, String email, String url) throws JobsterException{
-        try {
-            Class.forName(Constantes.DB_DRIVER).newInstance();
-            Connection conn = DriverManager.getConnection(Constantes.DB_URL, Constantes.DB_USER, Constantes.DB_PASS);
-            DSLContext create = DSL.using(conn, SQLDialect.MYSQL);
+        ConnectionBDManager connection = new ConnectionBDManager();
 
-            email = email.trim();
+        email = email.trim();
 
-            if (!UserManagement.userExist(create, id_user)) throw new JobsterException(JobsterErrorType.USER_NOT_EXISTS);
-            if (!OffersManagement.offerExist(create, id_offer)) throw new JobsterException(JobsterErrorType.OFFER_NOT_EXISTS);
-            if (recomendationExist(create, id_offer, email)) throw new JobsterException(JobsterErrorType.REFERRAL_EXISTS);
+        if (!UserManagement.userExist(connection.create, id_user)) throw new JobsterException(JobsterErrorType.USER_NOT_EXISTS);
+        if (!OffersManagement.offerExist(connection.create, id_offer)) throw new JobsterException(JobsterErrorType.OFFER_NOT_EXISTS);
+        if (recomendationExist(connection.create, id_offer, email)) throw new JobsterException(JobsterErrorType.REFERRAL_EXISTS);
 
-            String user_idiom = UserManagement.getIdiom(create, id_user);
+        String user_idiom = UserManagement.getIdiom(connection.create, id_user);
 
-            String subject;
-            if (user_idiom != null) {
-                if (user_idiom.toLowerCase().equals("es")) {
-                    subject = Constantes.EMAIL_SUBJECT_OFFER_RECOMENDATION_ES;
-                } else {
-                    // By default language
-                    subject = Constantes.EMAIL_SUBJECT_OFFER_RECOMENDATION_EN;
-                }
+        String subject;
+        if (user_idiom != null) {
+            if (user_idiom.toLowerCase().equals("es")) {
+                subject = Constantes.EMAIL_SUBJECT_OFFER_RECOMENDATION_ES;
             } else {
                 // By default language
                 subject = Constantes.EMAIL_SUBJECT_OFFER_RECOMENDATION_EN;
             }
-
-            //String enlace = url + "recuperarpwd.aspx?enlace=" + URLEncoder.encode(UserManagement.EncriptarEnlace("rohnwe5489nw48n9sgpboz5svba9894579"), java.nio.charset.StandardCharsets.UTF_8.toString());
-            String textoEmail2 = UserManagement.TextoMail("" + "&lang=" + user_idiom, "/mail/RecoverPWD.aspx", url, "&lang=" + user_idiom);
-
-            Email.sendEmail(email,subject, textoEmail2);
-
-            ReferralsRecord ref = create.newRecord(REFERRALS);
-            ref.setIdJobster(id_user);
-            ref.setIdOffer(id_offer);
-            ref.setCode(getRandomCodeOffer());
-            ref.setEmailCandidate(email);
-            ref.store();
-
-            create.close();
-            conn.close();
+        } else {
+            // By default language
+            subject = Constantes.EMAIL_SUBJECT_OFFER_RECOMENDATION_EN;
         }
-        catch (InstantiationException | SQLException | IllegalAccessException | ClassNotFoundException ex) {
-            throw new JobsterException(JobsterErrorType.GENERIC_ERROR);
-        }
+
+        //String enlace = url + "recuperarpwd.aspx?enlace=" + URLEncoder.encode(UserManagement.EncriptarEnlace("rohnwe5489nw48n9sgpboz5svba9894579"), java.nio.charset.StandardCharsets.UTF_8.toString());
+        String textoEmail2 = UserManagement.TextoMail(url, Constantes.EMAIL_SEND_RECOMMENDATION_URL_ES);
+
+        //TODO:Modificar textos para la recomendacion
+
+        Email.sendEmail(email, subject, textoEmail2);
+
+        ReferralsRecord ref = connection.create.newRecord(REFERRALS);
+        ref.setIdJobster(id_user);
+        ref.setIdOffer(id_offer);
+        ref.setCode(getRandomCodeOffer());
+        ref.setEmailCandidate(email);
+        ref.store();
+
+        connection.closeConnection();
 
         return "OK";
     }

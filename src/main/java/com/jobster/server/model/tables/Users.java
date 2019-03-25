@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users extends TableImpl<UsersRecord> {
 
-    private static final long serialVersionUID = 2077906574;
+    private static final long serialVersionUID = 363429115;
 
     /**
      * The reference instance of <code>jobster.users</code>
@@ -151,6 +151,11 @@ public class Users extends TableImpl<UsersRecord> {
      * The column <code>jobster.users.idiom</code>.
      */
     public final TableField<UsersRecord, String> IDIOM = createField("idiom", org.jooq.impl.SQLDataType.VARCHAR(45).defaultValue(org.jooq.impl.DSL.inline("en", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
+
+    /**
+     * The column <code>jobster.users.validation_token</code>.
+     */
+    public final TableField<UsersRecord, String> VALIDATION_TOKEN = createField("validation_token", org.jooq.impl.SQLDataType.VARCHAR(64), this, "");
 
     /**
      * The column <code>jobster.users.date_created</code>.

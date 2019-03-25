@@ -79,30 +79,64 @@ public class UserManagement {
         usr.setGender(gender);
         usr.store();
 
-        String subjectCorreoEstablecimiento;
-        if (idioma != null) {
-            if (idioma.toLowerCase().equals("es")) {
-                subjectCorreoEstablecimiento = Constantes.EMAIL_SUBJECT_RECOVER_PASSWORD_ES;
-            } else {
-                // By default language
-                subjectCorreoEstablecimiento = Constantes.EMAIL_SUBJECT_RECOVER_PASSWORD_EN;
-            }
-        } else {
-            // By default language
-            subjectCorreoEstablecimiento = "Bienvenido a Jobster"; //TODO: constantes mail HttpContext.GetGlobalResourceObject("Literales", "subject2", System.Globalization.CultureInfo.CreateSpecificCulture("en")).ToString();
-        }
-
-        try {
-            String enlace = url + "Activate?enlace=" + URLEncoder.encode(EncriptarEnlace(usr.getApikey()), java.nio.charset.StandardCharsets.UTF_8.toString());
-            String textoEmail = TextoMail(enlace + "&lang=" + idioma, "mail/Activate.aspx", url, "&lang=" + idioma);
-
-            Email.sendEmail(usr.getEmail(), subjectCorreoEstablecimiento, textoEmail);
-        } catch (UnsupportedEncodingException e) {
-            throw new JobsterException(JobsterErrorType.ENCRYPTING_ERROR);
-        }
+//        String subjectCorreoEstablecimiento;
+//        if (idioma != null) {
+//            if (idioma.toLowerCase().equals("es")) {
+//                subjectCorreoEstablecimiento = Constantes.EMAIL_SUBJECT_RECOVER_PASSWORD_ES;
+//            } else {
+//                // By default language
+//                subjectCorreoEstablecimiento = Constantes.EMAIL_SUBJECT_RECOVER_PASSWORD_EN;
+//            }
+//        } else {
+//            // By default language
+//            subjectCorreoEstablecimiento = "Bienvenido a Jobster"; //TODO: constantes mail HttpContext.GetGlobalResourceObject("Literales", "subject2", System.Globalization.CultureInfo.CreateSpecificCulture("en")).ToString();
+//        }
+//
+//        try {
+//            String enlace = url + "Activate?enlace=" + URLEncoder.encode(EncriptarEnlace(usr.getApikey()), java.nio.charset.StandardCharsets.UTF_8.toString());
+//            String textoEmail = TextoMail(enlace + "&lang=" + idioma, "mail/Activate.aspx", url, "&lang=" + idioma, usr.getUserName());
+//
+//            Email.sendEmail(usr.getEmail(), subjectCorreoEstablecimiento, textoEmail);
+//        } catch (UnsupportedEncodingException e) {
+//            throw new JobsterException(JobsterErrorType.ENCRYPTING_ERROR);
+//        }
 
         connection.closeConnection();
         return usr.getApikey();
+    }
+
+
+
+    public static String insertarUsuario_temp(String name, String surname, String password, String gender, String email, String url)  throws JobsterException{
+        ConnectionBDManager connection = new ConnectionBDManager();
+        UsersRecord usr = connection.create.newRecord(USERS);
+
+        usr.setName(name);
+        usr.setSurrname(surname);
+        usr.setEmail(email.trim());
+        usr.setGender(gender);
+        usr.setPassword(password);
+        usr.setIdiom("es");
+        usr.setApikey(UUID.randomUUID().toString());
+        usr.setValidationToken(UUID.randomUUID().toString());
+        usr.setPictureUrl("/Upload/User/" + Seguridad.GenerateSecureRandomString() + "/" + Seguridad.GenerarRandomFileName() + "_thumb.jpg");
+        usr.setDateBirthday(Fechas.GetCurrentTimestampLong());
+        usr.setSalt("trnmnmfysxmzxf");
+        usr.setPhoneNumber("+34658632698"); //EncriptarEmailoTelefono("+34658632698")); //TODO: encriptar telefono
+        usr.setVerifiedPhoneNumber(0);
+        usr.store();
+
+        String url_location = Constantes.EMAIL_VALIDATION_ACCOUNT_URL_ES;
+        String email_subject = Constantes.EMAIL_SUBJECT_USER_ACTIVATION_ES;
+
+        String textoEmail = TextoMail(url, url_location);
+        textoEmail = textoEmail.replace("user_name_jobster", usr.getName());
+        textoEmail = textoEmail.replace("url_jobster_validation", url+
+                "jobster/email/account_activated.html?activation_token="+ usr.getValidationToken());
+
+        Email.sendEmail(email, email_subject, textoEmail);
+
+        return "OK";
     }
 
     private static void ValidacionParametros(String email, String password, String name, String surname, String salt) throws JobsterException {
@@ -141,33 +175,19 @@ public class UserManagement {
         return Base64.getEncoder().encodeToString(criptografiaSimetrica.encriptar(enlace));
     }
 
-    public static String TextoMail(String enlace, String localizacionPlantillaEmail, String url, String idioma) throws JobsterException {
-        //Util40.ClienteWebPost post = new Util40.ClienteWebPost(url + localizacionPlantillaEmail + "?enlace=" + System.Web.HttpUtility.UrlEncode(enlace));
-        //List<KeyValuePair<string, string>> listaParametros = new List<KeyValuePair<string, string>>();
-        //listaParametros.Add(new KeyValuePair<string, string>("enlace", enlace));
-        //return post.EnviarDatosServidorGet();
-        //TODO PLANTILLA HTML MAIL
-        url = url.replace("https://", "http://");
-
-        //Util40.CriptografiaSimetrica criptografiaSimetrica = new Util40.CriptografiaSimetrica(Util40.CriptografiaSimetrica.CryptoProvider.AES);
-        //criptografiaSimetrica.Key = Constantes.CLAVE_ENCRIPTACION;
-        //criptografiaSimetrica.IV = Constantes.VI_ENCRIPTACION;
-        //String x = Convert.ToBase64String(criptografiaSimetrica.Encriptar(System.Web.HttpUtility.UrlEncode(enlace)), Base64FormattingOptions.None);
-
+    public static String TextoMail(String url, String url_location) throws JobsterException {
         try {
-            return GetURLContent(url + localizacionPlantillaEmail + "?enlace=" + URLEncoder.encode(enlace, java.nio.charset.StandardCharsets.UTF_8.toString()) + idioma);
-        } catch (UnsupportedEncodingException e) {
+            return GetURLContent(url, url_location);
+        } catch (Exception e) {
             throw new JobsterException(JobsterErrorType.GENERIC_ERROR);
         }
-
     }
 
-    private static String GetURLContent(String laURL) {
-        laURL = "http://18.221.163.161/jobster/register.html";
+    private static String GetURLContent(String url_header, String url_location) throws JobsterException{
         StringBuilder content = new StringBuilder();
         try {
             // create a url object
-            URL url = new URL(laURL);
+            URL url = new URL(url_header+url_location);
 
             // create a urlconnection object
             URLConnection urlConnection = url.openConnection();
@@ -181,11 +201,9 @@ public class UserManagement {
             }
             bufferedReader.close();
         } catch (Exception e) {
-            //TODO CHECK EXCEPTION
-            e.printStackTrace();
+            throw new JobsterException(JobsterErrorType.GENERIC_ERROR);
         }
         return content.toString();
-
     }
 
     public static UsersRecord GetUserfromApiKey(String apiKey) throws JobsterException {
@@ -282,12 +300,12 @@ public class UserManagement {
         return usr.getIdiom();
     }
 
-    public static String validateEmail(int id_usuario) throws JobsterException{
+    public static String validateEmail(String token) throws JobsterException{
         ConnectionBDManager connection = new ConnectionBDManager();
-
-        UsersRecord user = getUser(connection, id_usuario);
+        UsersRecord user = getUserToken(connection, token);
 
         user.setVerifiedEmail(1);
+        user.setValidationToken(null);
         user.store();
         connection.closeConnection();
         return "OK";
@@ -339,7 +357,7 @@ public class UserManagement {
         return  listOffers;
     }
 
-    private static UsersRecord getUser(ConnectionBDManager connection, int idUser) throws JobsterException{
+    public static UsersRecord getUser(ConnectionBDManager connection, int idUser) throws JobsterException{
         UsersRecord user = connection.create.select()
                 .from(USERS)
                 .where(USERS.ID_USER.equal(idUser))
@@ -347,5 +365,42 @@ public class UserManagement {
 
         if (user == null) throw new JobsterException(JobsterErrorType.USER_NOT_FOUND);
         return user;
+    }
+
+    private static UsersRecord getUserToken(ConnectionBDManager connection, String token) throws JobsterException{
+        UsersRecord user = connection.create.select()
+                .from(USERS)
+                .where(USERS.VALIDATION_TOKEN.equal(token))
+                .fetchAnyInto(UsersRecord.class);
+
+        if (user == null) throw new JobsterException(JobsterErrorType.TOKEN_NOT_FOUND);
+        return user;
+    }
+
+    public static String emailValidateUser(String url, int id_user, String idiom) throws JobsterException{
+        ConnectionBDManager connection = new ConnectionBDManager();
+        UsersRecord user = UserManagement.getUser(connection, id_user);
+
+        String url_location;
+        String email_subject;
+
+        if(idiom.equals("es")) {
+            url_location = Constantes.EMAIL_VALIDATION_ACCOUNT_URL_ES;
+            email_subject = Constantes.EMAIL_SUBJECT_USER_ACTIVATION_ES;
+        }
+        else {
+            url_location = Constantes.EMAIL_VALIDATION_ACCOUNT_URL_EN;
+            email_subject = Constantes.EMAIL_SUBJECT_USER_ACTIVATION_EN;
+        }
+
+        String textoEmail = TextoMail(url, url_location);
+        textoEmail = textoEmail.replace("user_name_jobster", user.getName());
+        textoEmail = textoEmail.replace("url_jobster_validation", url+
+                "jobster/email/account_activated.html?activation_token="+ user.getValidationToken());
+
+        Email.sendEmail(user.getEmail(), email_subject, textoEmail);
+
+        connection.closeConnection();
+        return "OK";
     }
 }
