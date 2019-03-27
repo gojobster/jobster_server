@@ -10,10 +10,8 @@ import org.jooq.Result;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.*;
 
 import static com.jobster.server.model.Tables.*;
@@ -164,12 +162,12 @@ public class UserManagement {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
-        String enlace = calendar.get(Calendar.YEAR) + Constantes.PATHERN_SPLIT +
-                apiKey + Constantes.PATHERN_SPLIT +
-                calendar.get(Calendar.MONTH) + Constantes.PATHERN_SPLIT +
-                calendar.get(Calendar.DAY_OF_MONTH) + Constantes.PATHERN_SPLIT +
-                calendar.get(Calendar.HOUR) + Constantes.PATHERN_SPLIT +
-                UUID.randomUUID().toString() + Constantes.PATHERN_SPLIT +
+        String enlace = calendar.get(Calendar.YEAR) + Constantes.PATTERN_SPLIT +
+                apiKey + Constantes.PATTERN_SPLIT +
+                calendar.get(Calendar.MONTH) + Constantes.PATTERN_SPLIT +
+                calendar.get(Calendar.DAY_OF_MONTH) + Constantes.PATTERN_SPLIT +
+                calendar.get(Calendar.HOUR) + Constantes.PATTERN_SPLIT +
+                UUID.randomUUID().toString() + Constantes.PATTERN_SPLIT +
                 calendar.get(Calendar.MINUTE);
 
         return Base64.getEncoder().encodeToString(criptografiaSimetrica.encriptar(enlace));

@@ -1,9 +1,9 @@
 package com.jobster.server.BLL;
 
 public class Constantes {
-    private static final boolean IS_DEBUG = false;
+    private static final boolean IS_DEBUG = true;
 
-    private static final String WS_JOBSTER_DEBUG = "http://localhost:8080/jobster_ws_war";
+    private static final String WS_JOBSTER_DEBUG = "http://localhost:8085/jobster_ws_war/";
     private static final String WS_JOBSTER_RELEASE = "http://18.221.163.161:8080/ws/";
     private static final String WS_JOBSTER_URL = IS_DEBUG ? WS_JOBSTER_DEBUG : WS_JOBSTER_RELEASE;
 
@@ -17,7 +17,7 @@ public class Constantes {
 
     public static final String CLAVE_ENCRIPTACION = "Binomio Alto";
     public static final String VI_ENCRIPTACION = "456";
-    public static final String PATHERN_SPLIT= "RFVBGT";
+    public static final String PATTERN_SPLIT = "RFVBGT";
 
     public static final int NUM_RANDOM_INTENTS_CODE_OFFER = 10;
 

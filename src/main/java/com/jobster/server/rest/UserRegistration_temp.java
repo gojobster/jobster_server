@@ -28,7 +28,7 @@ public class UserRegistration_temp {
         RespuestaWS<String> respuestaWS = new RespuestaWS<>();
         try {
             respuestaWS.responseStatus = 200;
-            respuestaWS.message = UserManagement.insertarUsuario_temp(name, surname, password, gender, email, "http://18.221.163.161/");
+            respuestaWS.message = UserManagement.insertarUsuario_temp(name, surname, password, gender, email, uriInfo.getBaseUri().toString());
             respuestaWS.error = "";
             return  respuestaWS;
         } catch (JobsterException ex) {
