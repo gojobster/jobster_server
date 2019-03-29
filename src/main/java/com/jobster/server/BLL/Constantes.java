@@ -26,7 +26,13 @@ public class Constantes {
     /****************************************************************************
      ************************* Web Services ***********************************
      ****************************************************************************/
+
+
     public static final String WS_GET_ALL_OFFERS = WS_JOBSTER_URL + "getAllOffers";
+    public static final String WS_GET_TOP_OFFERS = WS_JOBSTER_URL + "getTopOffers";
+
+
+
     public static final String URL_EMAIL_VALIDATION_ACCOUNT_URL_ES = WS_JOBSTER_URL + "email/email_activation_es.html";
     public static final String URL_EMAIL_SEND_RECOMMENDATION_URL_ES = WS_JOBSTER_URL + "email/email_recommendation_es.html";
     public static final String URL_EMAIL_VALIDATION_ACCOUNT_URL_EN = WS_JOBSTER_URL + "email/email_activation_en.html";

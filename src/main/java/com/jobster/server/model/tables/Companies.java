@@ -41,7 +41,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Companies extends TableImpl<CompaniesRecord> {
 
-    private static final long serialVersionUID = 1841550524;
+    private static final long serialVersionUID = -1555974616;
 
     /**
      * The reference instance of <code>jobster.companies</code>
@@ -85,6 +85,11 @@ public class Companies extends TableImpl<CompaniesRecord> {
      * The column <code>jobster.companies.path_img</code>.
      */
     public final TableField<CompaniesRecord, String> PATH_IMG = createField("path_img", org.jooq.impl.SQLDataType.VARCHAR(240), this, "");
+
+    /**
+     * The column <code>jobster.companies.website</code>.
+     */
+    public final TableField<CompaniesRecord, String> WEBSITE = createField("website", org.jooq.impl.SQLDataType.VARCHAR(90), this, "");
 
     /**
      * The column <code>jobster.companies.phone</code>.
