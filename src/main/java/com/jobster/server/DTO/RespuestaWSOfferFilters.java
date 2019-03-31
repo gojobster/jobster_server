@@ -18,7 +18,11 @@ public class RespuestaWSOfferFilters {
         this.list_cities = list_cities;
     }
 
-
-//    public RespuestaWSOfferFilters() {
-//    }
+    public RespuestaWSOfferFilters() {
+        this.min_salary = 0;
+        this.max_salary = 0;
+        this.max_experience = 0;
+        this.list_studies = new ArrayList<>();
+        this.list_cities = new ArrayList<>();
+    }
 }

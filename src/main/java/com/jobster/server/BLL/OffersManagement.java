@@ -7,6 +7,7 @@ import com.jobster.server.model.tables.records.CompaniesRecord;
 import com.jobster.server.model.tables.records.OffersRecord;
 import com.jobster.server.util.Fechas;
 import org.jooq.DSLContext;
+import org.jooq.Key;
 import org.jooq.Record;
 import org.jooq.Result;
 import java.util.ArrayList;
@@ -95,12 +96,12 @@ public class OffersManagement {
         return listOffers;
     }
 
-    public static RespuestaWSOfferFilters getAllOffersFilters() throws JobsterException{
+    public static RespuestaWSOfferFilters getAllOffersFilters(String Keyword) throws JobsterException{
         ConnectionBDManager connection = new ConnectionBDManager();
 
         Result result = connection.create.select(min(OFFERS.SALARY_MIN), max(OFFERS.SALARY_MAX), max(OFFERS.EXPERIENCE)).from(OFFERS).fetch();
 
-        List<String> list_studies = connection.create.selectDistinct(OFFERS.JOB_FUNCTIONS).from(OFFERS).fetchInto(String.class);
+        List<String> list_studies = connection.create.selectDistinct(OFFERS.JOB_FUNCTIONS).from(OFFERS).where(OFFERS.JOB_FUNCTIONS.contains(Keyword).or(OFFERS.POSITION.contains(Keyword)).or(OFFERS.SUMMARY.contains(Keyword))).fetchInto(String.class);
 
         connection.closeConnection();
 
@@ -108,5 +109,6 @@ public class OffersManagement {
 
         return new RespuestaWSOfferFilters((Integer) result.getValues(0).get(0), (Integer) result.getValues(1).get(0),
                 (Integer) result.getValues(2).get(0), list_studies, list_cities);
+
     }
 }

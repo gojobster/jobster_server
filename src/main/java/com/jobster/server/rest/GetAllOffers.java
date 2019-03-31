@@ -1,18 +1,18 @@
 package com.jobster.server.rest;
 
-import com.jobster.server.BLL.JobsterException;
-import com.jobster.server.BLL.OffersManagement;
-import com.jobster.server.BLL.UserManagement;
-import com.jobster.server.DTO.RespuestaWS;
-import com.jobster.server.DTO.RespuestaWSOffer;
-import com.jobster.server.DTO.RespuestaWSUser;
+        import com.jobster.server.BLL.JobsterException;
+        import com.jobster.server.BLL.OffersManagement;
+        import com.jobster.server.BLL.UserManagement;
+        import com.jobster.server.DTO.RespuestaWS;
+        import com.jobster.server.DTO.RespuestaWSOffer;
+        import com.jobster.server.DTO.RespuestaWSUser;
 
-import javax.ws.rs.FormParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import java.util.List;
+        import javax.ws.rs.FormParam;
+        import javax.ws.rs.POST;
+        import javax.ws.rs.Path;
+        import javax.ws.rs.Produces;
+        import javax.ws.rs.core.MediaType;
+        import java.util.List;
 
 @Path("/{getAllOffers : (?i)getAllOffers}")
 public class GetAllOffers {
