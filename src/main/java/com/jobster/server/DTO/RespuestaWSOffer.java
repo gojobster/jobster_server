@@ -37,12 +37,12 @@ public class RespuestaWSOffer {
 			this.id_offer = object.getInt("id_offer");
 			this.nameCompany = object.getString("nameCompany");
 			this.path_image_company = object.getString("path_image_company");;
-			this.position = object.getString("position");;
-			this.summary = object.getString("summary");;
-			this.city = object.getString("city");;
-			this.reward = object.getInt("reward");;
-			this.salary_min = object.getInt("salary_min");;
-			this.salary_max = object.getInt("salary_max");;
+			this.position = object.getString("position");
+			this.summary = object.getString("summary");
+			this.city = object.getString("city");
+			this.reward = object.getInt("reward");
+			this.salary_min = object.getInt("salary_min");
+			this.salary_max = object.getInt("salary_max");
 			this.date_init = new Timestamp(Long.parseLong(object.getString("date_init")));
 			this.date_end = new Timestamp(Long.parseLong(object.getString("date_end")));
 		} catch (Exception e) {

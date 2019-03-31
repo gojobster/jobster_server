@@ -3,6 +3,7 @@ package com.jobster.server.BLL;
 import com.jobster.server.DTO.RespuestaWSOffer;
 import com.jobster.server.DTO.RespuestaWSOfferCity;
 import com.jobster.server.DTO.RespuestaWSOfferFilters;
+import com.jobster.server.POCO.Offer;
 import com.jobster.server.model.tables.records.CompaniesRecord;
 import com.jobster.server.model.tables.records.OffersRecord;
 import com.jobster.server.util.Fechas;
@@ -10,6 +11,7 @@ import org.jooq.DSLContext;
 import org.jooq.Key;
 import org.jooq.Record;
 import org.jooq.Result;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,17 +35,25 @@ public class OffersManagement {
         return "OK";
     }
 
-    public static List<RespuestaWSOffer> getAllOffers(String keyword, String city) throws JobsterException{
+    public static List<RespuestaWSOffer> getAllWsOffers(String keyword, String city) throws JobsterException{
         ConnectionBDManager connection = new ConnectionBDManager();
-
-        Result<Record> result = connection.create.select().from(OFFERS)
-                .where(OFFERS.POSITION.contains(keyword).and(OFFERS.CITY.contains(city))).fetch();
-
-        List<RespuestaWSOffer> listOffers = getOffers(connection.create, result);
-
+        List<RespuestaWSOffer> listOffers = getWSOffers(connection.create, getAllOffersRecord(connection.create, keyword, city));
         connection.closeConnection();
-            return listOffers;
+        return listOffers;
     }
+
+    public static List<Offer> getAllOffers(String keyword, String city) throws JobsterException{
+        ConnectionBDManager connection = new ConnectionBDManager();
+        List<Offer> listOffers = getOffers(connection.create, getAllOffersRecord(connection.create, keyword, city));
+        connection.closeConnection();
+        return listOffers;
+    }
+
+    private static List<OffersRecord> getAllOffersRecord(DSLContext create, String keyword, String city) throws JobsterException{
+        return create.select().from(OFFERS)
+                .where(OFFERS.POSITION.contains(keyword).and(OFFERS.CITY.contains(city))).fetchInto(OffersRecord.class);
+    }
+
 
     public static boolean offerExist(DSLContext create, int id_offer) {
         OffersRecord offer = create.select()
@@ -75,22 +85,22 @@ public class OffersManagement {
     public static List<RespuestaWSOffer> getTopOffers() throws JobsterException{
         ConnectionBDManager connection = new ConnectionBDManager();
 
-        Result<Record> result = connection.create.select().from(OFFERS).orderBy(OFFERS.PRIORITY.desc()).limit(2).fetch();
-        List<RespuestaWSOffer> listOffers = getOffers(connection.create, result);
+        List<OffersRecord> result = connection.create.select().from(OFFERS).orderBy(OFFERS.PRIORITY.desc()).limit(2).fetchInto(OffersRecord.class);
+        List<RespuestaWSOffer> listOffers = getWSOffers(connection.create, result);
 
         connection.closeConnection();
         return listOffers;
     }
 
-    private static List<RespuestaWSOffer> getOffers(DSLContext create, Result<Record> result) {
+    private static List<RespuestaWSOffer> getWSOffers(DSLContext create, List<OffersRecord> result) {
         List<RespuestaWSOffer> listOffers = new ArrayList<>();
-        for (Record r : result) {
+        for (OffersRecord r : result) {
             CompaniesRecord company = CompaniesManagement.getCompanyRecord(create, r.getValue(OFFERS.ID_COMPANY));
 
-            RespuestaWSOffer offer = new RespuestaWSOffer (r.getValue(OFFERS.ID_OFFER), company.getValue(COMPANIES.NAME),
-                    company.getValue(COMPANIES.PATH_IMG), r.getValue(OFFERS.POSITION), r.getValue(OFFERS.SUMMARY),
-                    r.getValue(OFFERS.CITY),  r.getValue(OFFERS.REWARD), r.getValue(OFFERS.SALARY_MIN),
-                    r.getValue(OFFERS.SALARY_MAX), r.getValue(OFFERS.DATE_INIT), r.getValue(OFFERS.DATE_INIT));
+            RespuestaWSOffer offer = new RespuestaWSOffer (r.getIdOffer(),  company.getValue(COMPANIES.NAME),
+                    company.getValue(COMPANIES.PATH_IMG), r.getPosition(), r.getSummary(),
+                    r.getCity(),  r.getReward(), r.getSalaryMin(),
+                    r.getSalaryMax(), r.getDateInit(), r.getDateEnd());
             listOffers.add(offer);
         }
         return listOffers;
@@ -110,5 +120,25 @@ public class OffersManagement {
         return new RespuestaWSOfferFilters((Integer) result.getValues(0).get(0), (Integer) result.getValues(1).get(0),
                 (Integer) result.getValues(2).get(0), list_studies, list_cities);
 
+    }
+
+    public static Offer getOffer(int id) throws JobsterException {
+        ConnectionBDManager connection = new ConnectionBDManager();
+
+        OffersRecord offer = connection.create.select().from(OFFERS).where(OFFERS.ID_OFFER.equal(id)).fetchAnyInto(OffersRecord.class);
+        CompaniesRecord company = CompaniesManagement.getCompanyRecord(connection.create, offer.getValue(OFFERS.ID_COMPANY));
+
+        return new Offer(offer, company);
+    }
+
+    private static List<Offer> getOffers(DSLContext create, List<OffersRecord> listOffersRecord) {
+        List<Offer> listOffers = new ArrayList<>();
+        for (OffersRecord offerRecord : listOffersRecord) {
+            CompaniesRecord company = CompaniesManagement.getCompanyRecord(create, offerRecord.getValue(OFFERS.ID_COMPANY));
+
+            Offer offer = new Offer (offerRecord, company);
+            listOffers.add(offer);
+        }
+        return listOffers;
     }
 }

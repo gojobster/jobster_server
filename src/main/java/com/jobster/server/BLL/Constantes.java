@@ -28,7 +28,7 @@ public class Constantes {
      ****************************************************************************/
 
 
-    public static final String WS_GET_ALL_OFFERS = WS_JOBSTER_URL + "getAllOffers";
+    public static final String WS_GET_ALL_OFFERS = WS_JOBSTER_URL + "getAllWsOffers";
     public static final String WS_GET_TOP_OFFERS = WS_JOBSTER_URL + "getTopOffers";
 
 
