@@ -22,7 +22,7 @@ public class GetAllOffers {
         RespuestaWS<List<RespuestaWSOffer>> respuestaWS = new RespuestaWS<>();
         try {
             respuestaWS.responseStatus = 200;
-            respuestaWS.message = OffersManagement.getAllWsOffers(keyword, city);
+            respuestaWS.message = OffersManagement.getAllWsOffers(keyword);
             respuestaWS.error = "";
             return  respuestaWS;
         } catch (JobsterException ex) {

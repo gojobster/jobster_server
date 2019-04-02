@@ -4,6 +4,7 @@ import com.jobster.server.DTO.RespuestaWSOffer;
 import com.jobster.server.DTO.RespuestaWSOfferCity;
 import com.jobster.server.DTO.RespuestaWSOfferFilters;
 import com.jobster.server.POCO.Offer;
+import com.jobster.server.model.Jobster;
 import com.jobster.server.model.tables.records.CompaniesRecord;
 import com.jobster.server.model.tables.records.OffersRecord;
 import com.jobster.server.util.Fechas;
@@ -35,25 +36,41 @@ public class OffersManagement {
         return "OK";
     }
 
-    public static List<RespuestaWSOffer> getAllWsOffers(String keyword, String city) throws JobsterException{
+    public static List<RespuestaWSOffer> getAllWsOffers(String keyword) throws JobsterException{
         ConnectionBDManager connection = new ConnectionBDManager();
-        List<RespuestaWSOffer> listOffers = getWSOffers(connection.create, getAllOffersRecord(connection.create, keyword, city));
+        List<RespuestaWSOffer> listOffers = getWSOffers(connection.create, getAllOffersRecord(connection.create, keyword));
         connection.closeConnection();
         return listOffers;
     }
 
     public static List<Offer> getAllOffers(String keyword, String city) throws JobsterException{
         ConnectionBDManager connection = new ConnectionBDManager();
-        List<Offer> listOffers = getOffers(connection.create, getAllOffersRecord(connection.create, keyword, city));
+        List<Offer> listOffers = getOffers(connection.create, getAllOffersRecord(connection.create, keyword));
+        connection.closeConnection();
+        return listOffers;
+    }
+    public static List<RespuestaWSOffer> getAllFilteredOffers(String keyword, String salary, String experience, List<String> positions, List<String> cities) throws JobsterException{
+        ConnectionBDManager connection = new ConnectionBDManager();
+        List<RespuestaWSOffer> listOffers = getWSOffers(connection.create, getAllFilteredOffersRecord(connection.create, keyword,salary,experience,positions,cities));
         connection.closeConnection();
         return listOffers;
     }
 
-    private static List<OffersRecord> getAllOffersRecord(DSLContext create, String keyword, String city) throws JobsterException{
+    private static List<OffersRecord> getAllFilteredOffersRecord(DSLContext create, String Keyword, String Salary, String Experience, List<String> Positions, List<String> Cities) throws JobsterException{
         return create.select().from(OFFERS)
-                .where(OFFERS.POSITION.contains(keyword).and(OFFERS.CITY.contains(city))).fetchInto(OffersRecord.class);
+                .where(
+                        (OFFERS.JOB_FUNCTIONS.contains(Keyword).or(OFFERS.POSITION.contains(Keyword)).or(OFFERS.SUMMARY.contains(Keyword))
+                        .and(OFFERS.SALARY_MIN.ge(Integer.parseInt(Salary)))
+                        .and(OFFERS.EXPERIENCE.le(Integer.parseInt(Experience)))
+                        .and(OFFERS.CITY.in(Cities))
+                        .and(OFFERS.POSITION.in(Positions))
+                        )).fetchInto(OffersRecord.class);
     }
 
+    private static List<OffersRecord> getAllOffersRecord(DSLContext create, String Keyword) throws JobsterException{
+        return create.select().from(OFFERS)
+                .where(OFFERS.JOB_FUNCTIONS.contains(Keyword).or(OFFERS.POSITION.contains(Keyword)).or(OFFERS.SUMMARY.contains(Keyword))).fetchInto(OffersRecord.class);
+    }
 
     public static boolean offerExist(DSLContext create, int id_offer) {
         OffersRecord offer = create.select()
