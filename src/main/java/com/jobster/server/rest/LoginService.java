@@ -12,7 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 
-@Path("/{Login : (?i)login}")
+@Path("/{login : (?i)login}")
 public class LoginService {
 
     @POST

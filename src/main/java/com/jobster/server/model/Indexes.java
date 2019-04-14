@@ -14,6 +14,7 @@ import com.jobster.server.model.tables.Offers;
 import com.jobster.server.model.tables.OffersSkills;
 import com.jobster.server.model.tables.Referrals;
 import com.jobster.server.model.tables.Skills;
+import com.jobster.server.model.tables.Tokens;
 import com.jobster.server.model.tables.UserFormation;
 import com.jobster.server.model.tables.UserIdiom;
 import com.jobster.server.model.tables.Users;
@@ -63,6 +64,9 @@ public class Indexes {
     public static final Index REFERRALS_JOBSTER_IDX = Indexes0.REFERRALS_JOBSTER_IDX;
     public static final Index REFERRALS_PRIMARY = Indexes0.REFERRALS_PRIMARY;
     public static final Index SKILLS_PRIMARY = Indexes0.SKILLS_PRIMARY;
+    public static final Index TOKENS_FK_TOKEN_USER_IDX = Indexes0.TOKENS_FK_TOKEN_USER_IDX;
+    public static final Index TOKENS_PRIMARY = Indexes0.TOKENS_PRIMARY;
+    public static final Index TOKENS_TOKEN_UNIQUE = Indexes0.TOKENS_TOKEN_UNIQUE;
     public static final Index USER_FORMATION_FK_USER_FORMATION_FORMATION_IDX = Indexes0.USER_FORMATION_FK_USER_FORMATION_FORMATION_IDX;
     public static final Index USER_FORMATION_FK_USER_FORMATION_IDX = Indexes0.USER_FORMATION_FK_USER_FORMATION_IDX;
     public static final Index USER_FORMATION_PRIMARY = Indexes0.USER_FORMATION_PRIMARY;
@@ -99,6 +103,9 @@ public class Indexes {
         public static Index REFERRALS_JOBSTER_IDX = Internal.createIndex("jobster_idx", Referrals.REFERRALS, new OrderField[] { Referrals.REFERRALS.ID_JOBSTER }, false);
         public static Index REFERRALS_PRIMARY = Internal.createIndex("PRIMARY", Referrals.REFERRALS, new OrderField[] { Referrals.REFERRALS.ID_REFERRAL }, true);
         public static Index SKILLS_PRIMARY = Internal.createIndex("PRIMARY", Skills.SKILLS, new OrderField[] { Skills.SKILLS.ID_SKILL }, true);
+        public static Index TOKENS_FK_TOKEN_USER_IDX = Internal.createIndex("FK_TOKEN_USER_idx", Tokens.TOKENS, new OrderField[] { Tokens.TOKENS.ID_USER }, false);
+        public static Index TOKENS_PRIMARY = Internal.createIndex("PRIMARY", Tokens.TOKENS, new OrderField[] { Tokens.TOKENS.ID_TOKEN }, true);
+        public static Index TOKENS_TOKEN_UNIQUE = Internal.createIndex("token_UNIQUE", Tokens.TOKENS, new OrderField[] { Tokens.TOKENS.TOKEN }, true);
         public static Index USER_FORMATION_FK_USER_FORMATION_FORMATION_IDX = Internal.createIndex("FK_USER_FORMATION_FORMATION_idx", UserFormation.USER_FORMATION, new OrderField[] { UserFormation.USER_FORMATION.ID_FORMATION }, false);
         public static Index USER_FORMATION_FK_USER_FORMATION_IDX = Internal.createIndex("FK_USER_FORMATION_idx", UserFormation.USER_FORMATION, new OrderField[] { UserFormation.USER_FORMATION.ID_USER }, false);
         public static Index USER_FORMATION_PRIMARY = Internal.createIndex("PRIMARY", UserFormation.USER_FORMATION, new OrderField[] { UserFormation.USER_FORMATION.ID_USER_FORMATION }, true);

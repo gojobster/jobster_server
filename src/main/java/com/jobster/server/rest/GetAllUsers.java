@@ -3,13 +3,13 @@ package com.jobster.server.rest;
 import com.jobster.server.BLL.JobsterException;
 import com.jobster.server.BLL.UserManagement;
 import com.jobster.server.DTO.RespuestaWS;
-import com.jobster.server.DTO.RespuestaWSAllInfoUser;
 import com.jobster.server.DTO.RespuestaWSUser;
 
-import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
@@ -17,9 +17,11 @@ import java.util.List;
 public class GetAllUsers {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public RespuestaWS<List<RespuestaWSUser>> getAllUsers(){
+    public RespuestaWS<List<RespuestaWSUser>> getAllUsers(@Context HttpHeaders httpheaders) {
+        String token = httpheaders.getHeaderString("Authorization");
         RespuestaWS<List<RespuestaWSUser>> respuestaWS = new RespuestaWS<>();
         try {
+            UserManagement.check_token(token);
             respuestaWS.responseStatus = 200;
             respuestaWS.message = UserManagement.getAllUsers();
             respuestaWS.error = "";

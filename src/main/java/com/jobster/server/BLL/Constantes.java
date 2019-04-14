@@ -4,7 +4,7 @@ public class Constantes {
     private static final boolean IS_DEBUG = true;
 
     private static final String WS_JOBSTER_DEBUG = "http://localhost:8085/jobster_ws_war/";
-    private static final String WS_JOBSTER_RELEASE = "http://18.221.163.161:8080/ws/";
+    private static final String WS_JOBSTER_RELEASE = "http://18.191.247.235:8080/ws/";
     private static final String WS_JOBSTER_URL = IS_DEBUG ? WS_JOBSTER_DEBUG : WS_JOBSTER_RELEASE;
 
     public static final String DB_PASS_LOCALHOST = "1234";
@@ -18,6 +18,7 @@ public class Constantes {
     public static final String CLAVE_ENCRIPTACION = "Binomio Alto";
     public static final String VI_ENCRIPTACION = "456";
     public static final String PATTERN_SPLIT = "RFVBGT";
+    public static final long TOKEN_EXPIRATION_MINUTES = 30 * 24 * 3600;
 
     public static final int NUM_RANDOM_INTENTS_CODE_OFFER = 10;
 
@@ -42,11 +43,11 @@ public class Constantes {
      ************************* EMAIL SETTINGS ***********************************
      ****************************************************************************/
 
-    public static final String SRV_EMAIL_FROM_ACCOUNT = "hello@gojobster.com";
+    public static final String SRV_EMAIL_FROM_ACCOUNT = "hello@talendorse.com";
     public static final String SRV_EMAIL_HOST = "smtp-es.securemail.pro";
 
-    public static final String SRV_EMAIL_USR = "hello@gojobster.com";
-    public static final String SRV_EMAIL_PWD = "Jobster2018!";
+    public static final String SRV_EMAIL_USR = "hello@talendorse.com";
+    public static final String SRV_EMAIL_PWD = "BljZiLtGNr9J";
     public static final int SRV_EMAIL_PORT = 465;
     public static final Boolean SRV_EMAIL_ENABLE_SSL = true;
 
@@ -60,4 +61,42 @@ public class Constantes {
     public static final String EMAIL_SUBJECT_RECOVER_PASSWORD_EN = "Jobster - Recover Password";
     public static final String EMAIL_SUBJECT_USER_ACTIVATION_EN = "Jobster - jobster's activation ";
     public static final String EMAIL_SUBJECT_OFFER_RECOMENDATION_EN = "Jobster - Job offer recomendation from ";
+
+
+    /****************************************************************************
+     ************************* LINKEDIN ***********************************
+     ****************************************************************************/
+
+    //This is the public api key of our application
+    public static final String CLIENT_ID = "77sx2eal8s9cco";
+    //This is the private api key of our application
+    public static final String CLIENT_SECRET = "JjQyf7QOjHERNgFj";
+    //This is any string we want to use. This will be used for avoiding CSRF attacks. You can generate one here: http://strongpasswordgenerator.com/
+    public static final String STATE = "E3ZYKC1T6H2yP4z";
+    //This is the url that LinkedIn Auth process will redirect to. We can put whatever we want that starts with http:// or https:// .
+//We use a made up url that we will intercept when redirecting. Avoid Uppercases.
+    public static final String REDIRECT_URI = "http://gojobster.com/register";
+
+    public static final String LINKEDIN_PERMISSIONS_LITEPROFILE = "r_liteprofile";
+    public static final String LINKEDIN_PERMISSIONS_EMAILADRESS = "r_emailaddress";
+    public static final String LINKEDIN_PERMISSIONS_WMEMBER_SOCIAL = "w_member_social";
+
+    //These are constants used for build the urls
+    public static final String AUTHORIZATION_URL = "https://www.linkedin.com/uas/oauth2/authorization";
+    public static final String ACCESS_TOKEN_URL = "https://www.linkedin.com/uas/oauth2/accessToken";
+    public static final String SECRET_KEY_PARAM = "client_secret";
+    public static final String RESPONSE_TYPE_PARAM = "response_type";
+    public static final String GRANT_TYPE_PARAM = "grant_type";
+    public static final String GRANT_TYPE = "authorization_code";
+    public static final String RESPONSE_TYPE_VALUE ="code";
+    public static final String CLIENT_ID_PARAM = "client_id";
+    public static final String STATE_PARAM = "state";
+    public static final String REDIRECT_URI_PARAM = "redirect_uri";
+    /*---------------------------------------*/
+    public static final String QUESTION_MARK = "?";
+    public static final String AMPERSAND = "&";
+    public static final String EQUALS = "=";
+
+
+
 }

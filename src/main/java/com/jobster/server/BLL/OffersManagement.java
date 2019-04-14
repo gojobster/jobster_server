@@ -4,13 +4,10 @@ import com.jobster.server.DTO.RespuestaWSOffer;
 import com.jobster.server.DTO.RespuestaWSOfferCity;
 import com.jobster.server.DTO.RespuestaWSOfferFilters;
 import com.jobster.server.POCO.Offer;
-import com.jobster.server.model.Jobster;
 import com.jobster.server.model.tables.records.CompaniesRecord;
 import com.jobster.server.model.tables.records.OffersRecord;
 import com.jobster.server.util.Fechas;
 import org.jooq.DSLContext;
-import org.jooq.Key;
-import org.jooq.Record;
 import org.jooq.Result;
 
 import java.util.ArrayList;
@@ -28,8 +25,8 @@ public class OffersManagement {
         offer.setSummary(summary);
         offer.setExperience(experience);
         offer.setJobFunctions(job_functions);
-        offer.setDateInit(Fechas.GetCurrentTimestampLong());
-        offer.setDateEnd(Fechas.GetCurrentTimestampLong());
+        offer.setDateInit(Fechas.getCurrentTimestampLong());
+        offer.setDateEnd(Fechas.getCurrentTimestampLong());
 
         offer.store();
         connection.closeConnection();

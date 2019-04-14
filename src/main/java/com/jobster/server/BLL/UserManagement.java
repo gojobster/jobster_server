@@ -17,7 +17,6 @@ import java.util.*;
 import static com.jobster.server.model.Tables.*;
 
 public class UserManagement {
-
     private static int MIN_LEN_PWD = 8;
 
     public static RespuestaWSLogin Login(String username, String password) throws JobsterException {
@@ -30,19 +29,39 @@ public class UserManagement {
                 .fetchAnyInto(UsersRecord.class);
         if (usuario == null) throw new JobsterException(JobsterErrorType.USER_NOT_FOUND);
         String pwd = usuario.getPassword().toLowerCase();
-        String salt = usuario.getSalt().toLowerCase();
-        String hashCompletodesdeBD = Seguridad.GenerarSHA56(pwd + salt);
-        if (password.toLowerCase().equals(hashCompletodesdeBD))
+//        String salt = usuario.getSalt().toLowerCase();
+//        String hashCompletodesdeBD = Seguridad.GenerarSHA56(pwd + salt);
+//        if (!password.toLowerCase().equals(hashCompletodesdeBD))
+        if (!password.toLowerCase().equals(pwd))
             throw new JobsterException(JobsterErrorType.LOGIN_ERROR);
-        if (usuario.getVerifiedEmail() == null || usuario.getVerifiedEmail() == 0
-                || usuario.getVerifiedPhoneNumber() == null || usuario.getVerifiedPhoneNumber() == 0)
+//        if (usuario.getVerifiedEmail() == null || usuario.getVerifiedEmail() == 0
+//                || usuario.getVerifiedPhoneNumber() == null || usuario.getVerifiedPhoneNumber() == 0)
+        if (usuario.getVerifiedEmail() == null || usuario.getVerifiedEmail() == 0)
             throw new JobsterException(JobsterErrorType.USER_NOT_FOUND);
+
+        TokensRecord token = connection.create.newRecord(TOKENS);
+        token.setIdUser(usuario.getIdUser());
+        token.setToken(Util.getNewToken());
+        token.setExpirationDate(Fechas.getTokenExpiration());
+        token.store();
+
         RespuestaWSLogin respuestaWSUsuario = new RespuestaWSLogin(usuario.getApikey(), usuario.getPictureUrl(), usuario.getEmail(),
-                usuario.getName(), usuario.getSurrname());
+                usuario.getName(), usuario.getSurrname(), token.getToken());
 
         connection.closeConnection();
         return respuestaWSUsuario;
     }
+
+    public static void check_token(String token_string) throws JobsterException{
+        ConnectionBDManager connection = new ConnectionBDManager();
+        TokensRecord token = connection.create.select()
+                .from(TOKENS)
+                .where(TOKENS.TOKEN.equal(token_string))
+                .fetchAnyInto(TokensRecord.class);
+
+        if(token == null) throw new JobsterException(JobsterErrorType.TOKEN_NOT_FOUND);
+    }
+
 
     public static String InsertarUsuario(String email, String password, String name, String surname, String birthday, String gender,
                                          String salt, String idioma, String telefono, String url) throws JobsterException {
@@ -68,7 +87,7 @@ public class UserManagement {
         usr.setName(name);
         usr.setSurrname(surname);
         usr.setPictureUrl("/Upload/User/" + Seguridad.GenerateSecureRandomString() + "/" + Seguridad.GenerarRandomFileName() + "_thumb.jpg");
-        usr.setDateBirthday(Fechas.GetCurrentTimestampLong());
+        usr.setDateBirthday(Fechas.getCurrentTimestampLong());
         usr.setPassword(password);
         usr.setSalt(salt);//Seguridad.GenerarSHA56(String.valueOf(Integer.parseInt(salt) * 8)));
         usr.setPhoneNumber(EncriptarEmailoTelefono(telefono));
@@ -118,7 +137,7 @@ public class UserManagement {
         usr.setApikey(UUID.randomUUID().toString());
         usr.setValidationToken(UUID.randomUUID().toString());
         usr.setPictureUrl("/Upload/User/" + Seguridad.GenerateSecureRandomString() + "/" + Seguridad.GenerarRandomFileName() + "_thumb.jpg");
-        usr.setDateBirthday(Fechas.GetCurrentTimestampLong());
+        usr.setDateBirthday(Fechas.getCurrentTimestampLong());
         usr.setSalt("trnmnmfysxmzxf");
         usr.setPhoneNumber("+34658632698"); //EncriptarEmailoTelefono("+34658632698")); //TODO: encriptar telefono
         usr.setVerifiedPhoneNumber(0);
@@ -224,7 +243,7 @@ public class UserManagement {
         if ((urlThumbnail != null) && (!urlThumbnail.isEmpty())) {
             urlAvatar = urlThumbnail;
         }
-        usuario.setLastConnection(Fechas.GetCurrentTimestampLong());
+        usuario.setLastConnection(Fechas.getCurrentTimestampLong());
         usuario.store();
         return new RespuestaWSUser(urlAvatar, usuario.getEmail(), usuario.getName(), usuario.getSurrname(), usuario.getPhoneNumber());
     }

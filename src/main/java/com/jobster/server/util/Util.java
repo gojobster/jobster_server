@@ -3,6 +3,8 @@ package com.jobster.server.util;
 import com.jobster.server.types.ContratoType;
 import com.jobster.server.types.JornadaType;
 
+import java.util.UUID;
+
 public class Util {
     public static String getContractTypeString (int type) {
         String contractType = "";
@@ -32,5 +34,10 @@ public class Util {
             jornadaType = "Per hours";
 
         return jornadaType;
+    }
+
+    public static String getNewToken() {
+        String token = UUID.randomUUID().toString();
+        return token.replace("-","");
     }
 }
