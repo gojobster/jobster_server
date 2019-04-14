@@ -8,7 +8,9 @@ import com.jobster.server.model.tables.records.CompaniesRecord;
 import com.jobster.server.model.tables.records.OffersRecord;
 import com.jobster.server.util.Fechas;
 import org.jooq.DSLContext;
+import org.jooq.Record;
 import org.jooq.Result;
+import org.jooq.SelectConditionStep;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,23 +48,29 @@ public class OffersManagement {
         connection.closeConnection();
         return listOffers;
     }
-    public static List<RespuestaWSOffer> getAllFilteredOffers(String keyword, String salary, String experience, List<String> positions, List<String> cities) throws JobsterException{
+    public static List<RespuestaWSOffer> getAllFilteredOffers(String keyword, int salary, int experience, List<String> positions, List<String> cities) throws JobsterException{
         ConnectionBDManager connection = new ConnectionBDManager();
         List<RespuestaWSOffer> listOffers = getWSOffers(connection.create, getAllFilteredOffersRecord(connection.create, keyword,salary,experience,positions,cities));
         connection.closeConnection();
         return listOffers;
     }
 
-    private static List<OffersRecord> getAllFilteredOffersRecord(DSLContext create, String Keyword, String Salary, String Experience, List<String> Positions, List<String> Cities) throws JobsterException{
-        return create.select().from(OFFERS)
+    private static List<OffersRecord> getAllFilteredOffersRecord(DSLContext create, String keyword, int salary, int experience, List<String> positions, List<String> cities) throws JobsterException{
+
+        SelectConditionStep<Record> newQuery = create.select().from(OFFERS)
                 .where(
-                        (OFFERS.JOB_FUNCTIONS.contains(Keyword).or(OFFERS.POSITION.contains(Keyword)).or(OFFERS.SUMMARY.contains(Keyword))
-                        .and(OFFERS.SALARY_MIN.ge(Integer.parseInt(Salary)))
-                        .and(OFFERS.EXPERIENCE.le(Integer.parseInt(Experience)))
-                        .and(OFFERS.CITY.in(Cities))
-                        .and(OFFERS.POSITION.in(Positions))
-                        )).fetchInto(OffersRecord.class);
+                        (OFFERS.JOB_FUNCTIONS.contains(keyword).or(OFFERS.POSITION.contains(keyword)).or(OFFERS.SUMMARY.contains(keyword))
+                                .and(OFFERS.SALARY_MIN.ge(salary))
+                                .and(OFFERS.EXPERIENCE.le(experience))
+                        ));
+        if(!(cities.size() > 0 && cities.get(0).equals("")))
+            newQuery.and(OFFERS.CITY.in(cities));
+        if(!(positions.size() > 0 && positions.get(0).equals("")))
+            newQuery.and(OFFERS.POSITION.in(positions));
+
+        return newQuery.fetchInto(OffersRecord.class);
     }
+
 
     private static List<OffersRecord> getAllOffersRecord(DSLContext create, String Keyword) throws JobsterException{
         return create.select().from(OFFERS)
