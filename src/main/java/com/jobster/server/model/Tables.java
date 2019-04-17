@@ -14,7 +14,6 @@ import com.jobster.server.model.tables.Offers;
 import com.jobster.server.model.tables.OffersSkills;
 import com.jobster.server.model.tables.Referrals;
 import com.jobster.server.model.tables.Skills;
-import com.jobster.server.model.tables.Tokens;
 import com.jobster.server.model.tables.UserFormation;
 import com.jobster.server.model.tables.UserIdiom;
 import com.jobster.server.model.tables.Users;
@@ -85,11 +84,6 @@ public class Tables {
      * The table <code>jobster.skills</code>.
      */
     public static final Skills SKILLS = com.jobster.server.model.tables.Skills.SKILLS;
-
-    /**
-     * The table <code>jobster.tokens</code>.
-     */
-    public static final Tokens TOKENS = com.jobster.server.model.tables.Tokens.TOKENS;
 
     /**
      * The table <code>jobster.user_formation</code>.
