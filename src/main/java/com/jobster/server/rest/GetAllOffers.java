@@ -12,8 +12,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-@Path("/{getAllOffers : (?i)getAllWsOffers}")
+@Path("/{getAllOffers : (?i)getAllOffers}")
 public class GetAllOffers {
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public RespuestaWS<List<RespuestaWSOffer>> getAllOffers(

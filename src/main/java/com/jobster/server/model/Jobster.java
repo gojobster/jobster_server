@@ -14,6 +14,7 @@ import com.jobster.server.model.tables.Offers;
 import com.jobster.server.model.tables.OffersSkills;
 import com.jobster.server.model.tables.Referrals;
 import com.jobster.server.model.tables.Skills;
+import com.jobster.server.model.tables.Tokens;
 import com.jobster.server.model.tables.UserFormation;
 import com.jobster.server.model.tables.UserIdiom;
 import com.jobster.server.model.tables.Users;
@@ -43,7 +44,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Jobster extends SchemaImpl {
 
-    private static final long serialVersionUID = -694494610;
+    private static final long serialVersionUID = 1053414238;
 
     /**
      * The reference instance of <code>jobster</code>
@@ -101,6 +102,11 @@ public class Jobster extends SchemaImpl {
     public final Skills SKILLS = com.jobster.server.model.tables.Skills.SKILLS;
 
     /**
+     * The table <code>jobster.tokens</code>.
+     */
+    public final Tokens TOKENS = com.jobster.server.model.tables.Tokens.TOKENS;
+
+    /**
      * The table <code>jobster.user_formation</code>.
      */
     public final UserFormation USER_FORMATION = com.jobster.server.model.tables.UserFormation.USER_FORMATION;
@@ -155,6 +161,7 @@ public class Jobster extends SchemaImpl {
             OffersSkills.OFFERS_SKILLS,
             Referrals.REFERRALS,
             Skills.SKILLS,
+            Tokens.TOKENS,
             UserFormation.USER_FORMATION,
             UserIdiom.USER_IDIOM,
             Users.USERS,

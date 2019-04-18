@@ -14,6 +14,7 @@ import com.jobster.server.model.tables.Offers;
 import com.jobster.server.model.tables.OffersSkills;
 import com.jobster.server.model.tables.Referrals;
 import com.jobster.server.model.tables.Skills;
+import com.jobster.server.model.tables.Tokens;
 import com.jobster.server.model.tables.UserFormation;
 import com.jobster.server.model.tables.UserIdiom;
 import com.jobster.server.model.tables.Users;
@@ -28,6 +29,7 @@ import com.jobster.server.model.tables.records.OffersRecord;
 import com.jobster.server.model.tables.records.OffersSkillsRecord;
 import com.jobster.server.model.tables.records.ReferralsRecord;
 import com.jobster.server.model.tables.records.SkillsRecord;
+import com.jobster.server.model.tables.records.TokensRecord;
 import com.jobster.server.model.tables.records.UserFormationRecord;
 import com.jobster.server.model.tables.records.UserIdiomRecord;
 import com.jobster.server.model.tables.records.UsersRecord;
@@ -66,6 +68,7 @@ public class Keys {
     public static final Identity<OffersSkillsRecord, Integer> IDENTITY_OFFERS_SKILLS = Identities0.IDENTITY_OFFERS_SKILLS;
     public static final Identity<ReferralsRecord, Integer> IDENTITY_REFERRALS = Identities0.IDENTITY_REFERRALS;
     public static final Identity<SkillsRecord, Integer> IDENTITY_SKILLS = Identities0.IDENTITY_SKILLS;
+    public static final Identity<TokensRecord, Integer> IDENTITY_TOKENS = Identities0.IDENTITY_TOKENS;
     public static final Identity<UserFormationRecord, Integer> IDENTITY_USER_FORMATION = Identities0.IDENTITY_USER_FORMATION;
     public static final Identity<UserIdiomRecord, Integer> IDENTITY_USER_IDIOM = Identities0.IDENTITY_USER_IDIOM;
     public static final Identity<UsersRecord, Integer> IDENTITY_USERS = Identities0.IDENTITY_USERS;
@@ -85,6 +88,8 @@ public class Keys {
     public static final UniqueKey<OffersSkillsRecord> KEY_OFFERS_SKILLS_PRIMARY = UniqueKeys0.KEY_OFFERS_SKILLS_PRIMARY;
     public static final UniqueKey<ReferralsRecord> KEY_REFERRALS_PRIMARY = UniqueKeys0.KEY_REFERRALS_PRIMARY;
     public static final UniqueKey<SkillsRecord> KEY_SKILLS_PRIMARY = UniqueKeys0.KEY_SKILLS_PRIMARY;
+    public static final UniqueKey<TokensRecord> KEY_TOKENS_PRIMARY = UniqueKeys0.KEY_TOKENS_PRIMARY;
+    public static final UniqueKey<TokensRecord> KEY_TOKENS_TOKEN_UNIQUE = UniqueKeys0.KEY_TOKENS_TOKEN_UNIQUE;
     public static final UniqueKey<UserFormationRecord> KEY_USER_FORMATION_PRIMARY = UniqueKeys0.KEY_USER_FORMATION_PRIMARY;
     public static final UniqueKey<UserIdiomRecord> KEY_USER_IDIOM_PRIMARY = UniqueKeys0.KEY_USER_IDIOM_PRIMARY;
     public static final UniqueKey<UsersRecord> KEY_USERS_PRIMARY = UniqueKeys0.KEY_USERS_PRIMARY;
@@ -104,6 +109,7 @@ public class Keys {
     public static final ForeignKey<ReferralsRecord, UsersRecord> FK_JOBSTER = ForeignKeys0.FK_JOBSTER;
     public static final ForeignKey<ReferralsRecord, UsersRecord> FK_CANDIDATO = ForeignKeys0.FK_CANDIDATO;
     public static final ForeignKey<ReferralsRecord, OffersRecord> FK_OFFER = ForeignKeys0.FK_OFFER;
+    public static final ForeignKey<TokensRecord, UsersRecord> FK_TOKEN_USER = ForeignKeys0.FK_TOKEN_USER;
     public static final ForeignKey<UserFormationRecord, UsersRecord> FK_USER_FORMATION_USER = ForeignKeys0.FK_USER_FORMATION_USER;
     public static final ForeignKey<UserFormationRecord, FormationsRecord> FK_USER_FORMATION_FORMATION = ForeignKeys0.FK_USER_FORMATION_FORMATION;
     public static final ForeignKey<UserIdiomRecord, UsersRecord> USER_IDIOM_USER = ForeignKeys0.USER_IDIOM_USER;
@@ -123,6 +129,7 @@ public class Keys {
         public static Identity<OffersSkillsRecord, Integer> IDENTITY_OFFERS_SKILLS = Internal.createIdentity(OffersSkills.OFFERS_SKILLS, OffersSkills.OFFERS_SKILLS.ID_OFFER_SKILL);
         public static Identity<ReferralsRecord, Integer> IDENTITY_REFERRALS = Internal.createIdentity(Referrals.REFERRALS, Referrals.REFERRALS.ID_REFERRAL);
         public static Identity<SkillsRecord, Integer> IDENTITY_SKILLS = Internal.createIdentity(Skills.SKILLS, Skills.SKILLS.ID_SKILL);
+        public static Identity<TokensRecord, Integer> IDENTITY_TOKENS = Internal.createIdentity(Tokens.TOKENS, Tokens.TOKENS.ID_TOKENS);
         public static Identity<UserFormationRecord, Integer> IDENTITY_USER_FORMATION = Internal.createIdentity(UserFormation.USER_FORMATION, UserFormation.USER_FORMATION.ID_USER_FORMATION);
         public static Identity<UserIdiomRecord, Integer> IDENTITY_USER_IDIOM = Internal.createIdentity(UserIdiom.USER_IDIOM, UserIdiom.USER_IDIOM.ID_USER_IDIOM);
         public static Identity<UsersRecord, Integer> IDENTITY_USERS = Internal.createIdentity(Users.USERS, Users.USERS.ID_USER);
@@ -140,6 +147,8 @@ public class Keys {
         public static final UniqueKey<OffersSkillsRecord> KEY_OFFERS_SKILLS_PRIMARY = Internal.createUniqueKey(OffersSkills.OFFERS_SKILLS, "KEY_offers_skills_PRIMARY", OffersSkills.OFFERS_SKILLS.ID_OFFER_SKILL);
         public static final UniqueKey<ReferralsRecord> KEY_REFERRALS_PRIMARY = Internal.createUniqueKey(Referrals.REFERRALS, "KEY_referrals_PRIMARY", Referrals.REFERRALS.ID_REFERRAL);
         public static final UniqueKey<SkillsRecord> KEY_SKILLS_PRIMARY = Internal.createUniqueKey(Skills.SKILLS, "KEY_skills_PRIMARY", Skills.SKILLS.ID_SKILL);
+        public static final UniqueKey<TokensRecord> KEY_TOKENS_PRIMARY = Internal.createUniqueKey(Tokens.TOKENS, "KEY_tokens_PRIMARY", Tokens.TOKENS.ID_TOKENS);
+        public static final UniqueKey<TokensRecord> KEY_TOKENS_TOKEN_UNIQUE = Internal.createUniqueKey(Tokens.TOKENS, "KEY_tokens_token_UNIQUE", Tokens.TOKENS.TOKEN);
         public static final UniqueKey<UserFormationRecord> KEY_USER_FORMATION_PRIMARY = Internal.createUniqueKey(UserFormation.USER_FORMATION, "KEY_user_formation_PRIMARY", UserFormation.USER_FORMATION.ID_USER_FORMATION);
         public static final UniqueKey<UserIdiomRecord> KEY_USER_IDIOM_PRIMARY = Internal.createUniqueKey(UserIdiom.USER_IDIOM, "KEY_user_idiom_PRIMARY", UserIdiom.USER_IDIOM.ID_USER_IDIOM);
         public static final UniqueKey<UsersRecord> KEY_USERS_PRIMARY = Internal.createUniqueKey(Users.USERS, "KEY_users_PRIMARY", Users.USERS.ID_USER);
@@ -157,6 +166,7 @@ public class Keys {
         public static final ForeignKey<ReferralsRecord, UsersRecord> FK_JOBSTER = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_USERS_PRIMARY, Referrals.REFERRALS, "fk_jobster", Referrals.REFERRALS.ID_JOBSTER);
         public static final ForeignKey<ReferralsRecord, UsersRecord> FK_CANDIDATO = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_USERS_PRIMARY, Referrals.REFERRALS, "fk_candidato", Referrals.REFERRALS.ID_CANDIDATE);
         public static final ForeignKey<ReferralsRecord, OffersRecord> FK_OFFER = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_OFFERS_PRIMARY, Referrals.REFERRALS, "fk_offer", Referrals.REFERRALS.ID_OFFER);
+        public static final ForeignKey<TokensRecord, UsersRecord> FK_TOKEN_USER = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_USERS_PRIMARY, Tokens.TOKENS, "FK_TOKEN_USER", Tokens.TOKENS.ID_USER);
         public static final ForeignKey<UserFormationRecord, UsersRecord> FK_USER_FORMATION_USER = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_USERS_PRIMARY, UserFormation.USER_FORMATION, "FK_USER_FORMATION_USER", UserFormation.USER_FORMATION.ID_USER);
         public static final ForeignKey<UserFormationRecord, FormationsRecord> FK_USER_FORMATION_FORMATION = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_FORMATIONS_PRIMARY, UserFormation.USER_FORMATION, "FK_USER_FORMATION_FORMATION", UserFormation.USER_FORMATION.ID_FORMATION);
         public static final ForeignKey<UserIdiomRecord, UsersRecord> USER_IDIOM_USER = Internal.createForeignKey(com.jobster.server.model.Keys.KEY_USERS_PRIMARY, UserIdiom.USER_IDIOM, "user_idiom_user", UserIdiom.USER_IDIOM.ID_USER);
