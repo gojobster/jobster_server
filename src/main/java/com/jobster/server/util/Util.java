@@ -1,8 +1,11 @@
 package com.jobster.server.util;
 
+import com.jobster.server.BLL.JobsterException;
+import com.jobster.server.BLL.UserManagement;
 import com.jobster.server.types.ContratoType;
 import com.jobster.server.types.JornadaType;
 
+import javax.ws.rs.core.HttpHeaders;
 import java.util.UUID;
 
 public class Util {
@@ -39,5 +42,10 @@ public class Util {
     public static String getNewToken() {
         String token = UUID.randomUUID().toString();
         return token.replace("-","");
+    }
+
+    public static void check_token(HttpHeaders httpheaders) throws JobsterException {
+        String token = httpheaders.getHeaderString("Authorization");
+        UserManagement.check_token(token);
     }
 }
