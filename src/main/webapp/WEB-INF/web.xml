@@ -36,11 +36,11 @@
     </filter-mapping>
 
     <servlet>
-        <servlet-name>Jobster Web Application</servlet-name>
+        <servlet-name>Talendorse Web Application</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
-            <param-value>com.jobster.server</param-value>
+            <param-value>com.talendorse.server</param-value>
         </init-param>
         <init-param>
             <param-name>jersey.config.server.provider.classnames</param-name>
@@ -51,7 +51,7 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Jobster Web Application</servlet-name>
+        <servlet-name>Talendorse Web Application</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
 </web-app>
