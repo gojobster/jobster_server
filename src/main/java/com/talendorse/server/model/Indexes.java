@@ -104,7 +104,7 @@ public class Indexes {
         public static Index REFERRALS_PRIMARY = Internal.createIndex("PRIMARY", Referrals.REFERRALS, new OrderField[] { Referrals.REFERRALS.ID_REFERRAL }, true);
         public static Index SKILLS_PRIMARY = Internal.createIndex("PRIMARY", Skills.SKILLS, new OrderField[] { Skills.SKILLS.ID_SKILL }, true);
         public static Index TOKENS_FK_TOKEN_USER_IDX = Internal.createIndex("FK_TOKEN_USER_idx", Tokens.TOKENS, new OrderField[] { Tokens.TOKENS.ID_USER }, false);
-        public static Index TOKENS_PRIMARY = Internal.createIndex("PRIMARY", Tokens.TOKENS, new OrderField[] { Tokens.TOKENS.ID_TOKENS }, true);
+        public static Index TOKENS_PRIMARY = Internal.createIndex("PRIMARY", Tokens.TOKENS, new OrderField[] { Tokens.TOKENS.ID_TOKEN }, true);
         public static Index TOKENS_TOKEN_UNIQUE = Internal.createIndex("token_UNIQUE", Tokens.TOKENS, new OrderField[] { Tokens.TOKENS.TOKEN }, true);
         public static Index USER_FORMATION_FK_USER_FORMATION_FORMATION_IDX = Internal.createIndex("FK_USER_FORMATION_FORMATION_idx", UserFormation.USER_FORMATION, new OrderField[] { UserFormation.USER_FORMATION.ID_FORMATION }, false);
         public static Index USER_FORMATION_FK_USER_FORMATION_IDX = Internal.createIndex("FK_USER_FORMATION_idx", UserFormation.USER_FORMATION, new OrderField[] { UserFormation.USER_FORMATION.ID_USER }, false);
