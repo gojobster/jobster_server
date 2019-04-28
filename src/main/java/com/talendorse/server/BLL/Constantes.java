@@ -3,9 +3,13 @@ package com.talendorse.server.BLL;
 public class Constantes {
     private static final boolean IS_DEBUG = true;
 
-    private static final String WS_TALENDORSE_DEBUG = "http://localhost:8085/talendorse_ws_war/";
-    private static final String WS_TALENDORSE_RELEASE = "http://18.191.247.235:8080/ws/";
-    private static final String WS_TALENDORSE_URL = IS_DEBUG ? WS_TALENDORSE_DEBUG : WS_TALENDORSE_RELEASE;
+    private static final String TALENDORSE_URL_LOCALHOST = "http://localhost:8090/";
+    private static final String TALENDORSE_URL_SERVER = "http://18.191.247.235:8080/";
+    private static final String TALENDORSE_URL = IS_DEBUG ? TALENDORSE_URL_LOCALHOST : TALENDORSE_URL_SERVER;
+
+    private static final String WS_TALENDORSE_DEBUG = TALENDORSE_URL_LOCALHOST + "talendorse_ws_war/";
+    private static final String WS_TALENDORSE_RELEASE = TALENDORSE_URL + "ws/";
+    public static final String WS_TALENDORSE_URL = IS_DEBUG ? WS_TALENDORSE_DEBUG : WS_TALENDORSE_RELEASE;
 
     public static final String DB_PASS_LOCALHOST = "1234";
     public static final String DB_PASS_SERVER = "Jobster2018!";

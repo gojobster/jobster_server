@@ -156,7 +156,7 @@ public class UserManagement {
 
         String textoEmail = TextoMail(url, url_location);
         textoEmail = textoEmail.replace("user_name_endorser", usr.getName());
-        textoEmail = textoEmail.replace("url_endorser_validation", url+
+        textoEmail = textoEmail.replace("url_endorser_validation", Constantes.WS_TALENDORSE_URL+
                 "talendorse/email/account_activated.html?activation_token="+ usr.getValidationToken());
 
         Email.sendEmail(email, email_subject, textoEmail);
