@@ -129,7 +129,7 @@ public class Keys {
         public static Identity<OffersSkillsRecord, Integer> IDENTITY_OFFERS_SKILLS = Internal.createIdentity(OffersSkills.OFFERS_SKILLS, OffersSkills.OFFERS_SKILLS.ID_OFFER_SKILL);
         public static Identity<ReferralsRecord, Integer> IDENTITY_REFERRALS = Internal.createIdentity(Referrals.REFERRALS, Referrals.REFERRALS.ID_REFERRAL);
         public static Identity<SkillsRecord, Integer> IDENTITY_SKILLS = Internal.createIdentity(Skills.SKILLS, Skills.SKILLS.ID_SKILL);
-        public static Identity<TokensRecord, Integer> IDENTITY_TOKENS = Internal.createIdentity(Tokens.TOKENS, Tokens.TOKENS.ID_TOKEN);
+        public static Identity<TokensRecord, Integer> IDENTITY_TOKENS = Internal.createIdentity(Tokens.TOKENS, Tokens.TOKENS.ID_TOKENS);
         public static Identity<UserFormationRecord, Integer> IDENTITY_USER_FORMATION = Internal.createIdentity(UserFormation.USER_FORMATION, UserFormation.USER_FORMATION.ID_USER_FORMATION);
         public static Identity<UserIdiomRecord, Integer> IDENTITY_USER_IDIOM = Internal.createIdentity(UserIdiom.USER_IDIOM, UserIdiom.USER_IDIOM.ID_USER_IDIOM);
         public static Identity<UsersRecord, Integer> IDENTITY_USERS = Internal.createIdentity(Users.USERS, Users.USERS.ID_USER);
@@ -147,7 +147,7 @@ public class Keys {
         public static final UniqueKey<OffersSkillsRecord> KEY_OFFERS_SKILLS_PRIMARY = Internal.createUniqueKey(OffersSkills.OFFERS_SKILLS, "KEY_offers_skills_PRIMARY", OffersSkills.OFFERS_SKILLS.ID_OFFER_SKILL);
         public static final UniqueKey<ReferralsRecord> KEY_REFERRALS_PRIMARY = Internal.createUniqueKey(Referrals.REFERRALS, "KEY_referrals_PRIMARY", Referrals.REFERRALS.ID_REFERRAL);
         public static final UniqueKey<SkillsRecord> KEY_SKILLS_PRIMARY = Internal.createUniqueKey(Skills.SKILLS, "KEY_skills_PRIMARY", Skills.SKILLS.ID_SKILL);
-        public static final UniqueKey<TokensRecord> KEY_TOKENS_PRIMARY = Internal.createUniqueKey(Tokens.TOKENS, "KEY_tokens_PRIMARY", Tokens.TOKENS.ID_TOKEN);
+        public static final UniqueKey<TokensRecord> KEY_TOKENS_PRIMARY = Internal.createUniqueKey(Tokens.TOKENS, "KEY_tokens_PRIMARY", Tokens.TOKENS.ID_TOKENS);
         public static final UniqueKey<TokensRecord> KEY_TOKENS_TOKEN_UNIQUE = Internal.createUniqueKey(Tokens.TOKENS, "KEY_tokens_token_UNIQUE", Tokens.TOKENS.TOKEN);
         public static final UniqueKey<UserFormationRecord> KEY_USER_FORMATION_PRIMARY = Internal.createUniqueKey(UserFormation.USER_FORMATION, "KEY_user_formation_PRIMARY", UserFormation.USER_FORMATION.ID_USER_FORMATION);
         public static final UniqueKey<UserIdiomRecord> KEY_USER_IDIOM_PRIMARY = Internal.createUniqueKey(UserIdiom.USER_IDIOM, "KEY_user_idiom_PRIMARY", UserIdiom.USER_IDIOM.ID_USER_IDIOM);
