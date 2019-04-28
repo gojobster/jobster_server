@@ -9,10 +9,10 @@ public class RespuestaWSUser {
 	public String surname;
 
 	public RespuestaWSUser(String name, String surname, String email, String urlAvatar, String telefono) {
+		this.name = name;
+		this.surname = surname;
 		this.urlAvatar = urlAvatar;
 		this.email = email;
 		this.telefono = telefono;
-		this.name = name;
-		this.surname = surname;
 	}
 }

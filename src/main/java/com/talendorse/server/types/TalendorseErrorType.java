@@ -26,7 +26,6 @@ public enum TalendorseErrorType {
     OFFER_NOT_EXISTS(-901, "OFFER NOT EXISTS"),
     REFERRAL_EXISTS(-902, "REFERRAL EXISTS");
 
-
     private final int code;
     private final String description;
 

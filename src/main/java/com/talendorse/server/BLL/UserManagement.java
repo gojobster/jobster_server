@@ -242,6 +242,11 @@ public class UserManagement {
         connection.closeConnection();
         return usr;
     }
+    public static String GetUserTokenFromId(int id) throws  TalendorseException {
+        ConnectionBDManager connection = new ConnectionBDManager();
+        String tknUsr = connection.create.select().from(Tables.USERS).where(Tables.USERS.ID_USER.contains(id)).fetchSingle(Tables.USERS.VALIDATION_TOKEN);
+        return tknUsr;
+    }
 
     public static UsersRecord GetUserfromToken(String token) throws TalendorseException {
         ConnectionBDManager connection = new ConnectionBDManager();
@@ -256,8 +261,9 @@ public class UserManagement {
         return usr;
     }
 
-    public static RespuestaWSUser UserInformation(String apiKey) throws TalendorseException {
-        UsersRecord usuario = GetUserfromApiKey(apiKey);
+    public static RespuestaWSUser UserInformation(String token) throws TalendorseException {
+
+        UsersRecord usuario = GetUserfromToken(token);
         if (usuario == null) throw new TalendorseException(TalendorseErrorType.USER_NOT_FOUND);
         String urlThumbnail = usuario.getPictureUrl();
         String urlAvatar = "";
