@@ -95,6 +95,20 @@ public class OffersManagement {
         return list;
     }
 
+    public static List<RespuestaWSOffer> getUserOffers(String token) throws TalendorseException{
+        ConnectionBDManager connection = new ConnectionBDManager();
+        List<RespuestaWSOffer> listOffers = getWSOffers(connection.create, getUserOffersRecord(connection.create, token));
+        connection.closeConnection();
+        return listOffers;
+    }
+
+    public static List<RespuestaWSOffer> getUserEndorsements(String token) throws TalendorseException{
+        ConnectionBDManager connection = new ConnectionBDManager();
+        List<RespuestaWSOffer> listOffers = getWSOffers(connection.create, getUserEndorsementsRecord(connection.create, token));
+        connection.closeConnection();
+        return listOffers;
+    }
+
     public static List<RespuestaWSOfferCity> getAllCities() throws TalendorseException {
         ConnectionBDManager connection = new ConnectionBDManager();
 
@@ -162,5 +176,17 @@ public class OffersManagement {
             listOffers.add(offer);
         }
         return listOffers;
+    }
+
+    private static List<OffersRecord> getUserOffersRecord(DSLContext create, String token) throws TalendorseException{
+        int idUser = create.select().from(Tables.TOKENS).where(Tables.TOKENS.TOKEN.contains(token)).fetchSingle(Tables.TOKENS.ID_USER);
+        List<Integer> offers = create.select().from(Tables.REFERRALS).where(Tables.REFERRALS.ID_CANDIDATE.contains(idUser)).fetch(Tables.REFERRALS.ID_OFFER, Integer.class);
+        return create.select().from(Tables.OFFERS).where(Tables.OFFERS.ID_OFFER.in(offers)).fetchInto(OffersRecord.class);
+    }
+
+    private static List<OffersRecord> getUserEndorsementsRecord(DSLContext create, String token) throws TalendorseException{
+        int idUser = create.select().from(Tables.TOKENS).where(Tables.TOKENS.TOKEN.contains(token)).fetchSingle(Tables.TOKENS.ID_USER);
+        List<Integer> offers = create.select().from(Tables.REFERRALS).where(Tables.REFERRALS.ID_ENDORSER.contains(idUser)).fetch(Tables.REFERRALS.ID_OFFER, Integer.class);
+        return create.select().from(Tables.OFFERS).where(Tables.OFFERS.ID_OFFER.in(offers)).fetchInto(OffersRecord.class);
     }
 }

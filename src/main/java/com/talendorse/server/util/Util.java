@@ -2,7 +2,7 @@ package com.talendorse.server.util;
 
 import com.talendorse.server.BLL.TalendorseException;
 import com.talendorse.server.BLL.UserManagement;
-import com.talendorse.server.types.ContratoType;
+import com.talendorse.server.types.ContractType;
 import com.talendorse.server.types.JornadaType;
 
 import javax.ws.rs.core.HttpHeaders;
@@ -12,11 +12,11 @@ public class Util {
     public static String getContractTypeString (int type) {
         String contractType = "";
 
-        if (type == ContratoType.INDEFINIDO.toInt())
-            contractType = "Indefinifo";
-        else if (type == ContratoType.TEMPORAL.toInt())
+        if (type == ContractType.INDEFINITE.toInt())
+            contractType = "Indefinido";
+        else if (type == ContractType.TEMPORAL.toInt())
             contractType = "Temporal";
-        else if (type == ContratoType.FORMACION.toInt())
+        else if (type == ContractType.TRAINING.toInt())
             contractType = "Formacion";
 
         return contractType;

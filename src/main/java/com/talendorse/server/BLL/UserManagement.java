@@ -243,6 +243,19 @@ public class UserManagement {
         return usr;
     }
 
+    public static UsersRecord GetUserfromToken(String token) throws TalendorseException {
+        ConnectionBDManager connection = new ConnectionBDManager();
+        int idUsr = connection.create.select().from(Tables.TOKENS).where(Tables.TOKENS.TOKEN.contains(token)).fetchSingle(Tables.TOKENS.ID_USER);
+
+        UsersRecord usr = connection.create.select()
+                .from(Tables.USERS)
+                .where(Tables.USERS.ID_USER.contains(idUsr))
+                .fetchAnyInto(UsersRecord.class);
+
+        connection.closeConnection();
+        return usr;
+    }
+
     public static RespuestaWSUser UserInformation(String apiKey) throws TalendorseException {
         UsersRecord usuario = GetUserfromApiKey(apiKey);
         if (usuario == null) throw new TalendorseException(TalendorseErrorType.USER_NOT_FOUND);

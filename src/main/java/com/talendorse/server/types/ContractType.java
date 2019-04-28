@@ -1,14 +1,14 @@
 package com.talendorse.server.types;
 
-public enum ContratoType {
+public enum ContractType {
 
-    INDEFINIDO(0),
+    INDEFINITE(0),
     TEMPORAL(1),
-    FORMACION(2);
+    TRAINING(2);
 
     private final int code;
 
-    ContratoType(int code) {
+    ContractType(int code) {
         this.code = code;
     }
 
