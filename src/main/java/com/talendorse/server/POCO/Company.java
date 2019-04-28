@@ -2,6 +2,8 @@ package com.talendorse.server.POCO;
 
 import com.talendorse.server.model.tables.records.CompaniesRecord;
 
+import java.math.BigDecimal;
+
 public class Company {
     public int idCompany;
     public String name;
@@ -13,6 +15,8 @@ public class Company {
     public String adress;
     public String city;
     public String country;
+    public BigDecimal latitude;
+    public BigDecimal longitude;
 
     public Company(CompaniesRecord company, String country) {
         this.idCompany = company.getIdCompany();
@@ -24,6 +28,8 @@ public class Company {
         this.email = company.getEmail();
         this.adress = company.getAdress();
         this.city = company.getCity();
+        this.latitude = company.getLatitude();
+        this.longitude = company.getLongitude();
         this.country = country;
     }
 }
