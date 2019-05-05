@@ -8,7 +8,7 @@ import com.talendorse.server.model.tables.Companies;
 import com.talendorse.server.model.tables.Countries;
 import com.talendorse.server.model.tables.Education;
 import com.talendorse.server.model.tables.Formations;
-import com.talendorse.server.model.tables.Idioms;
+import com.talendorse.server.model.tables.Languages;
 import com.talendorse.server.model.tables.OfferFormation;
 import com.talendorse.server.model.tables.Offers;
 import com.talendorse.server.model.tables.OffersSkills;
@@ -16,7 +16,7 @@ import com.talendorse.server.model.tables.Referrals;
 import com.talendorse.server.model.tables.Skills;
 import com.talendorse.server.model.tables.Tokens;
 import com.talendorse.server.model.tables.UserFormation;
-import com.talendorse.server.model.tables.UserIdiom;
+import com.talendorse.server.model.tables.UserLanguage;
 import com.talendorse.server.model.tables.Users;
 import com.talendorse.server.model.tables.UsersSkills;
 
@@ -57,9 +57,9 @@ public class Tables {
     public static final Formations FORMATIONS = com.talendorse.server.model.tables.Formations.FORMATIONS;
 
     /**
-     * The table <code>database.idioms</code>.
+     * The table <code>database.languages</code>.
      */
-    public static final Idioms IDIOMS = com.talendorse.server.model.tables.Idioms.IDIOMS;
+    public static final Languages LANGUAGES = com.talendorse.server.model.tables.Languages.LANGUAGES;
 
     /**
      * The table <code>database.offer_formation</code>.
@@ -97,9 +97,9 @@ public class Tables {
     public static final UserFormation USER_FORMATION = com.talendorse.server.model.tables.UserFormation.USER_FORMATION;
 
     /**
-     * The table <code>database.user_idiom</code>.
+     * The table <code>database.user_language</code>.
      */
-    public static final UserIdiom USER_IDIOM = com.talendorse.server.model.tables.UserIdiom.USER_IDIOM;
+    public static final UserLanguage USER_LANGUAGE = com.talendorse.server.model.tables.UserLanguage.USER_LANGUAGE;
 
     /**
      * The table <code>database.users</code>.

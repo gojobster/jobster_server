@@ -100,7 +100,7 @@ public class UserManagement {
         usr.setSalt(salt);//Seguridad.GenerarSHA56(String.valueOf(Integer.parseInt(salt) * 8)));
         usr.setPhoneNumber(EncriptarEmailoTelefono(telefono));
         usr.setVerifiedPhoneNumber(1);
-        usr.setIdiom(idioma);
+        usr.setLanguage(idioma);
         usr.setGender(gender);
         usr.store();
 
@@ -141,7 +141,7 @@ public class UserManagement {
         usr.setEmail(email.trim());
         usr.setGender(gender);
         usr.setPassword(password);
-        usr.setIdiom("es");
+        usr.setLanguage("es");
         usr.setApikey(UUID.randomUUID().toString());
         usr.setValidationToken(UUID.randomUUID().toString());
         usr.setPictureUrl("/Upload/User/" + Seguridad.GenerateSecureRandomString() + "/" + Seguridad.GenerarRandomFileName() + "_thumb.jpg");
@@ -156,7 +156,7 @@ public class UserManagement {
 
         String textoEmail = TextoMail(url, url_location);
         textoEmail = textoEmail.replace("user_name_endorser", usr.getName());
-        textoEmail = textoEmail.replace("url_endorser_validation", url+
+        textoEmail = textoEmail.replace("url_endorser_validation", Constantes.WS_TALENDORSE_URL+
                 "talendorse/email/account_activated.html?activation_token="+ usr.getValidationToken());
 
         Email.sendEmail(email, email_subject, textoEmail);
@@ -305,8 +305,8 @@ public class UserManagement {
         List<Integer> ids_list = connection.create.select().from(Tables.USERS_SKILLS).where(Tables.USERS_SKILLS.ID_USER.equal(idUser)).fetch(Tables.USERS_SKILLS.ID_SKILL);
         List<String> skills_list = connection.create.select().from(Tables.SKILLS).where(Tables.SKILLS.ID_SKILL.in(ids_list)).fetch(Tables.SKILLS.NAME);
 
-        ids_list = connection.create.select().from(Tables.USER_IDIOM).where(Tables.USER_IDIOM.ID_USER.equal(idUser)).fetch(Tables.USER_IDIOM.ID_IDIOM);
-        List<String> idioms_list = connection.create.select().from(Tables.IDIOMS).where(Tables.IDIOMS.ID_IDIOM.in(ids_list)).fetch(Tables.SKILLS.NAME);
+        ids_list = connection.create.select().from(Tables.USER_LANGUAGE).where(Tables.USER_LANGUAGE.ID_USER.equal(idUser)).fetch(Tables.USER_LANGUAGE.ID_LANGUAGE);
+        List<String> idioms_list = connection.create.select().from(Tables.LANGUAGES).where(Tables.LANGUAGES.ID_LANGUAGE.in(ids_list)).fetch(Tables.SKILLS.NAME);
 
         connection.closeConnection();
         return new RespuestaWSAllInfoUser(usr, skills_list, idioms_list);
@@ -341,7 +341,7 @@ public class UserManagement {
                 .from(Tables.USERS)
                 .where(Tables.USERS.ID_USER.equal(id_user))
                 .fetchAnyInto(UsersRecord.class);
-        return usr.getIdiom();
+        return usr.getLanguage();
     }
 
     public static String validateEmail(String token) throws TalendorseException {

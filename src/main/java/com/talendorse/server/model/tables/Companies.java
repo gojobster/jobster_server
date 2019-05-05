@@ -9,6 +9,7 @@ import com.talendorse.server.model.Indexes;
 import com.talendorse.server.model.Keys;
 import com.talendorse.server.model.tables.records.CompaniesRecord;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
@@ -41,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Companies extends TableImpl<CompaniesRecord> {
 
-    private static final long serialVersionUID = 1224915641;
+    private static final long serialVersionUID = 31550363;
 
     /**
      * The reference instance of <code>database.companies</code>
@@ -120,6 +121,16 @@ public class Companies extends TableImpl<CompaniesRecord> {
      * The column <code>database.companies.date_modification</code>.
      */
     public final TableField<CompaniesRecord, Timestamp> DATE_MODIFICATION = createField("date_modification", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false), this, "");
+
+    /**
+     * The column <code>database.companies.latitude</code>.
+     */
+    public final TableField<CompaniesRecord, BigDecimal> LATITUDE = createField("latitude", org.jooq.impl.SQLDataType.DECIMAL(9, 6), this, "");
+
+    /**
+     * The column <code>database.companies.longitude</code>.
+     */
+    public final TableField<CompaniesRecord, BigDecimal> LONGITUDE = createField("longitude", org.jooq.impl.SQLDataType.DECIMAL(9, 6), this, "");
 
     /**
      * Create a <code>database.companies</code> table reference

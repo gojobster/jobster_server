@@ -8,7 +8,7 @@ import com.talendorse.server.model.tables.Companies;
 import com.talendorse.server.model.tables.Countries;
 import com.talendorse.server.model.tables.Education;
 import com.talendorse.server.model.tables.Formations;
-import com.talendorse.server.model.tables.Idioms;
+import com.talendorse.server.model.tables.Languages;
 import com.talendorse.server.model.tables.OfferFormation;
 import com.talendorse.server.model.tables.Offers;
 import com.talendorse.server.model.tables.OffersSkills;
@@ -16,14 +16,14 @@ import com.talendorse.server.model.tables.Referrals;
 import com.talendorse.server.model.tables.Skills;
 import com.talendorse.server.model.tables.Tokens;
 import com.talendorse.server.model.tables.UserFormation;
-import com.talendorse.server.model.tables.UserIdiom;
+import com.talendorse.server.model.tables.UserLanguage;
 import com.talendorse.server.model.tables.Users;
 import com.talendorse.server.model.tables.UsersSkills;
 import com.talendorse.server.model.tables.records.CompaniesRecord;
 import com.talendorse.server.model.tables.records.CountriesRecord;
 import com.talendorse.server.model.tables.records.EducationRecord;
 import com.talendorse.server.model.tables.records.FormationsRecord;
-import com.talendorse.server.model.tables.records.IdiomsRecord;
+import com.talendorse.server.model.tables.records.LanguagesRecord;
 import com.talendorse.server.model.tables.records.OfferFormationRecord;
 import com.talendorse.server.model.tables.records.OffersRecord;
 import com.talendorse.server.model.tables.records.OffersSkillsRecord;
@@ -31,7 +31,7 @@ import com.talendorse.server.model.tables.records.ReferralsRecord;
 import com.talendorse.server.model.tables.records.SkillsRecord;
 import com.talendorse.server.model.tables.records.TokensRecord;
 import com.talendorse.server.model.tables.records.UserFormationRecord;
-import com.talendorse.server.model.tables.records.UserIdiomRecord;
+import com.talendorse.server.model.tables.records.UserLanguageRecord;
 import com.talendorse.server.model.tables.records.UsersRecord;
 import com.talendorse.server.model.tables.records.UsersSkillsRecord;
 
@@ -62,7 +62,7 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final Identity<EducationRecord, Integer> IDENTITY_EDUCATION = Identities0.IDENTITY_EDUCATION;
-    public static final Identity<IdiomsRecord, Integer> IDENTITY_IDIOMS = Identities0.IDENTITY_IDIOMS;
+    public static final Identity<LanguagesRecord, Integer> IDENTITY_LANGUAGES = Identities0.IDENTITY_LANGUAGES;
     public static final Identity<OfferFormationRecord, Integer> IDENTITY_OFFER_FORMATION = Identities0.IDENTITY_OFFER_FORMATION;
     public static final Identity<OffersRecord, Integer> IDENTITY_OFFERS = Identities0.IDENTITY_OFFERS;
     public static final Identity<OffersSkillsRecord, Integer> IDENTITY_OFFERS_SKILLS = Identities0.IDENTITY_OFFERS_SKILLS;
@@ -70,7 +70,7 @@ public class Keys {
     public static final Identity<SkillsRecord, Integer> IDENTITY_SKILLS = Identities0.IDENTITY_SKILLS;
     public static final Identity<TokensRecord, Integer> IDENTITY_TOKENS = Identities0.IDENTITY_TOKENS;
     public static final Identity<UserFormationRecord, Integer> IDENTITY_USER_FORMATION = Identities0.IDENTITY_USER_FORMATION;
-    public static final Identity<UserIdiomRecord, Integer> IDENTITY_USER_IDIOM = Identities0.IDENTITY_USER_IDIOM;
+    public static final Identity<UserLanguageRecord, Integer> IDENTITY_USER_LANGUAGE = Identities0.IDENTITY_USER_LANGUAGE;
     public static final Identity<UsersRecord, Integer> IDENTITY_USERS = Identities0.IDENTITY_USERS;
     public static final Identity<UsersSkillsRecord, Integer> IDENTITY_USERS_SKILLS = Identities0.IDENTITY_USERS_SKILLS;
 
@@ -82,7 +82,7 @@ public class Keys {
     public static final UniqueKey<CountriesRecord> KEY_COUNTRIES_PRIMARY = UniqueKeys0.KEY_COUNTRIES_PRIMARY;
     public static final UniqueKey<EducationRecord> KEY_EDUCATION_PRIMARY = UniqueKeys0.KEY_EDUCATION_PRIMARY;
     public static final UniqueKey<FormationsRecord> KEY_FORMATIONS_PRIMARY = UniqueKeys0.KEY_FORMATIONS_PRIMARY;
-    public static final UniqueKey<IdiomsRecord> KEY_IDIOMS_PRIMARY = UniqueKeys0.KEY_IDIOMS_PRIMARY;
+    public static final UniqueKey<LanguagesRecord> KEY_LANGUAGES_PRIMARY = UniqueKeys0.KEY_LANGUAGES_PRIMARY;
     public static final UniqueKey<OfferFormationRecord> KEY_OFFER_FORMATION_PRIMARY = UniqueKeys0.KEY_OFFER_FORMATION_PRIMARY;
     public static final UniqueKey<OffersRecord> KEY_OFFERS_PRIMARY = UniqueKeys0.KEY_OFFERS_PRIMARY;
     public static final UniqueKey<OffersSkillsRecord> KEY_OFFERS_SKILLS_PRIMARY = UniqueKeys0.KEY_OFFERS_SKILLS_PRIMARY;
@@ -91,7 +91,7 @@ public class Keys {
     public static final UniqueKey<TokensRecord> KEY_TOKENS_PRIMARY = UniqueKeys0.KEY_TOKENS_PRIMARY;
     public static final UniqueKey<TokensRecord> KEY_TOKENS_TOKEN_UNIQUE = UniqueKeys0.KEY_TOKENS_TOKEN_UNIQUE;
     public static final UniqueKey<UserFormationRecord> KEY_USER_FORMATION_PRIMARY = UniqueKeys0.KEY_USER_FORMATION_PRIMARY;
-    public static final UniqueKey<UserIdiomRecord> KEY_USER_IDIOM_PRIMARY = UniqueKeys0.KEY_USER_IDIOM_PRIMARY;
+    public static final UniqueKey<UserLanguageRecord> KEY_USER_LANGUAGE_PRIMARY = UniqueKeys0.KEY_USER_LANGUAGE_PRIMARY;
     public static final UniqueKey<UsersRecord> KEY_USERS_PRIMARY = UniqueKeys0.KEY_USERS_PRIMARY;
     public static final UniqueKey<UsersSkillsRecord> KEY_USERS_SKILLS_PRIMARY = UniqueKeys0.KEY_USERS_SKILLS_PRIMARY;
 
@@ -112,8 +112,7 @@ public class Keys {
     public static final ForeignKey<TokensRecord, UsersRecord> FK_TOKEN_USER = ForeignKeys0.FK_TOKEN_USER;
     public static final ForeignKey<UserFormationRecord, UsersRecord> FK_USER_FORMATION_USER = ForeignKeys0.FK_USER_FORMATION_USER;
     public static final ForeignKey<UserFormationRecord, FormationsRecord> FK_USER_FORMATION_FORMATION = ForeignKeys0.FK_USER_FORMATION_FORMATION;
-    public static final ForeignKey<UserIdiomRecord, UsersRecord> USER_IDIOM_USER = ForeignKeys0.USER_IDIOM_USER;
-    public static final ForeignKey<UserIdiomRecord, IdiomsRecord> USER_IDIOM_IDIOM = ForeignKeys0.USER_IDIOM_IDIOM;
+    public static final ForeignKey<UserLanguageRecord, UsersRecord> USER_IDIOM_USER = ForeignKeys0.USER_IDIOM_USER;
     public static final ForeignKey<UsersSkillsRecord, UsersRecord> FK_USERS_SKILLS_USER = ForeignKeys0.FK_USERS_SKILLS_USER;
     public static final ForeignKey<UsersSkillsRecord, SkillsRecord> KF_USERS_SKILLS_SKILL = ForeignKeys0.KF_USERS_SKILLS_SKILL;
 
@@ -123,7 +122,7 @@ public class Keys {
 
     private static class Identities0 {
         public static Identity<EducationRecord, Integer> IDENTITY_EDUCATION = Internal.createIdentity(Education.EDUCATION, Education.EDUCATION.ID_EDUCATION);
-        public static Identity<IdiomsRecord, Integer> IDENTITY_IDIOMS = Internal.createIdentity(Idioms.IDIOMS, Idioms.IDIOMS.ID_IDIOM);
+        public static Identity<LanguagesRecord, Integer> IDENTITY_LANGUAGES = Internal.createIdentity(Languages.LANGUAGES, Languages.LANGUAGES.ID_LANGUAGE);
         public static Identity<OfferFormationRecord, Integer> IDENTITY_OFFER_FORMATION = Internal.createIdentity(OfferFormation.OFFER_FORMATION, OfferFormation.OFFER_FORMATION.ID_OFFER_FORMATION);
         public static Identity<OffersRecord, Integer> IDENTITY_OFFERS = Internal.createIdentity(Offers.OFFERS, Offers.OFFERS.ID_OFFER);
         public static Identity<OffersSkillsRecord, Integer> IDENTITY_OFFERS_SKILLS = Internal.createIdentity(OffersSkills.OFFERS_SKILLS, OffersSkills.OFFERS_SKILLS.ID_OFFER_SKILL);
@@ -131,7 +130,7 @@ public class Keys {
         public static Identity<SkillsRecord, Integer> IDENTITY_SKILLS = Internal.createIdentity(Skills.SKILLS, Skills.SKILLS.ID_SKILL);
         public static Identity<TokensRecord, Integer> IDENTITY_TOKENS = Internal.createIdentity(Tokens.TOKENS, Tokens.TOKENS.ID_TOKENS);
         public static Identity<UserFormationRecord, Integer> IDENTITY_USER_FORMATION = Internal.createIdentity(UserFormation.USER_FORMATION, UserFormation.USER_FORMATION.ID_USER_FORMATION);
-        public static Identity<UserIdiomRecord, Integer> IDENTITY_USER_IDIOM = Internal.createIdentity(UserIdiom.USER_IDIOM, UserIdiom.USER_IDIOM.ID_USER_IDIOM);
+        public static Identity<UserLanguageRecord, Integer> IDENTITY_USER_LANGUAGE = Internal.createIdentity(UserLanguage.USER_LANGUAGE, UserLanguage.USER_LANGUAGE.ID_USER_LANGUAGE);
         public static Identity<UsersRecord, Integer> IDENTITY_USERS = Internal.createIdentity(Users.USERS, Users.USERS.ID_USER);
         public static Identity<UsersSkillsRecord, Integer> IDENTITY_USERS_SKILLS = Internal.createIdentity(UsersSkills.USERS_SKILLS, UsersSkills.USERS_SKILLS.ID_USER_SKILL);
     }
@@ -141,7 +140,7 @@ public class Keys {
         public static final UniqueKey<CountriesRecord> KEY_COUNTRIES_PRIMARY = Internal.createUniqueKey(Countries.COUNTRIES, "KEY_countries_PRIMARY", Countries.COUNTRIES.ID_COUNTRY);
         public static final UniqueKey<EducationRecord> KEY_EDUCATION_PRIMARY = Internal.createUniqueKey(Education.EDUCATION, "KEY_education_PRIMARY", Education.EDUCATION.ID_EDUCATION);
         public static final UniqueKey<FormationsRecord> KEY_FORMATIONS_PRIMARY = Internal.createUniqueKey(Formations.FORMATIONS, "KEY_formations_PRIMARY", Formations.FORMATIONS.ID_FORMATION);
-        public static final UniqueKey<IdiomsRecord> KEY_IDIOMS_PRIMARY = Internal.createUniqueKey(Idioms.IDIOMS, "KEY_idioms_PRIMARY", Idioms.IDIOMS.ID_IDIOM);
+        public static final UniqueKey<LanguagesRecord> KEY_LANGUAGES_PRIMARY = Internal.createUniqueKey(Languages.LANGUAGES, "KEY_languages_PRIMARY", Languages.LANGUAGES.ID_LANGUAGE);
         public static final UniqueKey<OfferFormationRecord> KEY_OFFER_FORMATION_PRIMARY = Internal.createUniqueKey(OfferFormation.OFFER_FORMATION, "KEY_offer_formation_PRIMARY", OfferFormation.OFFER_FORMATION.ID_OFFER_FORMATION);
         public static final UniqueKey<OffersRecord> KEY_OFFERS_PRIMARY = Internal.createUniqueKey(Offers.OFFERS, "KEY_offers_PRIMARY", Offers.OFFERS.ID_OFFER);
         public static final UniqueKey<OffersSkillsRecord> KEY_OFFERS_SKILLS_PRIMARY = Internal.createUniqueKey(OffersSkills.OFFERS_SKILLS, "KEY_offers_skills_PRIMARY", OffersSkills.OFFERS_SKILLS.ID_OFFER_SKILL);
@@ -150,7 +149,7 @@ public class Keys {
         public static final UniqueKey<TokensRecord> KEY_TOKENS_PRIMARY = Internal.createUniqueKey(Tokens.TOKENS, "KEY_tokens_PRIMARY", Tokens.TOKENS.ID_TOKENS);
         public static final UniqueKey<TokensRecord> KEY_TOKENS_TOKEN_UNIQUE = Internal.createUniqueKey(Tokens.TOKENS, "KEY_tokens_token_UNIQUE", Tokens.TOKENS.TOKEN);
         public static final UniqueKey<UserFormationRecord> KEY_USER_FORMATION_PRIMARY = Internal.createUniqueKey(UserFormation.USER_FORMATION, "KEY_user_formation_PRIMARY", UserFormation.USER_FORMATION.ID_USER_FORMATION);
-        public static final UniqueKey<UserIdiomRecord> KEY_USER_IDIOM_PRIMARY = Internal.createUniqueKey(UserIdiom.USER_IDIOM, "KEY_user_idiom_PRIMARY", UserIdiom.USER_IDIOM.ID_USER_IDIOM);
+        public static final UniqueKey<UserLanguageRecord> KEY_USER_LANGUAGE_PRIMARY = Internal.createUniqueKey(UserLanguage.USER_LANGUAGE, "KEY_user_language_PRIMARY", UserLanguage.USER_LANGUAGE.ID_USER_LANGUAGE);
         public static final UniqueKey<UsersRecord> KEY_USERS_PRIMARY = Internal.createUniqueKey(Users.USERS, "KEY_users_PRIMARY", Users.USERS.ID_USER);
         public static final UniqueKey<UsersSkillsRecord> KEY_USERS_SKILLS_PRIMARY = Internal.createUniqueKey(UsersSkills.USERS_SKILLS, "KEY_users_skills_PRIMARY", UsersSkills.USERS_SKILLS.ID_USER_SKILL);
     }
@@ -169,8 +168,7 @@ public class Keys {
         public static final ForeignKey<TokensRecord, UsersRecord> FK_TOKEN_USER = Internal.createForeignKey(com.talendorse.server.model.Keys.KEY_USERS_PRIMARY, Tokens.TOKENS, "FK_TOKEN_USER", Tokens.TOKENS.ID_USER);
         public static final ForeignKey<UserFormationRecord, UsersRecord> FK_USER_FORMATION_USER = Internal.createForeignKey(com.talendorse.server.model.Keys.KEY_USERS_PRIMARY, UserFormation.USER_FORMATION, "FK_USER_FORMATION_USER", UserFormation.USER_FORMATION.ID_USER);
         public static final ForeignKey<UserFormationRecord, FormationsRecord> FK_USER_FORMATION_FORMATION = Internal.createForeignKey(com.talendorse.server.model.Keys.KEY_FORMATIONS_PRIMARY, UserFormation.USER_FORMATION, "FK_USER_FORMATION_FORMATION", UserFormation.USER_FORMATION.ID_FORMATION);
-        public static final ForeignKey<UserIdiomRecord, UsersRecord> USER_IDIOM_USER = Internal.createForeignKey(com.talendorse.server.model.Keys.KEY_USERS_PRIMARY, UserIdiom.USER_IDIOM, "user_idiom_user", UserIdiom.USER_IDIOM.ID_USER);
-        public static final ForeignKey<UserIdiomRecord, IdiomsRecord> USER_IDIOM_IDIOM = Internal.createForeignKey(com.talendorse.server.model.Keys.KEY_IDIOMS_PRIMARY, UserIdiom.USER_IDIOM, "user_idiom_idiom", UserIdiom.USER_IDIOM.ID_IDIOM);
+        public static final ForeignKey<UserLanguageRecord, UsersRecord> USER_IDIOM_USER = Internal.createForeignKey(com.talendorse.server.model.Keys.KEY_USERS_PRIMARY, UserLanguage.USER_LANGUAGE, "user_idiom_user", UserLanguage.USER_LANGUAGE.ID_USER);
         public static final ForeignKey<UsersSkillsRecord, UsersRecord> FK_USERS_SKILLS_USER = Internal.createForeignKey(com.talendorse.server.model.Keys.KEY_USERS_PRIMARY, UsersSkills.USERS_SKILLS, "FK_users_skills_user", UsersSkills.USERS_SKILLS.ID_USER);
         public static final ForeignKey<UsersSkillsRecord, SkillsRecord> KF_USERS_SKILLS_SKILL = Internal.createForeignKey(com.talendorse.server.model.Keys.KEY_SKILLS_PRIMARY, UsersSkills.USERS_SKILLS, "KF_users_skills_skill", UsersSkills.USERS_SKILLS.ID_SKILL);
     }
