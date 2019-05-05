@@ -22,7 +22,7 @@ public class Constantes {
     public static final String CLAVE_ENCRIPTACION = "Binomio Alto";
     public static final String VI_ENCRIPTACION = "456";
     public static final String PATTERN_SPLIT = "RFVBGT";
-    public static final long TOKEN_EXPIRATION_MINUTES = 30 * 24 * 3600;
+    public static final long TOKEN_EXPIRATION_MINUTES = 60 * 24 * 3600;
 
     public static final int NUM_RANDOM_INTENTS_CODE_OFFER = 10;
 

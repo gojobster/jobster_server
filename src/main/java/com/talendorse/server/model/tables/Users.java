@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users extends TableImpl<UsersRecord> {
 
-    private static final long serialVersionUID = 297527769;
+    private static final long serialVersionUID = -593699872;
 
     /**
      * The reference instance of <code>database.users</code>
@@ -68,6 +68,11 @@ public class Users extends TableImpl<UsersRecord> {
     public final TableField<UsersRecord, String> ID_LINKEDIN = createField("id_linkedin", org.jooq.impl.SQLDataType.VARCHAR(90), this, "");
 
     /**
+     * The column <code>database.users.token_linkedin</code>.
+     */
+    public final TableField<UsersRecord, String> TOKEN_LINKEDIN = createField("token_linkedin", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "");
+
+    /**
      * The column <code>database.users.name</code>.
      */
     public final TableField<UsersRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "");
@@ -90,12 +95,12 @@ public class Users extends TableImpl<UsersRecord> {
     /**
      * The column <code>database.users.date_birthday</code>.
      */
-    public final TableField<UsersRecord, Timestamp> DATE_BIRTHDAY = createField("date_birthday", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false), this, "");
+    public final TableField<UsersRecord, Timestamp> DATE_BIRTHDAY = createField("date_birthday", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
 
     /**
      * The column <code>database.users.gender</code>.
      */
-    public final TableField<UsersRecord, String> GENDER = createField("gender", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "");
+    public final TableField<UsersRecord, String> GENDER = createField("gender", org.jooq.impl.SQLDataType.VARCHAR(45), this, "");
 
     /**
      * The column <code>database.users.sector</code>.
@@ -110,17 +115,12 @@ public class Users extends TableImpl<UsersRecord> {
     /**
      * The column <code>database.users.picture_url</code>.
      */
-    public final TableField<UsersRecord, String> PICTURE_URL = createField("picture_url", org.jooq.impl.SQLDataType.VARCHAR(90), this, "");
+    public final TableField<UsersRecord, String> PICTURE_URL = createField("picture_url", org.jooq.impl.SQLDataType.VARCHAR(190), this, "");
 
     /**
      * The column <code>database.users.thumb_url</code>.
      */
-    public final TableField<UsersRecord, String> THUMB_URL = createField("thumb_url", org.jooq.impl.SQLDataType.VARCHAR(90), this, "");
-
-    /**
-     * The column <code>database.users.apikey</code>.
-     */
-    public final TableField<UsersRecord, String> APIKEY = createField("apikey", org.jooq.impl.SQLDataType.VARCHAR(45), this, "");
+    public final TableField<UsersRecord, String> THUMB_URL = createField("thumb_url", org.jooq.impl.SQLDataType.VARCHAR(190), this, "");
 
     /**
      * The column <code>database.users.verified_email</code>.
@@ -135,7 +135,7 @@ public class Users extends TableImpl<UsersRecord> {
     /**
      * The column <code>database.users.password</code>.
      */
-    public final TableField<UsersRecord, String> PASSWORD = createField("password", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "");
+    public final TableField<UsersRecord, String> PASSWORD = createField("password", org.jooq.impl.SQLDataType.VARCHAR(45), this, "");
 
     /**
      * The column <code>database.users.salt</code>.

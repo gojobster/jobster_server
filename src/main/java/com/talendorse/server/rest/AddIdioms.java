@@ -1,6 +1,6 @@
 package com.talendorse.server.rest;
 
-import com.talendorse.server.BLL.IdiomsManagement;
+import com.talendorse.server.BLL.LanguagesManagement;
 import com.talendorse.server.BLL.TalendorseException;
 import com.talendorse.server.DTO.RespuestaWS;
 
@@ -20,7 +20,7 @@ public class AddIdioms {
         RespuestaWS<String> respuestaWS = new RespuestaWS<>();
         try {
             respuestaWS.responseStatus = 200;
-            respuestaWS.message = IdiomsManagement.addIdiom(idiom);
+            respuestaWS.message = LanguagesManagement.addIdiom(idiom);
             respuestaWS.error = "";
             return  respuestaWS;
         } catch (TalendorseException ex) {

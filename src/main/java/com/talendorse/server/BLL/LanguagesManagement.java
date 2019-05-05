@@ -4,7 +4,7 @@ import com.talendorse.server.model.tables.records.LanguagesRecord;
 import com.talendorse.server.types.TalendorseErrorType;
 import com.talendorse.server.model.Tables;
 
-public class IdiomsManagement {
+public class LanguagesManagement {
     public static String addIdiom(String languageName) throws TalendorseException {
         ConnectionBDManager connection = new ConnectionBDManager();
 

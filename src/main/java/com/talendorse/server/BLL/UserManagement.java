@@ -53,7 +53,7 @@ public class UserManagement {
         token.setExpirationDate(Fechas.getTokenExpiration());
         token.store();
 
-        RespuestaWSLogin respuestaWSUsuario = new RespuestaWSLogin(usuario.getApikey(), usuario.getPictureUrl(), usuario.getEmail(),
+        RespuestaWSLogin respuestaWSUsuario = new RespuestaWSLogin(usuario.getTokenLinkedin(), usuario.getPictureUrl(), usuario.getEmail(),
                 usuario.getName(), usuario.getSurrname(), token.getToken());
 
         connection.closeConnection();
@@ -91,7 +91,7 @@ public class UserManagement {
         UsersRecord usr = connection.create.newRecord(Tables.USERS);
 
         usr.setEmail(emailEncriptado);
-        usr.setApikey(UUID.randomUUID().toString());
+        usr.setTokenLinkedin(UUID.randomUUID().toString());
         usr.setName(name);
         usr.setSurrname(surname);
         usr.setPictureUrl("/Upload/User/" + Seguridad.GenerateSecureRandomString() + "/" + Seguridad.GenerarRandomFileName() + "_thumb.jpg");
@@ -127,7 +127,7 @@ public class UserManagement {
 //        }
 
         connection.closeConnection();
-        return usr.getApikey();
+        return usr.getTokenLinkedin();
     }
 
 
@@ -142,7 +142,7 @@ public class UserManagement {
         usr.setGender(gender);
         usr.setPassword(password);
         usr.setLanguage("es");
-        usr.setApikey(UUID.randomUUID().toString());
+        usr.setTokenLinkedin(UUID.randomUUID().toString());
         usr.setValidationToken(UUID.randomUUID().toString());
         usr.setPictureUrl("/Upload/User/" + Seguridad.GenerateSecureRandomString() + "/" + Seguridad.GenerarRandomFileName() + "_thumb.jpg");
         usr.setDateBirthday(Fechas.getCurrentTimestampLong());
@@ -231,17 +231,19 @@ public class UserManagement {
         return content.toString();
     }
 
-    public static UsersRecord GetUserfromApiKey(String apiKey) throws TalendorseException {
+    public static UsersRecord GetUserfromTokenLinkedin(String token) throws TalendorseException {
         ConnectionBDManager connection = new ConnectionBDManager();
 
         UsersRecord usr = connection.create.select()
                 .from(Tables.USERS)
-                .where(Tables.USERS.APIKEY.equal(apiKey))
+                .where(Tables.USERS.TOKEN_LINKEDIN.equal(token))
                 .fetchAnyInto(UsersRecord.class);
 
         connection.closeConnection();
         return usr;
     }
+
+
     public static String GetUserTokenFromId(int id) throws  TalendorseException {
         ConnectionBDManager connection = new ConnectionBDManager();
         String tknUsr = connection.create.select().from(Tables.USERS).where(Tables.USERS.ID_USER.contains(id)).fetchSingle(Tables.USERS.VALIDATION_TOKEN);
@@ -277,8 +279,8 @@ public class UserManagement {
 
     public static String LogOut(String apiKey) throws TalendorseException {
         //Habria que borrar el APIKEY a uno distinto o algo
-        UsersRecord usuario = GetUserfromApiKey(apiKey);
-        if (usuario == null) throw new TalendorseException(TalendorseErrorType.USER_NOT_FOUND);
+//        UsersRecord usuario = GetUserfromApiKey(apiKey);
+//        if (usuario == null) throw new TalendorseException(TalendorseErrorType.USER_NOT_FOUND);
         return "OK";
     }
 
@@ -446,5 +448,30 @@ public class UserManagement {
 
         connection.closeConnection();
         return "OK";
+    }
+
+    public static UsersRecord getUserbyIdLinkedIn(ConnectionBDManager connection, String id_linkedId) {
+        return connection.create.select()
+                .from(Tables.USERS)
+                .where(Tables.USERS.ID_LINKEDIN.equal(id_linkedId))
+                .fetchAnyInto(UsersRecord.class);
+    }
+
+    public static UsersRecord getUserbyEmail(ConnectionBDManager connection, String email) {
+        return connection.create.select()
+                .from(Tables.USERS)
+                .where(Tables.USERS.EMAIL.equal(email))
+                .fetchAnyInto(UsersRecord.class);
+    }
+
+    public static void copyUserFromLinkedInUSer(UsersRecord linkedinUser, UsersRecord user) {
+        user.setTokenLinkedin(linkedinUser.getTokenLinkedin());
+        user.setIdLinkedin(linkedinUser.getIdLinkedin());
+        user.setName(linkedinUser.getName());
+        user.setSurrname(linkedinUser.getSurrname());
+        user.setEmail(linkedinUser.getEmail());
+        user.setLanguage(linkedinUser.getLanguage());
+        user.setPictureUrl(linkedinUser.getPictureUrl());
+        user.setThumbUrl(linkedinUser.getThumbUrl());
     }
 }

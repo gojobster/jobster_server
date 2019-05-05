@@ -11,6 +11,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import java.io.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+
 @Path("/{login : (?i)login}")
 public class LoginService {
 
