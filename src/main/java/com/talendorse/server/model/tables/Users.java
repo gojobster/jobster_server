@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users extends TableImpl<UsersRecord> {
 
-    private static final long serialVersionUID = 327502037;
+    private static final long serialVersionUID = 297527769;
 
     /**
      * The reference instance of <code>database.users</code>
@@ -61,6 +61,11 @@ public class Users extends TableImpl<UsersRecord> {
      * The column <code>database.users.id_user</code>.
      */
     public final TableField<UsersRecord, Integer> ID_USER = createField("id_user", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+
+    /**
+     * The column <code>database.users.id_linkedin</code>.
+     */
+    public final TableField<UsersRecord, String> ID_LINKEDIN = createField("id_linkedin", org.jooq.impl.SQLDataType.VARCHAR(90), this, "");
 
     /**
      * The column <code>database.users.name</code>.
@@ -108,6 +113,11 @@ public class Users extends TableImpl<UsersRecord> {
     public final TableField<UsersRecord, String> PICTURE_URL = createField("picture_url", org.jooq.impl.SQLDataType.VARCHAR(90), this, "");
 
     /**
+     * The column <code>database.users.thumb_url</code>.
+     */
+    public final TableField<UsersRecord, String> THUMB_URL = createField("thumb_url", org.jooq.impl.SQLDataType.VARCHAR(90), this, "");
+
+    /**
      * The column <code>database.users.apikey</code>.
      */
     public final TableField<UsersRecord, String> APIKEY = createField("apikey", org.jooq.impl.SQLDataType.VARCHAR(45), this, "");
@@ -148,9 +158,9 @@ public class Users extends TableImpl<UsersRecord> {
     public final TableField<UsersRecord, Integer> VERIFIED_PHONE_NUMBER = createField("verified_phone_number", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
-     * The column <code>database.users.idiom</code>.
+     * The column <code>database.users.language</code>.
      */
-    public final TableField<UsersRecord, String> IDIOM = createField("idiom", org.jooq.impl.SQLDataType.VARCHAR(45).defaultValue(org.jooq.impl.DSL.inline("en", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
+    public final TableField<UsersRecord, String> LANGUAGE = createField("language", org.jooq.impl.SQLDataType.VARCHAR(45).defaultValue(org.jooq.impl.DSL.inline("en", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
 
     /**
      * The column <code>database.users.validation_token</code>.

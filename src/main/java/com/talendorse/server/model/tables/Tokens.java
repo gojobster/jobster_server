@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tokens extends TableImpl<TokensRecord> {
 
-    private static final long serialVersionUID = 2090453614;
+    private static final long serialVersionUID = 1177717838;
 
     /**
      * The reference instance of <code>database.tokens</code>
@@ -73,14 +73,14 @@ public class Tokens extends TableImpl<TokensRecord> {
     public final TableField<TokensRecord, String> TOKEN = createField("token", org.jooq.impl.SQLDataType.VARCHAR(90).nullable(false), this, "");
 
     /**
-     * The column <code>database.tokens.creation_date</code>.
-     */
-    public final TableField<TokensRecord, Timestamp> CREATION_DATE = createField("creation_date", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
-
-    /**
      * The column <code>database.tokens.expiration_date</code>.
      */
     public final TableField<TokensRecord, Timestamp> EXPIRATION_DATE = createField("expiration_date", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+
+    /**
+     * The column <code>database.tokens.creation_date</code>.
+     */
+    public final TableField<TokensRecord, Timestamp> CREATION_DATE = createField("creation_date", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
      * Create a <code>database.tokens</code> table reference

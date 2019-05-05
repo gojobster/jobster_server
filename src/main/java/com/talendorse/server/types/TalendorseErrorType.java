@@ -14,6 +14,7 @@ public enum TalendorseErrorType {
     LOGIN_ERROR(-402, "ERROR LOGGING IN"),
     FORBIDDEN(403, "Forbidden"),
     NOT_FOUND(-404, "NOT FOUND"),
+    LINKEDIM_EXECPTION(-406, "Linkedin Exception"),
     USER_NOT_FOUND(-409, "INVALID USER"),
     USER_NOT_VERIFIED(-410, "USER NOT VERIFIED"),
     TOKEN_NOT_FOUND(-411, "TOKEN ERROR"),

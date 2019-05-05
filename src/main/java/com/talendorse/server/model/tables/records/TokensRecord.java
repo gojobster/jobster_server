@@ -30,7 +30,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TokensRecord extends UpdatableRecordImpl<TokensRecord> implements Record5<Integer, Integer, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -1749056718;
+    private static final long serialVersionUID = -1970048846;
 
     /**
      * Setter for <code>database.tokens.id_tokens</code>.
@@ -75,30 +75,30 @@ public class TokensRecord extends UpdatableRecordImpl<TokensRecord> implements R
     }
 
     /**
-     * Setter for <code>database.tokens.creation_date</code>.
-     */
-    public void setCreationDate(Timestamp value) {
-        set(3, value);
-    }
-
-    /**
-     * Getter for <code>database.tokens.creation_date</code>.
-     */
-    public Timestamp getCreationDate() {
-        return (Timestamp) get(3);
-    }
-
-    /**
      * Setter for <code>database.tokens.expiration_date</code>.
      */
     public void setExpirationDate(Timestamp value) {
-        set(4, value);
+        set(3, value);
     }
 
     /**
      * Getter for <code>database.tokens.expiration_date</code>.
      */
     public Timestamp getExpirationDate() {
+        return (Timestamp) get(3);
+    }
+
+    /**
+     * Setter for <code>database.tokens.creation_date</code>.
+     */
+    public void setCreationDate(Timestamp value) {
+        set(4, value);
+    }
+
+    /**
+     * Getter for <code>database.tokens.creation_date</code>.
+     */
+    public Timestamp getCreationDate() {
         return (Timestamp) get(4);
     }
 
@@ -163,7 +163,7 @@ public class TokensRecord extends UpdatableRecordImpl<TokensRecord> implements R
      */
     @Override
     public Field<Timestamp> field4() {
-        return Tokens.TOKENS.CREATION_DATE;
+        return Tokens.TOKENS.EXPIRATION_DATE;
     }
 
     /**
@@ -171,7 +171,7 @@ public class TokensRecord extends UpdatableRecordImpl<TokensRecord> implements R
      */
     @Override
     public Field<Timestamp> field5() {
-        return Tokens.TOKENS.EXPIRATION_DATE;
+        return Tokens.TOKENS.CREATION_DATE;
     }
 
     /**
@@ -203,7 +203,7 @@ public class TokensRecord extends UpdatableRecordImpl<TokensRecord> implements R
      */
     @Override
     public Timestamp component4() {
-        return getCreationDate();
+        return getExpirationDate();
     }
 
     /**
@@ -211,7 +211,7 @@ public class TokensRecord extends UpdatableRecordImpl<TokensRecord> implements R
      */
     @Override
     public Timestamp component5() {
-        return getExpirationDate();
+        return getCreationDate();
     }
 
     /**
@@ -243,7 +243,7 @@ public class TokensRecord extends UpdatableRecordImpl<TokensRecord> implements R
      */
     @Override
     public Timestamp value4() {
-        return getCreationDate();
+        return getExpirationDate();
     }
 
     /**
@@ -251,7 +251,7 @@ public class TokensRecord extends UpdatableRecordImpl<TokensRecord> implements R
      */
     @Override
     public Timestamp value5() {
-        return getExpirationDate();
+        return getCreationDate();
     }
 
     /**
@@ -286,7 +286,7 @@ public class TokensRecord extends UpdatableRecordImpl<TokensRecord> implements R
      */
     @Override
     public TokensRecord value4(Timestamp value) {
-        setCreationDate(value);
+        setExpirationDate(value);
         return this;
     }
 
@@ -295,7 +295,7 @@ public class TokensRecord extends UpdatableRecordImpl<TokensRecord> implements R
      */
     @Override
     public TokensRecord value5(Timestamp value) {
-        setExpirationDate(value);
+        setCreationDate(value);
         return this;
     }
 
@@ -326,13 +326,13 @@ public class TokensRecord extends UpdatableRecordImpl<TokensRecord> implements R
     /**
      * Create a detached, initialised TokensRecord
      */
-    public TokensRecord(Integer idTokens, Integer idUser, String token, Timestamp creationDate, Timestamp expirationDate) {
+    public TokensRecord(Integer idTokens, Integer idUser, String token, Timestamp expirationDate, Timestamp creationDate) {
         super(Tokens.TOKENS);
 
         set(0, idTokens);
         set(1, idUser);
         set(2, token);
-        set(3, creationDate);
-        set(4, expirationDate);
+        set(3, expirationDate);
+        set(4, creationDate);
     }
 }

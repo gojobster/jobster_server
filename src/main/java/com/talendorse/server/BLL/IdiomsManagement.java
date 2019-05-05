@@ -1,25 +1,25 @@
 package com.talendorse.server.BLL;
 
-import com.talendorse.server.model.tables.records.IdiomsRecord;
+import com.talendorse.server.model.tables.records.LanguagesRecord;
 import com.talendorse.server.types.TalendorseErrorType;
 import com.talendorse.server.model.Tables;
 
 public class IdiomsManagement {
-    public static String addIdiom(String idiomName) throws TalendorseException {
+    public static String addIdiom(String languageName) throws TalendorseException {
         ConnectionBDManager connection = new ConnectionBDManager();
 
-        idiomName = idiomName.trim();
+        languageName = languageName.trim();
 
-        IdiomsRecord idiom = connection.create.select()
-                .from(Tables.IDIOMS)
-                .where(Tables.IDIOMS.NAME.equal(idiomName))
-                .fetchAnyInto(IdiomsRecord.class);
-        if (idiom != null) throw new TalendorseException(TalendorseErrorType.IDIOM_ALREADY_EXISTS);
+        LanguagesRecord language = connection.create.select()
+                .from(Tables.LANGUAGES)
+                .where(Tables.LANGUAGES.NAME.equal(languageName))
+                .fetchAnyInto(LanguagesRecord.class);
+        if (language != null) throw new TalendorseException(TalendorseErrorType.IDIOM_ALREADY_EXISTS);
 
-        idiom = connection.create.newRecord(Tables.IDIOMS);
-        idiom.setName(idiomName);
+        language = connection.create.newRecord(Tables.LANGUAGES);
+        language.setName(languageName);
 
-        idiom.store();
+        language.store();
         connection.closeConnection();
         return "OK";
     }
