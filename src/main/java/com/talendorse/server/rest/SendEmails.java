@@ -7,9 +7,10 @@ import com.talendorse.server.DTO.RespuestaWS;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
-@Path("/{validateEmail : (?i)validateEmail}")
-public class ValidateEmail {
+@Path("/{email : (?i)email}")
+public class SendEmails {
     @POST
+    @Path("/{activation_es}")
     @Produces(MediaType.APPLICATION_JSON)
     public RespuestaWS<String> validateEmail(@FormParam("token") String token){
         RespuestaWS<String> respuestaWS = new RespuestaWS<>();

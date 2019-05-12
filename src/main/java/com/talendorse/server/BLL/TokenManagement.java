@@ -1,19 +1,10 @@
 package com.talendorse.server.BLL;
 
 import com.talendorse.server.model.Tables;
-import com.talendorse.server.model.tables.records.LanguagesRecord;
 import com.talendorse.server.model.tables.records.TokensRecord;
-import com.talendorse.server.model.tables.records.UsersRecord;
 import com.talendorse.server.types.TalendorseErrorType;
 import com.talendorse.server.util.Fechas;
 import com.talendorse.server.util.Util;
-import java.util.Date;
-import java.sql.Timestamp;
-import jdk.nashorn.internal.parser.Token;
-import org.jooq.Field;
-import org.jooq.Table;
-
-import java.sql.Timestamp;
 
 public class TokenManagement {
     public static TokensRecord addToken(int idUser) throws TalendorseException {

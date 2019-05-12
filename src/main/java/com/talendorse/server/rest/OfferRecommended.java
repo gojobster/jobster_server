@@ -28,7 +28,7 @@ public class OfferRecommended {
         RespuestaWS<String> respuestaWS = new RespuestaWS<>();
         try {
             respuestaWS.responseStatus = 200;
-            respuestaWS.message = RecomendationsManagement.addRecommendations(id_offer, id_user, email, uriInfo.getBaseUri().toString());
+            respuestaWS.message = RecomendationsManagement.sendRecomendatioToCandidate(uriInfo.getBaseUri().toString(), id_user, id_offer, email);
             respuestaWS.error = "";
             return  respuestaWS;
         } catch (TalendorseException ex) {
@@ -37,6 +37,5 @@ public class OfferRecommended {
             respuestaWS.error = ex.getMessage();
             return respuestaWS;
         }
-
     }
 }

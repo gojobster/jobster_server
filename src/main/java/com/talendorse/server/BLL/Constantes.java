@@ -3,11 +3,11 @@ package com.talendorse.server.BLL;
 public class Constantes {
     private static final boolean IS_DEBUG = true;
 
-    private static final String TALENDORSE_URL_LOCALHOST = "http://localhost:8090/";
+    private static final String TALENDORSE_URL_LOCALHOST = "http://localhost:8080/";
     private static final String TALENDORSE_URL_SERVER = "http://18.191.247.235:8080/";
-    private static final String TALENDORSE_URL = IS_DEBUG ? TALENDORSE_URL_LOCALHOST : TALENDORSE_URL_SERVER;
+    public static final String TALENDORSE_URL = IS_DEBUG ? TALENDORSE_URL_LOCALHOST : TALENDORSE_URL_SERVER;
 
-    private static final String WS_TALENDORSE_DEBUG = TALENDORSE_URL_LOCALHOST + "talendorse_ws_war/";
+    private static final String WS_TALENDORSE_DEBUG = TALENDORSE_URL_LOCALHOST + "ws/";
     private static final String WS_TALENDORSE_RELEASE = TALENDORSE_URL + "ws/";
     public static final String WS_TALENDORSE_URL = IS_DEBUG ? WS_TALENDORSE_DEBUG : WS_TALENDORSE_RELEASE;
 
@@ -38,10 +38,10 @@ public class Constantes {
 
 
 
-    public static final String URL_EMAIL_VALIDATION_ACCOUNT_URL_ES = WS_TALENDORSE_URL + "email/email_activation_es.html";
-    public static final String URL_EMAIL_SEND_RECOMMENDATION_URL_ES = WS_TALENDORSE_URL + "email/email_recommendation_es.html";
-    public static final String URL_EMAIL_VALIDATION_ACCOUNT_URL_EN = WS_TALENDORSE_URL + "email/email_activation_en.html";
-    public static final String URL_EMAIL_SEND_RECOMMENDATION_URL_EN = WS_TALENDORSE_URL + "email/email_recommendation_en.html";
+    public static final String URL_EMAIL_VALIDATION_ACCOUNT_URL_ES = "email/activation_es";//WS_TALENDORSE_URL + "email/email_activation_es.html";
+    public static final String URL_EMAIL_SEND_RECOMMENDATION_URL_ES = "email/recommendation_es";//WS_TALENDORSE_URL + "email/email_recommendation_es.html";
+    public static final String URL_EMAIL_VALIDATION_ACCOUNT_URL_EN = "email/activation_en";//WS_TALENDORSE_URL + "email/email_activation_en.html";
+    public static final String URL_EMAIL_SEND_RECOMMENDATION_URL_EN = "email/recommendation_en";//WS_TALENDORSE_URL + "email/email_recommendation_en.html";
 
     /****************************************************************************
      ************************* EMAIL SETTINGS ***********************************

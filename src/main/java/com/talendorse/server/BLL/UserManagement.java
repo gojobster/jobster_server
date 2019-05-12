@@ -24,6 +24,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
 
+import static com.talendorse.server.util.Email.TextoMail;
+
 public class UserManagement {
     private static int MIN_LEN_PWD = 8;
 
@@ -54,7 +56,7 @@ public class UserManagement {
         token.store();
 
         RespuestaWSLogin respuestaWSUsuario = new RespuestaWSLogin(usuario.getTokenLinkedin(), usuario.getPictureUrl(), usuario.getEmail(),
-                usuario.getName(), usuario.getSurrname(), token.getToken());
+                usuario.getName(), usuario.getSurname(), token.getToken());
 
         connection.closeConnection();
         return respuestaWSUsuario;
@@ -93,7 +95,7 @@ public class UserManagement {
         usr.setEmail(emailEncriptado);
         usr.setTokenLinkedin(UUID.randomUUID().toString());
         usr.setName(name);
-        usr.setSurrname(surname);
+        usr.setSurname(surname);
         usr.setPictureUrl("/Upload/User/" + Seguridad.GenerateSecureRandomString() + "/" + Seguridad.GenerarRandomFileName() + "_thumb.jpg");
         usr.setDateBirthday(Fechas.getCurrentTimestampLong());
         usr.setPassword(password);
@@ -137,7 +139,7 @@ public class UserManagement {
         UsersRecord usr = connection.create.newRecord(Tables.USERS);
 
         usr.setName(name);
-        usr.setSurrname(surname);
+        usr.setSurname(surname);
         usr.setEmail(email.trim());
         usr.setGender(gender);
         usr.setPassword(password);
@@ -154,10 +156,10 @@ public class UserManagement {
         String url_location = Constantes.URL_EMAIL_VALIDATION_ACCOUNT_URL_ES;
         String email_subject = Constantes.EMAIL_SUBJECT_USER_ACTIVATION_ES;
 
-        String textoEmail = TextoMail(url, url_location);
+        String textoEmail = Email.TextoMail(url, url_location);
         textoEmail = textoEmail.replace("user_name_endorser", usr.getName());
         textoEmail = textoEmail.replace("url_endorser_validation", Constantes.WS_TALENDORSE_URL+
-                "talendorse/email/account_activated.html?activation_token="+ usr.getValidationToken());
+                "email/activation_es?activation_token="+ usr.getValidationToken());
 
         Email.sendEmail(email, email_subject, textoEmail);
 
@@ -200,43 +202,12 @@ public class UserManagement {
         return Base64.getEncoder().encodeToString(criptografiaSimetrica.encriptar(enlace));
     }
 
-    public static String TextoMail(String url, String url_location) throws TalendorseException {
-        try {
-            return GetURLContent(url, url_location);
-        } catch (Exception e) {
-            throw new TalendorseException(TalendorseErrorType.GENERIC_ERROR);
-        }
-    }
-
-    private static String GetURLContent(String url_header, String url_location) throws TalendorseException {
-        StringBuilder content = new StringBuilder();
-        try {
-            // create a url object
-            URL url = new URL(url_header+url_location);
-
-            // create a urlconnection object
-            URLConnection urlConnection = url.openConnection();
-
-            // wrap the urlconnection in a bufferedreader
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                content.append(line).append("\n");
-            }
-            bufferedReader.close();
-        } catch (Exception e) {
-            throw new TalendorseException(TalendorseErrorType.GENERIC_ERROR);
-        }
-        return content.toString();
-    }
-
-    public static UsersRecord GetUserfromTokenLinkedin(String token) throws TalendorseException {
+    public static UsersRecord GetUserfromApiKey(String apiKey) throws TalendorseException {
         ConnectionBDManager connection = new ConnectionBDManager();
 
         UsersRecord usr = connection.create.select()
                 .from(Tables.USERS)
-                .where(Tables.USERS.TOKEN_LINKEDIN.equal(token))
+                .where(Tables.USERS.TOKEN_LINKEDIN.equal(apiKey))
                 .fetchAnyInto(UsersRecord.class);
 
         connection.closeConnection();
@@ -263,9 +234,8 @@ public class UserManagement {
         return usr;
     }
 
-    public static RespuestaWSUser UserInformation(String token) throws TalendorseException {
-
-        UsersRecord usuario = GetUserfromToken(token);
+    public static RespuestaWSUser UserInformation(String apiKey) throws TalendorseException {
+        UsersRecord usuario = GetUserfromApiKey(apiKey);
         if (usuario == null) throw new TalendorseException(TalendorseErrorType.USER_NOT_FOUND);
         String urlThumbnail = usuario.getPictureUrl();
         String urlAvatar = "";
@@ -274,13 +244,13 @@ public class UserManagement {
         }
         usuario.setLastConnection(Fechas.getCurrentTimestampLong());
         usuario.store();
-        return new RespuestaWSUser(urlAvatar, usuario.getEmail(), usuario.getName(), usuario.getSurrname(), usuario.getPhoneNumber());
+        return new RespuestaWSUser(urlAvatar, usuario.getEmail(), usuario.getName(), usuario.getSurname(), usuario.getPhoneNumber());
     }
 
     public static String LogOut(String apiKey) throws TalendorseException {
         //Habria que borrar el APIKEY a uno distinto o algo
-//        UsersRecord usuario = GetUserfromApiKey(apiKey);
-//        if (usuario == null) throw new TalendorseException(TalendorseErrorType.USER_NOT_FOUND);
+        UsersRecord usuario = GetUserfromApiKey(apiKey);
+        if (usuario == null) throw new TalendorseException(TalendorseErrorType.USER_NOT_FOUND);
         return "OK";
     }
 
@@ -321,7 +291,7 @@ public class UserManagement {
 
         List<RespuestaWSUser> listUsers = new ArrayList<>();
         for (Record r : result) {
-            RespuestaWSUser user = new RespuestaWSUser ( r.getValue(Tables.USERS.NAME), r.getValue(Tables.USERS.SURRNAME),
+            RespuestaWSUser user = new RespuestaWSUser ( r.getValue(Tables.USERS.NAME), r.getValue(Tables.USERS.SURNAME),
                     r.getValue(Tables.USERS.EMAIL), r.getValue(Tables.USERS.PICTURE_URL), r.getValue(Tables.USERS.PHONE_NUMBER));
             listUsers.add(user);
         }
@@ -381,7 +351,7 @@ public class UserManagement {
 
             RespuestaWSOfferUser respues = new RespuestaWSOfferUser(ref.getValue(Tables.REFERRALS.ID_REFERRAL), ref.getValue(Tables.REFERRALS.ID_OFFER),
                     ref.getValue(Tables.REFERRALS.STATE), ref.getValue(Tables.REFERRALS.ID_ENDORSER), endorser.getName(),
-                    endorser.getSurrname(), ref.getValue(Tables.REFERRALS.EMAIL_CANDIDATE), company.getValue(Tables.COMPANIES.NAME),
+                    endorser.getSurname(), ref.getValue(Tables.REFERRALS.EMAIL_CANDIDATE), company.getValue(Tables.COMPANIES.NAME),
                     company.getValue(Tables.COMPANIES.PATH_IMG), off.getPosition(), off.getSummary(), ref.getValue(Tables.REFERRALS.DATE_CREATION),
                     ref.getValue(Tables.REFERRALS.DATE_ACCEPTED), off.getDateEnd());
 
@@ -395,12 +365,19 @@ public class UserManagement {
 
                 respues.setIdCandidato(ref.getValue(Tables.REFERRALS.ID_CANDIDATE));
                 respues.setName_candidate(candidate.getName());
-                respues.setSurname_candidate(candidate.getSurrname());
+                respues.setSurname_candidate(candidate.getSurname());
             }
             listOffers.add(respues);
         }
         connection.closeConnection();
         return  listOffers;
+    }
+
+    public static UsersRecord getUser(int idUser) throws TalendorseException {
+        ConnectionBDManager connection = new ConnectionBDManager();
+        UsersRecord user = getUser(connection, idUser);
+        connection.closeConnection();
+        return  user;
     }
 
     public static UsersRecord getUser(ConnectionBDManager connection, int idUser) throws TalendorseException {
@@ -468,7 +445,7 @@ public class UserManagement {
         user.setTokenLinkedin(linkedinUser.getTokenLinkedin());
         user.setIdLinkedin(linkedinUser.getIdLinkedin());
         user.setName(linkedinUser.getName());
-        user.setSurrname(linkedinUser.getSurrname());
+        user.setSurname(linkedinUser.getSurname());
         user.setEmail(linkedinUser.getEmail());
         user.setLanguage(linkedinUser.getLanguage());
         user.setPictureUrl(linkedinUser.getPictureUrl());

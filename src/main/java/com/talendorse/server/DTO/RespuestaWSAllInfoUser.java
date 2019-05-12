@@ -19,7 +19,7 @@ public class RespuestaWSAllInfoUser {
 		this.email = endorser.getEmail();
 		this.telefono = endorser.getPhoneNumber();
 		this.name = endorser.getName();
-		this.surname = endorser.getSurrname();
+		this.surname = endorser.getSurname();
 		this.skills = lstSkills;
 		this.idioms = lstIdioms;
 	}
