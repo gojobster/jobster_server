@@ -19,6 +19,7 @@ import com.talendorse.server.model.tables.UserFormation;
 import com.talendorse.server.model.tables.UserLanguage;
 import com.talendorse.server.model.tables.Users;
 import com.talendorse.server.model.tables.UsersSkills;
+import com.talendorse.server.model.tables.ViewsUser;
 
 import javax.annotation.Generated;
 
@@ -110,4 +111,9 @@ public class Tables {
      * The table <code>database.users_skills</code>.
      */
     public static final UsersSkills USERS_SKILLS = com.talendorse.server.model.tables.UsersSkills.USERS_SKILLS;
+
+    /**
+     * The table <code>database.views_user</code>.
+     */
+    public static final ViewsUser VIEWS_USER = com.talendorse.server.model.tables.ViewsUser.VIEWS_USER;
 }

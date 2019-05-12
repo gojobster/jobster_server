@@ -19,6 +19,7 @@ import com.talendorse.server.model.tables.UserFormation;
 import com.talendorse.server.model.tables.UserLanguage;
 import com.talendorse.server.model.tables.Users;
 import com.talendorse.server.model.tables.UsersSkills;
+import com.talendorse.server.model.tables.ViewsUser;
 
 import javax.annotation.Generated;
 
@@ -77,6 +78,10 @@ public class Indexes {
     public static final Index USERS_SKILLS_PRIMARY = Indexes0.USERS_SKILLS_PRIMARY;
     public static final Index USERS_SKILLS_SKILL_USER_IDX = Indexes0.USERS_SKILLS_SKILL_USER_IDX;
     public static final Index USERS_SKILLS_USERS_SKILLS_SKILL_IDX = Indexes0.USERS_SKILLS_USERS_SKILLS_SKILL_IDX;
+    public static final Index VIEWS_USER_FK_VIEWS_COMPANY_IDX = Indexes0.VIEWS_USER_FK_VIEWS_COMPANY_IDX;
+    public static final Index VIEWS_USER_FK_VIEWS_OFFER_IDX = Indexes0.VIEWS_USER_FK_VIEWS_OFFER_IDX;
+    public static final Index VIEWS_USER_FK_VIEWS_USER_IDX = Indexes0.VIEWS_USER_FK_VIEWS_USER_IDX;
+    public static final Index VIEWS_USER_PRIMARY = Indexes0.VIEWS_USER_PRIMARY;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
@@ -116,5 +121,9 @@ public class Indexes {
         public static Index USERS_SKILLS_PRIMARY = Internal.createIndex("PRIMARY", UsersSkills.USERS_SKILLS, new OrderField[] { UsersSkills.USERS_SKILLS.ID_USER_SKILL }, true);
         public static Index USERS_SKILLS_SKILL_USER_IDX = Internal.createIndex("skill_user_idx", UsersSkills.USERS_SKILLS, new OrderField[] { UsersSkills.USERS_SKILLS.ID_USER }, false);
         public static Index USERS_SKILLS_USERS_SKILLS_SKILL_IDX = Internal.createIndex("users_skills_skill_idx", UsersSkills.USERS_SKILLS, new OrderField[] { UsersSkills.USERS_SKILLS.ID_SKILL }, false);
+        public static Index VIEWS_USER_FK_VIEWS_COMPANY_IDX = Internal.createIndex("FK_VIEWS_COMPANY_idx", ViewsUser.VIEWS_USER, new OrderField[] { ViewsUser.VIEWS_USER.ID_COMPANY }, false);
+        public static Index VIEWS_USER_FK_VIEWS_OFFER_IDX = Internal.createIndex("FK_VIEWS_OFFER_idx", ViewsUser.VIEWS_USER, new OrderField[] { ViewsUser.VIEWS_USER.ID_OFFER }, false);
+        public static Index VIEWS_USER_FK_VIEWS_USER_IDX = Internal.createIndex("FK_VIEWS_USER_idx", ViewsUser.VIEWS_USER, new OrderField[] { ViewsUser.VIEWS_USER.ID_USER }, false);
+        public static Index VIEWS_USER_PRIMARY = Internal.createIndex("PRIMARY", ViewsUser.VIEWS_USER, new OrderField[] { ViewsUser.VIEWS_USER.ID_VIEWS_USER }, true);
     }
 }

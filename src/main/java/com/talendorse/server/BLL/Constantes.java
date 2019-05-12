@@ -1,13 +1,14 @@
 package com.talendorse.server.BLL;
 
 public class Constantes {
-    private static final boolean IS_DEBUG = true;
+    private static final boolean IS_DEBUG = false;
 
     private static final String TALENDORSE_URL_LOCALHOST = "http://localhost:8080/";
+    private static final String TALENDORSE_WS_URL_LOCALHOST = "http://localhost:8085/";
     private static final String TALENDORSE_URL_SERVER = "http://18.191.247.235:8080/";
     public static final String TALENDORSE_URL = IS_DEBUG ? TALENDORSE_URL_LOCALHOST : TALENDORSE_URL_SERVER;
 
-    private static final String WS_TALENDORSE_DEBUG = TALENDORSE_URL_LOCALHOST + "ws/";
+    private static final String WS_TALENDORSE_DEBUG = TALENDORSE_WS_URL_LOCALHOST + "ws/";
     private static final String WS_TALENDORSE_RELEASE = TALENDORSE_URL + "ws/";
     public static final String WS_TALENDORSE_URL = IS_DEBUG ? WS_TALENDORSE_DEBUG : WS_TALENDORSE_RELEASE;
 

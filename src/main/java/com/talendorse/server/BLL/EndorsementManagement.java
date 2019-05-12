@@ -3,8 +3,10 @@ package com.talendorse.server.BLL;
 import com.talendorse.server.model.Keys;
 import com.talendorse.server.model.tables.records.ReferralsRecord;
 import com.talendorse.server.model.tables.records.UsersRecord;
+import com.talendorse.server.types.StatusType;
 import com.talendorse.server.types.TalendorseErrorType;
 import com.talendorse.server.util.Email;
+import com.talendorse.server.util.Fechas;
 import com.talendorse.server.util.RandomString;
 import com.talendorse.server.model.Tables;
 import org.jooq.DSLContext;
@@ -142,6 +144,26 @@ public class EndorsementManagement {
             e.printStackTrace();
             throw new TalendorseException(TalendorseErrorType.GENERIC_ERROR);
         }
+
+        return "OK";
+    }
+
+    public static String applyCandidate(Integer id_candidate, String code) throws TalendorseException{
+        ConnectionBDManager connection = new ConnectionBDManager();
+
+        if(!UserManagement.userExist(connection.create, id_candidate)) throw new TalendorseException(TalendorseErrorType.USER_NOT_EXISTS);
+
+        ReferralsRecord ref = connection.create.select()
+                .from(Tables.REFERRALS)
+                .where(Tables.REFERRALS.CODE.equal(code))
+                .fetchAnyInto(ReferralsRecord.class);
+
+        ref.setIdCandidate(id_candidate);
+        ref.setState(StatusType.ACCEPTED.toInt());
+        ref.setDateAccepted(Fechas.getCurrentTimestampLong());
+        ref.store();
+
+        connection.closeConnection();
 
         return "OK";
     }

@@ -1,7 +1,5 @@
 package com.talendorse.server.BLL;
 
-import com.talendorse.server.DTO.*;
-import com.talendorse.server.model.tables.records.*;
 import com.talendorse.server.types.TalendorseErrorType;
 import com.talendorse.server.util.*;
 import com.talendorse.server.DTO.RespuestaWSAllInfoUser;
@@ -13,15 +11,11 @@ import com.talendorse.server.model.tables.records.CompaniesRecord;
 import com.talendorse.server.model.tables.records.OffersRecord;
 import com.talendorse.server.model.tables.records.TokensRecord;
 import com.talendorse.server.model.tables.records.UsersRecord;
-import com.talendorse.server.util.*;
 import org.jooq.DSLContext;
 import org.jooq.Record;
 import org.jooq.Result;
+import org.jooq.exception.DataAccessException;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.*;
 
 import static com.talendorse.server.util.Email.TextoMail;
@@ -215,13 +209,19 @@ public class UserManagement {
     }
 
 
-    public static String GetUserTokenFromId(int id) throws  TalendorseException {
+    public static String GetUserTokenLinkedInFromId(int id) throws  TalendorseException {
+        ConnectionBDManager connection = new ConnectionBDManager();
+        String tknUsr = connection.create.select().from(Tables.USERS).where(Tables.USERS.ID_USER.contains(id)).fetchSingle(Tables.USERS.TOKEN_LINKEDIN);
+        return tknUsr;
+    }
+
+    public static String GetUservalidationTokenFromId(int id) throws  TalendorseException {
         ConnectionBDManager connection = new ConnectionBDManager();
         String tknUsr = connection.create.select().from(Tables.USERS).where(Tables.USERS.ID_USER.contains(id)).fetchSingle(Tables.USERS.VALIDATION_TOKEN);
         return tknUsr;
     }
 
-    public static UsersRecord GetUserfromToken(DSLContext create, String token) throws TalendorseException {
+    public static UsersRecord GetUserIdfromToken(DSLContext create, String token) throws TalendorseException {
         int idUsr = create.select().from(Tables.TOKENS).where(Tables.TOKENS.TOKEN.contains(token)).fetchSingle(Tables.TOKENS.ID_USER);
 
         UsersRecord usr = create.select()
@@ -232,10 +232,30 @@ public class UserManagement {
         return usr;
     }
 
+    public static UsersRecord GetUserfromToken(String token) throws TalendorseException {
+        ConnectionBDManager connection = new ConnectionBDManager();
+        UsersRecord user = GetUserIdfromToken(connection.create, token);
+        connection.closeConnection();
+        return user;
+    }
+
+    public static int GetUserIdfromToken(String token) throws TalendorseException {
+        int idUsr = 0;
+        try {
+            ConnectionBDManager connection = new ConnectionBDManager();
+            idUsr = connection.create.select().from(Tables.TOKENS).where(Tables.TOKENS.TOKEN.contains(token)).fetchSingle(Tables.TOKENS.ID_USER);
+        } catch (TalendorseException | DataAccessException e) {
+            e.printStackTrace();
+            throw new TalendorseException(TalendorseErrorType.GENERIC_ERROR);
+        }
+
+        return idUsr;
+    }
+
     public static RespuestaWSUser UserInformation(String token) throws TalendorseException {
         ConnectionBDManager connection = new ConnectionBDManager();
 
-        UsersRecord usuario = GetUserfromToken(connection.create, token);
+        UsersRecord usuario = GetUserIdfromToken(connection.create, token);
         if (usuario == null) throw new TalendorseException(TalendorseErrorType.USER_NOT_FOUND);
         String urlThumbnail = usuario.getPictureUrl();
         String urlAvatar = "";
