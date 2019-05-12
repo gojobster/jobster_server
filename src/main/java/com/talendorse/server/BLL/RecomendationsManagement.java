@@ -136,7 +136,7 @@ public class RecomendationsManagement {
 
             UsersRecord user = UserManagement.getUser(id_endorser);
 
-            Email.sendEmailrecomendation(urlPlatform, email_candidate, user.getName() + " " + user.getSurname(), "Andreu Marí", ""+ref.getIdOffer());
+            Email.sendEmailrecomendation(urlPlatform, email_candidate, user.getName() + " " + user.getSurname(), "Andreu Marí", ""+ref.getIdOffer(), ref.getCode());
 
         } catch (Exception e) {
             e.printStackTrace();
