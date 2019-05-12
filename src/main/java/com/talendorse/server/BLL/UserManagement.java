@@ -232,6 +232,8 @@ public class UserManagement {
         return usr;
     }
 
+
+    //TODO TO DO
     public static RespuestaWSUser UserInformation(String token) throws TalendorseException {
         ConnectionBDManager connection = new ConnectionBDManager();
 
