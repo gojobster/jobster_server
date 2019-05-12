@@ -16,26 +16,29 @@ import static org.jooq.impl.DSL.*;
 
 public class CookiesManagement {
     public static boolean cookieHasToken(HttpServletRequest request) throws TalendorseException {
-        request.getCookies();
-        for (Cookie c : request.getCookies()) {
-            if (c.getName().equals("token"))
-                return TokenManagement.isTokenValid(c.getValue());
+        if (request.getCookies() != null) {
+            for (Cookie c : request.getCookies()) {
+                if (c.getName().equals("token"))
+                    return TokenManagement.isTokenValid(c.getValue());
+            }
         }
         return false;
     }
     public static int getIdFromCookie(HttpServletRequest request) throws TalendorseException {
-        request.getCookies();
-        for (Cookie c : request.getCookies()) {
-            if (c.getName().equals("token"))
-                return TokenManagement.getUserIdFromToken(c.getValue());
+        if (request.getCookies() != null) {
+            for (Cookie c : request.getCookies()) {
+                if (c.getName().equals("token"))
+                    return TokenManagement.getUserIdFromToken(c.getValue());
+            }
         }
         return -1;
     }
     public static String getTokenFromCookie(HttpServletRequest request) throws TalendorseException {
-        request.getCookies();
-        for (Cookie c : request.getCookies()) {
-            if (c.getName().equals("token"))
-                return c.getValue();
+        if (request.getCookies() != null) {
+            for (Cookie c : request.getCookies()) {
+                if (c.getName().equals("token"))
+                    return c.getValue();
+            }
         }
         return null;
     }

@@ -24,6 +24,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.*;
 
+import static com.talendorse.server.util.Email.TextoMail;
+
 public class UserManagement {
     private static int MIN_LEN_PWD = 8;
 
@@ -154,14 +156,13 @@ public class UserManagement {
         String url_location = Constantes.URL_EMAIL_VALIDATION_ACCOUNT_URL_ES;
         String email_subject = Constantes.EMAIL_SUBJECT_USER_ACTIVATION_ES;
 
-        String textoEmail = TextoMail(url, url_location);
+        String textoEmail = Email.TextoMail(url, url_location);
         textoEmail = textoEmail.replace("user_name_endorser", usr.getName());
         textoEmail = textoEmail.replace("url_endorser_validation", Constantes.WS_TALENDORSE_URL+
-                "talendorse/email/account_activated.html?activation_token="+ usr.getValidationToken());
+                "email/activation_es?activation_token="+ usr.getValidationToken());
 
         Email.sendEmail(email, email_subject, textoEmail);
 
-        connection.closeConnection();
         return "OK";
     }
 
@@ -201,43 +202,12 @@ public class UserManagement {
         return Base64.getEncoder().encodeToString(criptografiaSimetrica.encriptar(enlace));
     }
 
-    public static String TextoMail(String url, String url_location) throws TalendorseException {
-        try {
-            return GetURLContent(url, url_location);
-        } catch (Exception e) {
-            throw new TalendorseException(TalendorseErrorType.GENERIC_ERROR);
-        }
-    }
-
-    private static String GetURLContent(String url_header, String url_location) throws TalendorseException {
-        StringBuilder content = new StringBuilder();
-        try {
-            // create a url object
-            URL url = new URL(url_header+url_location);
-
-            // create a urlconnection object
-            URLConnection urlConnection = url.openConnection();
-
-            // wrap the urlconnection in a bufferedreader
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                content.append(line).append("\n");
-            }
-            bufferedReader.close();
-        } catch (Exception e) {
-            throw new TalendorseException(TalendorseErrorType.GENERIC_ERROR);
-        }
-        return content.toString();
-    }
-
-    public static UsersRecord GetUserfromTokenLinkedin(String token) throws TalendorseException {
+    public static UsersRecord GetUserfromApiKey(String apiKey) throws TalendorseException {
         ConnectionBDManager connection = new ConnectionBDManager();
 
         UsersRecord usr = connection.create.select()
                 .from(Tables.USERS)
-                .where(Tables.USERS.TOKEN_LINKEDIN.equal(token))
+                .where(Tables.USERS.TOKEN_LINKEDIN.equal(apiKey))
                 .fetchAnyInto(UsersRecord.class);
 
         connection.closeConnection();
@@ -408,6 +378,13 @@ public class UserManagement {
         }
         connection.closeConnection();
         return  listOffers;
+    }
+
+    public static UsersRecord getUser(int idUser) throws TalendorseException {
+        ConnectionBDManager connection = new ConnectionBDManager();
+        UsersRecord user = getUser(connection, idUser);
+        connection.closeConnection();
+        return  user;
     }
 
     public static UsersRecord getUser(ConnectionBDManager connection, int idUser) throws TalendorseException {

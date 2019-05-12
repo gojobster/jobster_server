@@ -1,16 +1,50 @@
 package com.talendorse.server.util;
 
 import com.talendorse.server.BLL.Constantes;
+import com.talendorse.server.BLL.TalendorseException;
+import com.talendorse.server.types.TalendorseErrorType;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Date;
 import java.util.Properties;
 
 public class Email {
 	public static void sendEmail(String toEmail, String subject, String body) {
+		sendEmail(prepareEmail(), toEmail, subject, body);
+
+		//****************************************
+		//sendAttachmentEmail(session, toEmail,"SSLEmail Testing Subject with Attachment", "SSLEmail Testing Body with Attachment");
+		//sendImageEmail(session, toEmail,"SSLEmail Testing Subject with Image", "SSLEmail Testing Body with Image");
+	}
+
+	public static void sendEmailrecomendation(String local_url, String toEmail, String endorserName, String candidateName, String codeOffer) {
+		try {
+			String url_email = Constantes.URL_EMAIL_SEND_RECOMMENDATION_URL_EN;
+			String subject = Constantes.EMAIL_SUBJECT_USER_ACTIVATION_ES;
+
+			String body = TextoMail(local_url, url_email);
+			body = body.replace("{endorser}",endorserName);
+			body = body.replace("{new_user}",candidateName);
+			body = body.replace("{url_recomendation}", Constantes.TALENDORSE_URL +"offer/"+ codeOffer);
+
+			sendEmail(prepareEmail(), toEmail, subject, body);
+		} catch (TalendorseException e) {//TODO: tratar el error.
+			e.printStackTrace();
+		}
+
+		//****************************************
+		//sendAttachmentEmail(session, toEmail,"SSLEmail Testing Subject with Attachment", "SSLEmail Testing Body with Attachment");
+		//sendImageEmail(session, toEmail,"SSLEmail Testing Subject with Image", "SSLEmail Testing Body with Image");
+	}
+
+	private static Session prepareEmail() {
 		//creamos la session
 		System.out.println("SSLEmail Start");
 		Properties props = new Properties();
@@ -27,12 +61,7 @@ public class Email {
 			}
 		};
 
-		Session session = Session.getInstance(props, auth);
-		sendEmail(session, toEmail, subject, body);
-
-		//****************************************
-		//sendAttachmentEmail(session, toEmail,"SSLEmail Testing Subject with Attachment", "SSLEmail Testing Body with Attachment");
-		//sendImageEmail(session, toEmail,"SSLEmail Testing Subject with Image", "SSLEmail Testing Body with Image");
+		return Session.getInstance(props, auth);
 	}
 
 
@@ -49,6 +78,37 @@ public class Email {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static String TextoMail(String url, String url_location) throws TalendorseException {
+		try {
+			return GetURLContent(url, url_location);
+		} catch (Exception e) {
+			throw new TalendorseException(TalendorseErrorType.GENERIC_ERROR);
+		}
+	}
+
+	private static String GetURLContent(String url_header, String url_location) throws TalendorseException {
+		StringBuilder content = new StringBuilder();
+		try {
+			// create a url object
+			URL url = new URL(url_header+url_location);
+
+			// create a urlconnection object
+			URLConnection urlConnection = url.openConnection();
+
+			// wrap the urlconnection in a bufferedreader
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+
+			String line;
+			while ((line = bufferedReader.readLine()) != null) {
+				content.append(line).append("\n");
+			}
+			bufferedReader.close();
+		} catch (Exception e) {
+			throw new TalendorseException(TalendorseErrorType.GENERIC_ERROR);
+		}
+		return content.toString();
 	}
 
 	private static MimeMessage createMimeMessage(Session session, String toEmail, String subject){

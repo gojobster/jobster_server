@@ -31,6 +31,7 @@ public class Offer {
     public Timestamp date_end;
 
     public Offer(OffersRecord offer, CompaniesRecord company) {
+        this.idOffer = offer.getIdOffer();
         this.idCompany = offer.getIdCompany();
         this.position = offer.getPosition();
         this.summary = offer.getSummary();
