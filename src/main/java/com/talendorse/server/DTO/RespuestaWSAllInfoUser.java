@@ -8,19 +8,19 @@ public class RespuestaWSAllInfoUser {
 
 	public String urlAvatar;
 	public String email;
-	public String telefono;
+	public String phone;
 	public String name;
 	public String surname;
 	public List<String> skills;
-	public List<String> idioms;
+	public List<String> languages;
 
-	public RespuestaWSAllInfoUser(UsersRecord endorser, List<String> lstSkills, List<String> lstIdioms) {
+	public RespuestaWSAllInfoUser(UsersRecord endorser, List<String> lstSkills, List<String> lstLanguages) {
 		this.urlAvatar = endorser.getPictureUrl();
 		this.email = endorser.getEmail();
-		this.telefono = endorser.getPhoneNumber();
+		this.phone = endorser.getPhoneNumber();
 		this.name = endorser.getName();
-		this.surname = endorser.getSurrname();
+		this.surname = endorser.getSurname();
 		this.skills = lstSkills;
-		this.idioms = lstIdioms;
+		this.languages = lstLanguages;
 	}
 }

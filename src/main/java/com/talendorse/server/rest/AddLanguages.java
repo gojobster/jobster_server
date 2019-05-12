@@ -10,8 +10,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-@Path("/{addIdiom : (?i)addIdiom}")
-public class AddIdioms {
+@Path("/{AddLanguage : (?i)AddLanguage}")
+public class AddLanguages {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public RespuestaWS<String> addIdiom(

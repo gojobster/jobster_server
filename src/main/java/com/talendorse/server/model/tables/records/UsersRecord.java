@@ -27,7 +27,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UsersRecord extends UpdatableRecordImpl<UsersRecord> {
 
-    private static final long serialVersionUID = 652940526;
+    private static final long serialVersionUID = -29234094;
 
     /**
      * Setter for <code>database.users.id_user</code>.
@@ -86,16 +86,16 @@ public class UsersRecord extends UpdatableRecordImpl<UsersRecord> {
     }
 
     /**
-     * Setter for <code>database.users.surrname</code>.
+     * Setter for <code>database.users.surname</code>.
      */
-    public void setSurrname(String value) {
+    public void setSurname(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>database.users.surrname</code>.
+     * Getter for <code>database.users.surname</code>.
      */
-    public String getSurrname() {
+    public String getSurname() {
         return (String) get(4);
     }
 
@@ -391,14 +391,14 @@ public class UsersRecord extends UpdatableRecordImpl<UsersRecord> {
     /**
      * Create a detached, initialised UsersRecord
      */
-    public UsersRecord(Integer idUser, String idLinkedin, String tokenLinkedin, String name, String surrname, String email, String currentPosition, Timestamp dateBirthday, String gender, String sector, String headline, String pictureUrl, String thumbUrl, Integer verifiedEmail, String userName, String password, String salt, Timestamp lastConnection, String phoneNumber, Integer verifiedPhoneNumber, String language, String validationToken, Timestamp dateCreated, Timestamp dateModification) {
+    public UsersRecord(Integer idUser, String idLinkedin, String tokenLinkedin, String name, String surname, String email, String currentPosition, Timestamp dateBirthday, String gender, String sector, String headline, String pictureUrl, String thumbUrl, Integer verifiedEmail, String userName, String password, String salt, Timestamp lastConnection, String phoneNumber, Integer verifiedPhoneNumber, String language, String validationToken, Timestamp dateCreated, Timestamp dateModification) {
         super(Users.USERS);
 
         set(0, idUser);
         set(1, idLinkedin);
         set(2, tokenLinkedin);
         set(3, name);
-        set(4, surrname);
+        set(4, surname);
         set(5, email);
         set(6, currentPosition);
         set(7, dateBirthday);

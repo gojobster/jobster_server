@@ -54,7 +54,7 @@ public class UserManagement {
         token.store();
 
         RespuestaWSLogin respuestaWSUsuario = new RespuestaWSLogin(usuario.getTokenLinkedin(), usuario.getPictureUrl(), usuario.getEmail(),
-                usuario.getName(), usuario.getSurrname(), token.getToken());
+                usuario.getName(), usuario.getSurname(), token.getToken());
 
         connection.closeConnection();
         return respuestaWSUsuario;
@@ -93,7 +93,7 @@ public class UserManagement {
         usr.setEmail(emailEncriptado);
         usr.setTokenLinkedin(UUID.randomUUID().toString());
         usr.setName(name);
-        usr.setSurrname(surname);
+        usr.setSurname(surname);
         usr.setPictureUrl("/Upload/User/" + Seguridad.GenerateSecureRandomString() + "/" + Seguridad.GenerarRandomFileName() + "_thumb.jpg");
         usr.setDateBirthday(Fechas.getCurrentTimestampLong());
         usr.setPassword(password);
@@ -137,7 +137,7 @@ public class UserManagement {
         UsersRecord usr = connection.create.newRecord(Tables.USERS);
 
         usr.setName(name);
-        usr.setSurrname(surname);
+        usr.setSurname(surname);
         usr.setEmail(email.trim());
         usr.setGender(gender);
         usr.setPassword(password);
@@ -161,6 +161,7 @@ public class UserManagement {
 
         Email.sendEmail(email, email_subject, textoEmail);
 
+        connection.closeConnection();
         return "OK";
     }
 
@@ -250,22 +251,21 @@ public class UserManagement {
         return tknUsr;
     }
 
-    public static UsersRecord GetUserfromToken(String token) throws TalendorseException {
-        ConnectionBDManager connection = new ConnectionBDManager();
-        int idUsr = connection.create.select().from(Tables.TOKENS).where(Tables.TOKENS.TOKEN.contains(token)).fetchSingle(Tables.TOKENS.ID_USER);
+    public static UsersRecord GetUserfromToken(DSLContext create, String token) throws TalendorseException {
+        int idUsr = create.select().from(Tables.TOKENS).where(Tables.TOKENS.TOKEN.contains(token)).fetchSingle(Tables.TOKENS.ID_USER);
 
-        UsersRecord usr = connection.create.select()
+        UsersRecord usr = create.select()
                 .from(Tables.USERS)
                 .where(Tables.USERS.ID_USER.contains(idUsr))
                 .fetchAnyInto(UsersRecord.class);
 
-        connection.closeConnection();
         return usr;
     }
 
     public static RespuestaWSUser UserInformation(String token) throws TalendorseException {
+        ConnectionBDManager connection = new ConnectionBDManager();
 
-        UsersRecord usuario = GetUserfromToken(token);
+        UsersRecord usuario = GetUserfromToken(connection.create, token);
         if (usuario == null) throw new TalendorseException(TalendorseErrorType.USER_NOT_FOUND);
         String urlThumbnail = usuario.getPictureUrl();
         String urlAvatar = "";
@@ -274,7 +274,9 @@ public class UserManagement {
         }
         usuario.setLastConnection(Fechas.getCurrentTimestampLong());
         usuario.store();
-        return new RespuestaWSUser(urlAvatar, usuario.getEmail(), usuario.getName(), usuario.getSurrname(), usuario.getPhoneNumber());
+
+        connection.closeConnection();
+        return new RespuestaWSUser(usuario.getName(), usuario.getSurname(), usuario.getEmail(), urlAvatar, usuario.getPhoneNumber(), usuario.getIdUser());
     }
 
     public static String LogOut(String apiKey) throws TalendorseException {
@@ -321,8 +323,13 @@ public class UserManagement {
 
         List<RespuestaWSUser> listUsers = new ArrayList<>();
         for (Record r : result) {
-            RespuestaWSUser user = new RespuestaWSUser ( r.getValue(Tables.USERS.NAME), r.getValue(Tables.USERS.SURRNAME),
-                    r.getValue(Tables.USERS.EMAIL), r.getValue(Tables.USERS.PICTURE_URL), r.getValue(Tables.USERS.PHONE_NUMBER));
+            RespuestaWSUser user = new RespuestaWSUser (
+                    r.getValue(Tables.USERS.NAME),
+                    r.getValue(Tables.USERS.SURNAME),
+                    r.getValue(Tables.USERS.EMAIL),
+                    r.getValue(Tables.USERS.PICTURE_URL),
+                    r.getValue(Tables.USERS.PHONE_NUMBER),
+                    r.getValue(Tables.USERS.ID_USER));
             listUsers.add(user);
         }
         connection.closeConnection();
@@ -381,7 +388,7 @@ public class UserManagement {
 
             RespuestaWSOfferUser respues = new RespuestaWSOfferUser(ref.getValue(Tables.REFERRALS.ID_REFERRAL), ref.getValue(Tables.REFERRALS.ID_OFFER),
                     ref.getValue(Tables.REFERRALS.STATE), ref.getValue(Tables.REFERRALS.ID_ENDORSER), endorser.getName(),
-                    endorser.getSurrname(), ref.getValue(Tables.REFERRALS.EMAIL_CANDIDATE), company.getValue(Tables.COMPANIES.NAME),
+                    endorser.getSurname(), ref.getValue(Tables.REFERRALS.EMAIL_CANDIDATE), company.getValue(Tables.COMPANIES.NAME),
                     company.getValue(Tables.COMPANIES.PATH_IMG), off.getPosition(), off.getSummary(), ref.getValue(Tables.REFERRALS.DATE_CREATION),
                     ref.getValue(Tables.REFERRALS.DATE_ACCEPTED), off.getDateEnd());
 
@@ -395,7 +402,7 @@ public class UserManagement {
 
                 respues.setIdCandidato(ref.getValue(Tables.REFERRALS.ID_CANDIDATE));
                 respues.setName_candidate(candidate.getName());
-                respues.setSurname_candidate(candidate.getSurrname());
+                respues.setSurname_candidate(candidate.getSurname());
             }
             listOffers.add(respues);
         }
@@ -468,7 +475,7 @@ public class UserManagement {
         user.setTokenLinkedin(linkedinUser.getTokenLinkedin());
         user.setIdLinkedin(linkedinUser.getIdLinkedin());
         user.setName(linkedinUser.getName());
-        user.setSurrname(linkedinUser.getSurrname());
+        user.setSurname(linkedinUser.getSurname());
         user.setEmail(linkedinUser.getEmail());
         user.setLanguage(linkedinUser.getLanguage());
         user.setPictureUrl(linkedinUser.getPictureUrl());
