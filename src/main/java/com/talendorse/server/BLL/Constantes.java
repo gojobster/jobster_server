@@ -18,6 +18,7 @@ public class Constantes {
     public static final String DB_USER = "root";
     public static final String DB_PASS = IS_DEBUG ? DB_PASS_LOCALHOST : DB_PASS_SERVER;
     public static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/database?serverTimezone=UTC";
+
     public static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver";
 
     public static final String CLAVE_ENCRIPTACION = "Binomio Alto";
