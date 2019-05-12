@@ -24,7 +24,8 @@ public class Email {
 		//sendImageEmail(session, toEmail,"SSLEmail Testing Subject with Image", "SSLEmail Testing Body with Image");
 	}
 
-	public static void sendEmailrecomendation(String local_url, String toEmail, String endorserName, String candidateName, String codeOffer) {
+	public static void sendEmailrecomendation(String local_url, String toEmail, String endorserName,
+											  String candidateName, String idOffer, String code) {
 		try {
 			String url_email = Constantes.URL_EMAIL_SEND_RECOMMENDATION_URL_EN;
 			String subject = Constantes.EMAIL_SUBJECT_USER_ACTIVATION_ES;
@@ -32,7 +33,7 @@ public class Email {
 			String body = TextoMail(local_url, url_email);
 			body = body.replace("{endorser}",endorserName);
 			body = body.replace("{new_user}",candidateName);
-			body = body.replace("{url_recomendation}", Constantes.TALENDORSE_URL +"offer/"+ codeOffer);
+			body = body.replace("{url_recomendation}", Constantes.TALENDORSE_URL +"offer/"+ idOffer + "/" + code);
 
 			sendEmail(prepareEmail(), toEmail, subject, body);
 		} catch (TalendorseException e) {//TODO: tratar el error.
