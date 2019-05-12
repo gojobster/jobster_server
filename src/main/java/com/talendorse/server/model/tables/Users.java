@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users extends TableImpl<UsersRecord> {
 
-    private static final long serialVersionUID = -593699872;
+    private static final long serialVersionUID = -1912344892;
 
     /**
      * The reference instance of <code>database.users</code>
@@ -70,7 +70,7 @@ public class Users extends TableImpl<UsersRecord> {
     /**
      * The column <code>database.users.token_linkedin</code>.
      */
-    public final TableField<UsersRecord, String> TOKEN_LINKEDIN = createField("token_linkedin", org.jooq.impl.SQLDataType.VARCHAR(45).nullable(false), this, "");
+    public final TableField<UsersRecord, String> TOKEN_LINKEDIN = createField("token_linkedin", org.jooq.impl.SQLDataType.VARCHAR(999).nullable(false), this, "");
 
     /**
      * The column <code>database.users.name</code>.
@@ -115,12 +115,12 @@ public class Users extends TableImpl<UsersRecord> {
     /**
      * The column <code>database.users.picture_url</code>.
      */
-    public final TableField<UsersRecord, String> PICTURE_URL = createField("picture_url", org.jooq.impl.SQLDataType.VARCHAR(190), this, "");
+    public final TableField<UsersRecord, String> PICTURE_URL = createField("picture_url", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
      * The column <code>database.users.thumb_url</code>.
      */
-    public final TableField<UsersRecord, String> THUMB_URL = createField("thumb_url", org.jooq.impl.SQLDataType.VARCHAR(190), this, "");
+    public final TableField<UsersRecord, String> THUMB_URL = createField("thumb_url", org.jooq.impl.SQLDataType.VARCHAR(255), this, "");
 
     /**
      * The column <code>database.users.verified_email</code>.

@@ -3,9 +3,15 @@ package com.talendorse.server.BLL;
 import com.talendorse.server.model.Tables;
 import com.talendorse.server.model.tables.records.LanguagesRecord;
 import com.talendorse.server.model.tables.records.TokensRecord;
+import com.talendorse.server.model.tables.records.UsersRecord;
 import com.talendorse.server.types.TalendorseErrorType;
 import com.talendorse.server.util.Fechas;
 import com.talendorse.server.util.Util;
+import java.util.Date;
+import java.sql.Timestamp;
+import jdk.nashorn.internal.parser.Token;
+import org.jooq.Field;
+import org.jooq.Table;
 
 import java.sql.Timestamp;
 
@@ -23,5 +29,47 @@ public class TokenManagement {
         connection.closeConnection();
 
         return token;
+    }
+    public static boolean isTokenValid(String token) throws TalendorseException {
+        boolean tokenExists = false;
+
+        ConnectionBDManager connection = new ConnectionBDManager();
+
+        TokensRecord t =    connection.create.select()
+                .from(Tables.TOKENS)
+                .where(Tables.TOKENS.TOKEN.equal(token).and(Tables.TOKENS.EXPIRATION_DATE.greaterThan(Fechas.getCurrentTimestampLong())))
+                .fetchAnyInto(TokensRecord.class);
+
+        if (t!=null)
+            tokenExists = true;
+
+        connection.closeConnection();
+
+        return  tokenExists;
+    }
+    public static boolean isTokenValid(String token, int id) throws TalendorseException {
+
+        boolean tokenExists = false;
+
+        ConnectionBDManager connection = new ConnectionBDManager();
+
+        TokensRecord t = connection.create.select().from(Tables.TOKENS).where(Tables.TOKENS.TOKEN.equal(token).and(Tables.TOKENS.ID_USER.equal(id)).and(Tables.TOKENS.EXPIRATION_DATE.greaterThan(Fechas.getCurrentTimestampLong()))).fetchAnyInto(TokensRecord.class);
+
+        if (t!=null)
+            tokenExists = true;
+
+        connection.closeConnection();
+
+        return  tokenExists;
+    }
+    public static int getUserIdFromToken(String token) throws TalendorseException {
+
+        ConnectionBDManager connection = new ConnectionBDManager();
+
+        Integer id = connection.create.select().from(Tables.TOKENS).where(Tables.TOKENS.TOKEN.equal(token).and(Tables.TOKENS.EXPIRATION_DATE.greaterThan(Fechas.getCurrentTimestampLong()))).fetchSingle(Tables.TOKENS.ID_USER);
+
+        connection.closeConnection();
+
+        return  id == null ? -1 : id;
     }
 }
