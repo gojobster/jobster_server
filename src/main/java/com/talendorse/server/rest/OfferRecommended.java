@@ -1,7 +1,7 @@
 package com.talendorse.server.rest;
 
 import com.talendorse.server.BLL.TalendorseException;
-import com.talendorse.server.BLL.RecomendationsManagement;
+import com.talendorse.server.BLL.EndorsementManagement;
 import com.talendorse.server.DTO.RespuestaWS;
 
 import javax.ws.rs.FormParam;
@@ -28,7 +28,7 @@ public class OfferRecommended {
         RespuestaWS<String> respuestaWS = new RespuestaWS<>();
         try {
             respuestaWS.responseStatus = 200;
-            respuestaWS.message = RecomendationsManagement.sendRecomendatioToCandidate(uriInfo.getBaseUri().toString(), id_user, id_offer, email);
+            respuestaWS.message = EndorsementManagement.sendRecomendatioToCandidate(uriInfo.getBaseUri().toString(), id_user, id_offer, email);
             respuestaWS.error = "";
             return  respuestaWS;
         } catch (TalendorseException ex) {

@@ -1,8 +1,7 @@
 package com.talendorse.server.rest;
 
-import com.talendorse.server.BLL.RecomendationsManagement;
+import com.talendorse.server.BLL.EndorsementManagement;
 import com.talendorse.server.BLL.TalendorseException;
-import com.talendorse.server.BLL.UserManagement;
 import com.talendorse.server.DTO.RespuestaWS;
 
 import javax.ws.rs.FormParam;
@@ -14,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
 @Path("/{recomend : (?i)recomend}")
-public class recomendCandidate {
+public class EndorseCandidate {
     @Context
     private UriInfo uriInfo;
 
@@ -28,7 +27,7 @@ public class recomendCandidate {
         try {
             String urlPlatform = uriInfo.getBaseUri().toString().replace("ws/","");
             respuestaWS.responseStatus = 200;
-            respuestaWS.message = RecomendationsManagement.sendRecomendatioToCandidate(urlPlatform, id_endorser, id_offer, email_candidate);
+            respuestaWS.message = EndorsementManagement.sendRecomendatioToCandidate(urlPlatform, id_endorser, id_offer, email_candidate);
             respuestaWS.error = "";
             return  respuestaWS;
         } catch (TalendorseException ex) {

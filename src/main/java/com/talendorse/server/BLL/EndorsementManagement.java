@@ -19,7 +19,7 @@ import java.sql.SQLException;
 
 import static org.jooq.impl.DSL.count;
 
-public class RecomendationsManagement {
+public class EndorsementManagement {
 
 //    public static String addRecommendations(int id_offer, int id_user, String email, String url) throws TalendorseException {
 //        ConnectionBDManager connection = new ConnectionBDManager();
