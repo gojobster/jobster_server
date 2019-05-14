@@ -4,8 +4,10 @@ import com.talendorse.server.DTO.RespuestaWSOffer;
 import com.talendorse.server.DTO.RespuestaWSOfferCity;
 import com.talendorse.server.DTO.RespuestaWSOfferFilters;
 import com.talendorse.server.POCO.Offer;
+import com.talendorse.server.model.tables.Referrals;
 import com.talendorse.server.model.tables.records.CompaniesRecord;
 import com.talendorse.server.model.tables.records.OffersRecord;
+import com.talendorse.server.model.tables.records.ReferralsRecord;
 import com.talendorse.server.util.Fechas;
 import com.talendorse.server.model.Tables;
 import org.jooq.DSLContext;
@@ -188,5 +190,17 @@ public class OffersManagement {
         int idUser = create.select().from(Tables.TOKENS).where(Tables.TOKENS.TOKEN.contains(token)).fetchSingle(Tables.TOKENS.ID_USER);
         List<Integer> offers = create.select().from(Tables.REFERRALS).where(Tables.REFERRALS.ID_ENDORSER.contains(idUser)).fetch(Tables.REFERRALS.ID_OFFER, Integer.class);
         return create.select().from(Tables.OFFERS).where(Tables.OFFERS.ID_OFFER.in(offers)).fetchInto(OffersRecord.class);
+    }
+
+    public static boolean userApplied(int idOffer, Integer userId) throws TalendorseException{
+        if(userId == null) return false;
+
+        ConnectionBDManager connection = new ConnectionBDManager();
+
+        ReferralsRecord ref = connection.create.select().from(Tables.REFERRALS)
+                                .where(Tables.REFERRALS.ID_OFFER.eq(idOffer)
+                                        .and(Tables.REFERRALS.ID_CANDIDATE.eq(userId)))
+                                .fetchAnyInto(ReferralsRecord.class);
+        return ref != null;
     }
 }

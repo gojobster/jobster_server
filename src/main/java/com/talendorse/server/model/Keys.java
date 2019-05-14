@@ -19,6 +19,7 @@ import com.talendorse.server.model.tables.UserFormation;
 import com.talendorse.server.model.tables.UserLanguage;
 import com.talendorse.server.model.tables.Users;
 import com.talendorse.server.model.tables.UsersSkills;
+import com.talendorse.server.model.tables.ViewsUser;
 import com.talendorse.server.model.tables.records.CompaniesRecord;
 import com.talendorse.server.model.tables.records.CountriesRecord;
 import com.talendorse.server.model.tables.records.EducationRecord;
@@ -34,6 +35,7 @@ import com.talendorse.server.model.tables.records.UserFormationRecord;
 import com.talendorse.server.model.tables.records.UserLanguageRecord;
 import com.talendorse.server.model.tables.records.UsersRecord;
 import com.talendorse.server.model.tables.records.UsersSkillsRecord;
+import com.talendorse.server.model.tables.records.ViewsUserRecord;
 
 import javax.annotation.Generated;
 
@@ -73,6 +75,7 @@ public class Keys {
     public static final Identity<UserLanguageRecord, Integer> IDENTITY_USER_LANGUAGE = Identities0.IDENTITY_USER_LANGUAGE;
     public static final Identity<UsersRecord, Integer> IDENTITY_USERS = Identities0.IDENTITY_USERS;
     public static final Identity<UsersSkillsRecord, Integer> IDENTITY_USERS_SKILLS = Identities0.IDENTITY_USERS_SKILLS;
+    public static final Identity<ViewsUserRecord, Integer> IDENTITY_VIEWS_USER = Identities0.IDENTITY_VIEWS_USER;
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
@@ -94,6 +97,7 @@ public class Keys {
     public static final UniqueKey<UserLanguageRecord> KEY_USER_LANGUAGE_PRIMARY = UniqueKeys0.KEY_USER_LANGUAGE_PRIMARY;
     public static final UniqueKey<UsersRecord> KEY_USERS_PRIMARY = UniqueKeys0.KEY_USERS_PRIMARY;
     public static final UniqueKey<UsersSkillsRecord> KEY_USERS_SKILLS_PRIMARY = UniqueKeys0.KEY_USERS_SKILLS_PRIMARY;
+    public static final UniqueKey<ViewsUserRecord> KEY_VIEWS_USER_PRIMARY = UniqueKeys0.KEY_VIEWS_USER_PRIMARY;
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
@@ -115,6 +119,9 @@ public class Keys {
     public static final ForeignKey<UserLanguageRecord, UsersRecord> USER_IDIOM_USER = ForeignKeys0.USER_IDIOM_USER;
     public static final ForeignKey<UsersSkillsRecord, UsersRecord> FK_USERS_SKILLS_USER = ForeignKeys0.FK_USERS_SKILLS_USER;
     public static final ForeignKey<UsersSkillsRecord, SkillsRecord> KF_USERS_SKILLS_SKILL = ForeignKeys0.KF_USERS_SKILLS_SKILL;
+    public static final ForeignKey<ViewsUserRecord, UsersRecord> FK_VIEWS_USER = ForeignKeys0.FK_VIEWS_USER;
+    public static final ForeignKey<ViewsUserRecord, OffersRecord> FK_VIEWS_OFFER = ForeignKeys0.FK_VIEWS_OFFER;
+    public static final ForeignKey<ViewsUserRecord, CompaniesRecord> FK_VIEWS_COMPANY = ForeignKeys0.FK_VIEWS_COMPANY;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
@@ -133,6 +140,7 @@ public class Keys {
         public static Identity<UserLanguageRecord, Integer> IDENTITY_USER_LANGUAGE = Internal.createIdentity(UserLanguage.USER_LANGUAGE, UserLanguage.USER_LANGUAGE.ID_USER_LANGUAGE);
         public static Identity<UsersRecord, Integer> IDENTITY_USERS = Internal.createIdentity(Users.USERS, Users.USERS.ID_USER);
         public static Identity<UsersSkillsRecord, Integer> IDENTITY_USERS_SKILLS = Internal.createIdentity(UsersSkills.USERS_SKILLS, UsersSkills.USERS_SKILLS.ID_USER_SKILL);
+        public static Identity<ViewsUserRecord, Integer> IDENTITY_VIEWS_USER = Internal.createIdentity(ViewsUser.VIEWS_USER, ViewsUser.VIEWS_USER.ID_VIEWS_USER);
     }
 
     private static class UniqueKeys0 {
@@ -152,6 +160,7 @@ public class Keys {
         public static final UniqueKey<UserLanguageRecord> KEY_USER_LANGUAGE_PRIMARY = Internal.createUniqueKey(UserLanguage.USER_LANGUAGE, "KEY_user_language_PRIMARY", UserLanguage.USER_LANGUAGE.ID_USER_LANGUAGE);
         public static final UniqueKey<UsersRecord> KEY_USERS_PRIMARY = Internal.createUniqueKey(Users.USERS, "KEY_users_PRIMARY", Users.USERS.ID_USER);
         public static final UniqueKey<UsersSkillsRecord> KEY_USERS_SKILLS_PRIMARY = Internal.createUniqueKey(UsersSkills.USERS_SKILLS, "KEY_users_skills_PRIMARY", UsersSkills.USERS_SKILLS.ID_USER_SKILL);
+        public static final UniqueKey<ViewsUserRecord> KEY_VIEWS_USER_PRIMARY = Internal.createUniqueKey(ViewsUser.VIEWS_USER, "KEY_views_user_PRIMARY", ViewsUser.VIEWS_USER.ID_VIEWS_USER);
     }
 
     private static class ForeignKeys0 {
@@ -171,5 +180,8 @@ public class Keys {
         public static final ForeignKey<UserLanguageRecord, UsersRecord> USER_IDIOM_USER = Internal.createForeignKey(com.talendorse.server.model.Keys.KEY_USERS_PRIMARY, UserLanguage.USER_LANGUAGE, "user_idiom_user", UserLanguage.USER_LANGUAGE.ID_USER);
         public static final ForeignKey<UsersSkillsRecord, UsersRecord> FK_USERS_SKILLS_USER = Internal.createForeignKey(com.talendorse.server.model.Keys.KEY_USERS_PRIMARY, UsersSkills.USERS_SKILLS, "FK_users_skills_user", UsersSkills.USERS_SKILLS.ID_USER);
         public static final ForeignKey<UsersSkillsRecord, SkillsRecord> KF_USERS_SKILLS_SKILL = Internal.createForeignKey(com.talendorse.server.model.Keys.KEY_SKILLS_PRIMARY, UsersSkills.USERS_SKILLS, "KF_users_skills_skill", UsersSkills.USERS_SKILLS.ID_SKILL);
+        public static final ForeignKey<ViewsUserRecord, UsersRecord> FK_VIEWS_USER = Internal.createForeignKey(com.talendorse.server.model.Keys.KEY_USERS_PRIMARY, ViewsUser.VIEWS_USER, "FK_VIEWS_USER", ViewsUser.VIEWS_USER.ID_USER);
+        public static final ForeignKey<ViewsUserRecord, OffersRecord> FK_VIEWS_OFFER = Internal.createForeignKey(com.talendorse.server.model.Keys.KEY_OFFERS_PRIMARY, ViewsUser.VIEWS_USER, "FK_VIEWS_OFFER", ViewsUser.VIEWS_USER.ID_OFFER);
+        public static final ForeignKey<ViewsUserRecord, CompaniesRecord> FK_VIEWS_COMPANY = Internal.createForeignKey(com.talendorse.server.model.Keys.KEY_COMPANIES_PRIMARY, ViewsUser.VIEWS_USER, "FK_VIEWS_COMPANY", ViewsUser.VIEWS_USER.ID_COMPANY);
     }
 }

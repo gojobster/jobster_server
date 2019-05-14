@@ -19,6 +19,7 @@ import com.talendorse.server.model.tables.UserFormation;
 import com.talendorse.server.model.tables.UserLanguage;
 import com.talendorse.server.model.tables.Users;
 import com.talendorse.server.model.tables.UsersSkills;
+import com.talendorse.server.model.tables.ViewsUser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,7 +45,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Database extends SchemaImpl {
 
-    private static final long serialVersionUID = 1409069806;
+    private static final long serialVersionUID = 1086606714;
 
     /**
      * The reference instance of <code>database</code>
@@ -127,6 +128,11 @@ public class Database extends SchemaImpl {
     public final UsersSkills USERS_SKILLS = com.talendorse.server.model.tables.UsersSkills.USERS_SKILLS;
 
     /**
+     * The table <code>database.views_user</code>.
+     */
+    public final ViewsUser VIEWS_USER = com.talendorse.server.model.tables.ViewsUser.VIEWS_USER;
+
+    /**
      * No further instances allowed
      */
     private Database() {
@@ -165,6 +171,7 @@ public class Database extends SchemaImpl {
             UserFormation.USER_FORMATION,
             UserLanguage.USER_LANGUAGE,
             Users.USERS,
-            UsersSkills.USERS_SKILLS);
+            UsersSkills.USERS_SKILLS,
+            ViewsUser.VIEWS_USER);
     }
 }
