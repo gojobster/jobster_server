@@ -9,6 +9,7 @@ import com.talendorse.server.model.tables.Countries;
 import com.talendorse.server.model.tables.Education;
 import com.talendorse.server.model.tables.Formations;
 import com.talendorse.server.model.tables.Languages;
+import com.talendorse.server.model.tables.Logs;
 import com.talendorse.server.model.tables.OfferFormation;
 import com.talendorse.server.model.tables.Offers;
 import com.talendorse.server.model.tables.OffersSkills;
@@ -61,6 +62,11 @@ public class Tables {
      * The table <code>database.languages</code>.
      */
     public static final Languages LANGUAGES = com.talendorse.server.model.tables.Languages.LANGUAGES;
+
+    /**
+     * The table <code>database.logs</code>.
+     */
+    public static final Logs LOGS = com.talendorse.server.model.tables.Logs.LOGS;
 
     /**
      * The table <code>database.offer_formation</code>.

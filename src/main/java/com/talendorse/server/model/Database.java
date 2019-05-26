@@ -9,6 +9,7 @@ import com.talendorse.server.model.tables.Countries;
 import com.talendorse.server.model.tables.Education;
 import com.talendorse.server.model.tables.Formations;
 import com.talendorse.server.model.tables.Languages;
+import com.talendorse.server.model.tables.Logs;
 import com.talendorse.server.model.tables.OfferFormation;
 import com.talendorse.server.model.tables.Offers;
 import com.talendorse.server.model.tables.OffersSkills;
@@ -45,7 +46,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Database extends SchemaImpl {
 
-    private static final long serialVersionUID = 1086606714;
+    private static final long serialVersionUID = 1167143162;
 
     /**
      * The reference instance of <code>database</code>
@@ -76,6 +77,11 @@ public class Database extends SchemaImpl {
      * The table <code>database.languages</code>.
      */
     public final Languages LANGUAGES = com.talendorse.server.model.tables.Languages.LANGUAGES;
+
+    /**
+     * The table <code>database.logs</code>.
+     */
+    public final Logs LOGS = com.talendorse.server.model.tables.Logs.LOGS;
 
     /**
      * The table <code>database.offer_formation</code>.
@@ -162,6 +168,7 @@ public class Database extends SchemaImpl {
             Education.EDUCATION,
             Formations.FORMATIONS,
             Languages.LANGUAGES,
+            Logs.LOGS,
             OfferFormation.OFFER_FORMATION,
             Offers.OFFERS,
             OffersSkills.OFFERS_SKILLS,

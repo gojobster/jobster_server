@@ -9,6 +9,7 @@ import com.talendorse.server.model.tables.Countries;
 import com.talendorse.server.model.tables.Education;
 import com.talendorse.server.model.tables.Formations;
 import com.talendorse.server.model.tables.Languages;
+import com.talendorse.server.model.tables.Logs;
 import com.talendorse.server.model.tables.OfferFormation;
 import com.talendorse.server.model.tables.Offers;
 import com.talendorse.server.model.tables.OffersSkills;
@@ -25,6 +26,7 @@ import com.talendorse.server.model.tables.records.CountriesRecord;
 import com.talendorse.server.model.tables.records.EducationRecord;
 import com.talendorse.server.model.tables.records.FormationsRecord;
 import com.talendorse.server.model.tables.records.LanguagesRecord;
+import com.talendorse.server.model.tables.records.LogsRecord;
 import com.talendorse.server.model.tables.records.OfferFormationRecord;
 import com.talendorse.server.model.tables.records.OffersRecord;
 import com.talendorse.server.model.tables.records.OffersSkillsRecord;
@@ -65,6 +67,7 @@ public class Keys {
 
     public static final Identity<EducationRecord, Integer> IDENTITY_EDUCATION = Identities0.IDENTITY_EDUCATION;
     public static final Identity<LanguagesRecord, Integer> IDENTITY_LANGUAGES = Identities0.IDENTITY_LANGUAGES;
+    public static final Identity<LogsRecord, Integer> IDENTITY_LOGS = Identities0.IDENTITY_LOGS;
     public static final Identity<OfferFormationRecord, Integer> IDENTITY_OFFER_FORMATION = Identities0.IDENTITY_OFFER_FORMATION;
     public static final Identity<OffersRecord, Integer> IDENTITY_OFFERS = Identities0.IDENTITY_OFFERS;
     public static final Identity<OffersSkillsRecord, Integer> IDENTITY_OFFERS_SKILLS = Identities0.IDENTITY_OFFERS_SKILLS;
@@ -86,6 +89,7 @@ public class Keys {
     public static final UniqueKey<EducationRecord> KEY_EDUCATION_PRIMARY = UniqueKeys0.KEY_EDUCATION_PRIMARY;
     public static final UniqueKey<FormationsRecord> KEY_FORMATIONS_PRIMARY = UniqueKeys0.KEY_FORMATIONS_PRIMARY;
     public static final UniqueKey<LanguagesRecord> KEY_LANGUAGES_PRIMARY = UniqueKeys0.KEY_LANGUAGES_PRIMARY;
+    public static final UniqueKey<LogsRecord> KEY_LOGS_PRIMARY = UniqueKeys0.KEY_LOGS_PRIMARY;
     public static final UniqueKey<OfferFormationRecord> KEY_OFFER_FORMATION_PRIMARY = UniqueKeys0.KEY_OFFER_FORMATION_PRIMARY;
     public static final UniqueKey<OffersRecord> KEY_OFFERS_PRIMARY = UniqueKeys0.KEY_OFFERS_PRIMARY;
     public static final UniqueKey<OffersSkillsRecord> KEY_OFFERS_SKILLS_PRIMARY = UniqueKeys0.KEY_OFFERS_SKILLS_PRIMARY;
@@ -130,6 +134,7 @@ public class Keys {
     private static class Identities0 {
         public static Identity<EducationRecord, Integer> IDENTITY_EDUCATION = Internal.createIdentity(Education.EDUCATION, Education.EDUCATION.ID_EDUCATION);
         public static Identity<LanguagesRecord, Integer> IDENTITY_LANGUAGES = Internal.createIdentity(Languages.LANGUAGES, Languages.LANGUAGES.ID_LANGUAGE);
+        public static Identity<LogsRecord, Integer> IDENTITY_LOGS = Internal.createIdentity(Logs.LOGS, Logs.LOGS.ID_LOG);
         public static Identity<OfferFormationRecord, Integer> IDENTITY_OFFER_FORMATION = Internal.createIdentity(OfferFormation.OFFER_FORMATION, OfferFormation.OFFER_FORMATION.ID_OFFER_FORMATION);
         public static Identity<OffersRecord, Integer> IDENTITY_OFFERS = Internal.createIdentity(Offers.OFFERS, Offers.OFFERS.ID_OFFER);
         public static Identity<OffersSkillsRecord, Integer> IDENTITY_OFFERS_SKILLS = Internal.createIdentity(OffersSkills.OFFERS_SKILLS, OffersSkills.OFFERS_SKILLS.ID_OFFER_SKILL);
@@ -149,6 +154,7 @@ public class Keys {
         public static final UniqueKey<EducationRecord> KEY_EDUCATION_PRIMARY = Internal.createUniqueKey(Education.EDUCATION, "KEY_education_PRIMARY", Education.EDUCATION.ID_EDUCATION);
         public static final UniqueKey<FormationsRecord> KEY_FORMATIONS_PRIMARY = Internal.createUniqueKey(Formations.FORMATIONS, "KEY_formations_PRIMARY", Formations.FORMATIONS.ID_FORMATION);
         public static final UniqueKey<LanguagesRecord> KEY_LANGUAGES_PRIMARY = Internal.createUniqueKey(Languages.LANGUAGES, "KEY_languages_PRIMARY", Languages.LANGUAGES.ID_LANGUAGE);
+        public static final UniqueKey<LogsRecord> KEY_LOGS_PRIMARY = Internal.createUniqueKey(Logs.LOGS, "KEY_logs_PRIMARY", Logs.LOGS.ID_LOG);
         public static final UniqueKey<OfferFormationRecord> KEY_OFFER_FORMATION_PRIMARY = Internal.createUniqueKey(OfferFormation.OFFER_FORMATION, "KEY_offer_formation_PRIMARY", OfferFormation.OFFER_FORMATION.ID_OFFER_FORMATION);
         public static final UniqueKey<OffersRecord> KEY_OFFERS_PRIMARY = Internal.createUniqueKey(Offers.OFFERS, "KEY_offers_PRIMARY", Offers.OFFERS.ID_OFFER);
         public static final UniqueKey<OffersSkillsRecord> KEY_OFFERS_SKILLS_PRIMARY = Internal.createUniqueKey(OffersSkills.OFFERS_SKILLS, "KEY_offers_skills_PRIMARY", OffersSkills.OFFERS_SKILLS.ID_OFFER_SKILL);

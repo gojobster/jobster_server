@@ -28,7 +28,7 @@ public class OfferRecommended {
         RespuestaWS<String> respuestaWS = new RespuestaWS<>();
         try {
             respuestaWS.responseStatus = 200;
-            respuestaWS.message = EndorsementManagement.sendRecomendatioToCandidate(uriInfo.getBaseUri().toString(), id_user, id_offer, email);
+            respuestaWS.message = EndorsementManagement.sendRecomendatioToCandidate(id_user, id_offer, email);
             respuestaWS.error = "";
             return  respuestaWS;
         } catch (TalendorseException ex) {

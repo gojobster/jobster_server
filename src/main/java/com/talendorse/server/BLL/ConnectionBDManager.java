@@ -10,6 +10,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionBDManager {
+    private final static String TAG = ConnectionBDManager.class.getName();
+
     private Connection conn;
     public DSLContext create;
 
@@ -19,6 +21,7 @@ public class ConnectionBDManager {
             conn = DriverManager.getConnection(Constantes.DB_URL, Constantes.DB_USER, Constantes.DB_PASS);
             create = DSL.using(conn, SQLDialect.MYSQL);
         } catch (InstantiationException | SQLException | IllegalAccessException | ClassNotFoundException ex) {
+            LogManagement.addLog(TAG,""+ex.getMessage());
             throw new TalendorseException(TalendorseErrorType.GENERIC_ERROR);
         }
     }
@@ -28,6 +31,7 @@ public class ConnectionBDManager {
             conn.close();
             create.close();
         } catch (SQLException e) {
+            LogManagement.addLog(TAG,""+e.getMessage());
             throw new TalendorseException(TalendorseErrorType.CLOSE_BD_ERROR);
         }
     }

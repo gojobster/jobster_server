@@ -27,7 +27,7 @@ public class EndorseCandidate {
         try {
             String urlPlatform = uriInfo.getBaseUri().toString().replace("ws/","");
             respuestaWS.responseStatus = 200;
-            respuestaWS.message = EndorsementManagement.sendRecomendatioToCandidate(urlPlatform, id_endorser, id_offer, email_candidate);
+            respuestaWS.message = EndorsementManagement.sendRecomendatioToCandidate(id_endorser, id_offer, email_candidate);
             respuestaWS.error = "";
             return  respuestaWS;
         } catch (TalendorseException ex) {

@@ -9,6 +9,7 @@ import com.talendorse.server.model.tables.Countries;
 import com.talendorse.server.model.tables.Education;
 import com.talendorse.server.model.tables.Formations;
 import com.talendorse.server.model.tables.Languages;
+import com.talendorse.server.model.tables.Logs;
 import com.talendorse.server.model.tables.OfferFormation;
 import com.talendorse.server.model.tables.Offers;
 import com.talendorse.server.model.tables.OffersSkills;
@@ -52,6 +53,7 @@ public class Indexes {
     public static final Index EDUCATION_PRIMARY = Indexes0.EDUCATION_PRIMARY;
     public static final Index FORMATIONS_PRIMARY = Indexes0.FORMATIONS_PRIMARY;
     public static final Index LANGUAGES_PRIMARY = Indexes0.LANGUAGES_PRIMARY;
+    public static final Index LOGS_PRIMARY = Indexes0.LOGS_PRIMARY;
     public static final Index OFFER_FORMATION_FK_OFFER_FORMATION_FORMATION_IDX = Indexes0.OFFER_FORMATION_FK_OFFER_FORMATION_FORMATION_IDX;
     public static final Index OFFER_FORMATION_FK_OFFER_FORMATION_OFFER_IDX = Indexes0.OFFER_FORMATION_FK_OFFER_FORMATION_OFFER_IDX;
     public static final Index OFFER_FORMATION_PRIMARY = Indexes0.OFFER_FORMATION_PRIMARY;
@@ -95,6 +97,7 @@ public class Indexes {
         public static Index EDUCATION_PRIMARY = Internal.createIndex("PRIMARY", Education.EDUCATION, new OrderField[] { Education.EDUCATION.ID_EDUCATION }, true);
         public static Index FORMATIONS_PRIMARY = Internal.createIndex("PRIMARY", Formations.FORMATIONS, new OrderField[] { Formations.FORMATIONS.ID_FORMATION }, true);
         public static Index LANGUAGES_PRIMARY = Internal.createIndex("PRIMARY", Languages.LANGUAGES, new OrderField[] { Languages.LANGUAGES.ID_LANGUAGE }, true);
+        public static Index LOGS_PRIMARY = Internal.createIndex("PRIMARY", Logs.LOGS, new OrderField[] { Logs.LOGS.ID_LOG }, true);
         public static Index OFFER_FORMATION_FK_OFFER_FORMATION_FORMATION_IDX = Internal.createIndex("FK_OFFER_FORMATION_FORMATION_idx", OfferFormation.OFFER_FORMATION, new OrderField[] { OfferFormation.OFFER_FORMATION.ID_FORMATION }, false);
         public static Index OFFER_FORMATION_FK_OFFER_FORMATION_OFFER_IDX = Internal.createIndex("FK_OFFER_FORMATION_OFFER_idx", OfferFormation.OFFER_FORMATION, new OrderField[] { OfferFormation.OFFER_FORMATION.ID_OFFER }, false);
         public static Index OFFER_FORMATION_PRIMARY = Internal.createIndex("PRIMARY", OfferFormation.OFFER_FORMATION, new OrderField[] { OfferFormation.OFFER_FORMATION.ID_OFFER_FORMATION }, true);

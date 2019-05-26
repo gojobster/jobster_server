@@ -4,10 +4,10 @@ public class Constantes {
     private static final boolean IS_DEBUG = false;
 
     private static final String TALENDORSE_URL_LOCALHOST = "http://localhost:8080/";
-    private static final String TALENDORSE_WS_URL_LOCALHOST = "http://localhost:8085/";
-    private static final String TALENDORSE_URL_SERVER = "http://18.191.247.235:8080/";
+    private static final String TALENDORSE_URL_SERVER = "http://www.talendorse.com:8080/";
     public static final String TALENDORSE_URL = IS_DEBUG ? TALENDORSE_URL_LOCALHOST : TALENDORSE_URL_SERVER;
 
+    private static final String TALENDORSE_WS_URL_LOCALHOST = "http://localhost:8085/";
     private static final String WS_TALENDORSE_DEBUG = TALENDORSE_WS_URL_LOCALHOST + "ws/";
     private static final String WS_TALENDORSE_RELEASE = TALENDORSE_URL + "ws/";
     public static final String WS_TALENDORSE_URL = IS_DEBUG ? WS_TALENDORSE_DEBUG : WS_TALENDORSE_RELEASE;
@@ -45,6 +45,8 @@ public class Constantes {
     public static final String URL_EMAIL_VALIDATION_ACCOUNT_URL_EN = "email/activation_en";//WS_TALENDORSE_URL + "email/email_activation_en.html";
     public static final String URL_EMAIL_SEND_RECOMMENDATION_URL_EN = "email/recommendation_en";//WS_TALENDORSE_URL + "email/email_recommendation_en.html";
 
+    public static final String URL_EMAIL_NEW_USER_URL_EN = "email/new_user_es";
+
     /****************************************************************************
      ************************* EMAIL SETTINGS ***********************************
      ****************************************************************************/
@@ -61,6 +63,7 @@ public class Constantes {
     public static final String EMAIL_SUBJECT_RECOVER_PASSWORD_ES = "Talendorse - Recuperar Contraseña";
     public static final String EMAIL_SUBJECT_USER_ACTIVATION_ES = "Talendorse - Activar endorser";
     public static final String EMAIL_SUBJECT_OFFER_RECOMENDATION_ES = "Talendorse - Recomendación de trabajo de";
+    public static final String EMAIL_SUBJECT_NEW_USER_ES = "Talendorse: Bienvenido";
 
 
 
@@ -75,8 +78,13 @@ public class Constantes {
 
     //This is the public api key of our application
     public static final String CLIENT_ID = "77sx2eal8s9cco";
+//    public static final String CLIENT_ID = "bee8g63gi4x6";
     //This is the private api key of our application
     public static final String CLIENT_SECRET = "JjQyf7QOjHERNgFj";
+//    public static final String CLIENT_SECRET = "7M3uvL19CjWWRLSJ";
+
+    public static final String REDIRECT_URL_LINKEDIN = Constantes.TALENDORSE_URL +"login";
+    public static final String REDIRECT_URL_LINKEDIN_WP = Constantes.TALENDORSE_URL +"login_wp";
     //This is any string we want to use. This will be used for avoiding CSRF attacks. You can generate one here: http://strongpasswordgenerator.com/
     public static final String STATE = "E3ZYKC1T6H2yP4z";
     //This is the url that LinkedIn Auth process will redirect to. We can put whatever we want that starts with http:// or https:// .
