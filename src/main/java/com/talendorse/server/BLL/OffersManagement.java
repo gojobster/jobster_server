@@ -1,13 +1,12 @@
 package com.talendorse.server.BLL;
 
-import com.talendorse.server.DTO.RespuestaWSOffer;
-import com.talendorse.server.DTO.RespuestaWSOfferCity;
-import com.talendorse.server.DTO.RespuestaWSOfferFilters;
+import com.talendorse.server.DTO.*;
 import com.talendorse.server.POCO.Offer;
 import com.talendorse.server.model.tables.Referrals;
 import com.talendorse.server.model.tables.records.CompaniesRecord;
 import com.talendorse.server.model.tables.records.OffersRecord;
 import com.talendorse.server.model.tables.records.ReferralsRecord;
+import com.talendorse.server.model.tables.records.UsersRecord;
 import com.talendorse.server.util.Fechas;
 import com.talendorse.server.model.Tables;
 import org.jooq.DSLContext;
@@ -104,9 +103,16 @@ public class OffersManagement {
         return listOffers;
     }
 
-    public static List<RespuestaWSOffer> getUserEndorsements(String token) throws TalendorseException{
+    public static List<RespuestaWSMyOffer> getUserMyOffers(String token) throws TalendorseException{
         ConnectionBDManager connection = new ConnectionBDManager();
-        List<RespuestaWSOffer> listOffers = getWSOffers(connection.create, getUserEndorsementsRecord(connection.create, token));
+        List<RespuestaWSMyOffer> listOffers = getWSMyOffers(connection.create, getUserEndorsementsRecord(connection.create, token));
+        connection.closeConnection();
+        return listOffers;
+    }
+
+    public static List<RespuestaWSMyEndorse> getUserMyEndorse(String token) throws TalendorseException{
+        ConnectionBDManager connection = new ConnectionBDManager();
+        List<RespuestaWSMyEndorse> listOffers = getWSMyEndorse(connection.create, getUserEndorsementsRecord(connection.create, token));
         connection.closeConnection();
         return listOffers;
     }
@@ -139,6 +145,45 @@ public class OffersManagement {
                     company.getValue(Tables.COMPANIES.PATH_IMG), r.getPosition(), r.getSummary(),
                     r.getCity(),  r.getReward(), r.getSalaryMin(),
                     r.getSalaryMax(), r.getDateInit(), r.getDateEnd());
+            listOffers.add(offer);
+        }
+        return listOffers;
+    }
+
+    private static List<RespuestaWSMyOffer> getWSMyOffers(DSLContext create, List<OffersRecord> result) {
+        List<RespuestaWSMyOffer> listOffers = new ArrayList<>();
+        for (OffersRecord r : result) {
+            CompaniesRecord company = CompaniesManagement.getCompanyRecord(create, r.getValue(Tables.OFFERS.ID_COMPANY));
+            ReferralsRecord referral = ReferralsManagement.getReferralsRecord(create,r.getValue(Tables.REFERRALS.ID_REFERRAL));
+            UsersRecord user = new UsersRecord();
+            try{
+                user = UserManagement.getUser(r.getValue(Tables.REFERRALS.ID_ENDORSER));
+            }catch (Exception e){
+            }
+
+            RespuestaWSMyOffer offer = new RespuestaWSMyOffer(r.getIdOffer(),  company.getValue(Tables.COMPANIES.NAME),
+                    company.getValue(Tables.COMPANIES.PATH_IMG), r.getPosition(), r.getSummary(),
+                    r.getCity(),  r.getReward(), r.getSalaryMin(),
+                    r.getSalaryMax(), r.getDateInit(), r.getDateEnd(), user.getName() + " " +user.getSurname(), user.getIdUser(), referral.getState());
+            listOffers.add(offer);
+        }
+        return listOffers;
+    }
+
+    private static List<RespuestaWSMyEndorse> getWSMyEndorse(DSLContext create, List<OffersRecord> result) {
+        List<RespuestaWSMyEndorse> listOffers = new ArrayList<>();
+        for (OffersRecord r : result) {
+            CompaniesRecord company = CompaniesManagement.getCompanyRecord(create, r.getValue(Tables.OFFERS.ID_COMPANY));
+            ReferralsRecord referral = ReferralsManagement.getReferralsRecord(create,r.getValue(Tables.REFERRALS.ID_REFERRAL));
+            UsersRecord user = new UsersRecord();
+            try{
+                user = UserManagement.getUser(r.getValue(Tables.REFERRALS.ID_CANDIDATE));
+            }catch (Exception e){
+            }
+            RespuestaWSMyEndorse offer = new RespuestaWSMyEndorse(r.getIdOffer(),  company.getValue(Tables.COMPANIES.NAME),
+                    company.getValue(Tables.COMPANIES.PATH_IMG), r.getPosition(), r.getSummary(),
+                    r.getCity(),  r.getReward(), r.getSalaryMin(),
+                    r.getSalaryMax(), r.getDateInit(), r.getDateEnd(), user.getName() + " " +user.getSurname(), user.getIdUser(), referral.getState());
             listOffers.add(offer);
         }
         return listOffers;
