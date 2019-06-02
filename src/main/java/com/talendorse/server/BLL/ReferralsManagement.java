@@ -1,10 +1,10 @@
 package com.talendorse.server.BLL;
 
-import com.talendorse.server.POCO.Company;
 import com.talendorse.server.model.Tables;
-import com.talendorse.server.model.tables.records.CompaniesRecord;
 import com.talendorse.server.model.tables.records.ReferralsRecord;
 import org.jooq.DSLContext;
+
+import java.util.List;
 
 public class ReferralsManagement {
     public static ReferralsRecord getReferralsRecord(DSLContext create, int id_referral) {
@@ -13,6 +13,19 @@ public class ReferralsManagement {
                 .where(Tables.REFERRALS.ID_REFERRAL.equal(id_referral))
                 .fetchAnyInto(ReferralsRecord.class);
     }
+
+    public static List<ReferralsRecord> getAllEndorserRefferralsByUserId (DSLContext create, int userId) {
+        return create.select()
+                .from(Tables.REFERRALS)
+                .where(Tables.REFERRALS.ID_ENDORSER.equal(userId)).fetchInto(ReferralsRecord.class);
+    }
+
+    public static List<ReferralsRecord> getAllCandidateRefferralsByUserId (DSLContext create, int userId) {
+        return create.select()
+                .from(Tables.REFERRALS)
+                .where(Tables.REFERRALS.ID_CANDIDATE.equal(userId)).fetchInto(ReferralsRecord.class);
+    }
+
 
 //    public static Company getReferral(int id_referral) {
 //        try {

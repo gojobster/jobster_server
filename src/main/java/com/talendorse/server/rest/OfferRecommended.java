@@ -21,14 +21,16 @@ public class OfferRecommended {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public RespuestaWS<String> addRecommendations(
-            @FormParam("idOffer") int id_offer,
-            @FormParam("idUser") int id_user,
-            @FormParam("email") String email
-    ){
+            @FormParam("id_endorser") Integer id_endorser,
+            @FormParam("id_offer") Integer id_offer,
+            @FormParam("name") String nameCandidate,
+            @FormParam("endorserCandidateRelation") Integer endorserCandidateRelation,
+            @FormParam("description") String description,
+            @FormParam("email_candidate") String email_candidate) {
         RespuestaWS<String> respuestaWS = new RespuestaWS<>();
         try {
             respuestaWS.responseStatus = 200;
-            respuestaWS.message = EndorsementManagement.sendRecomendatioToCandidate(id_user, id_offer, email);
+            respuestaWS.message = EndorsementManagement.sendRecomendatioToCandidate(id_endorser, id_offer, email_candidate, nameCandidate, endorserCandidateRelation, description);
             respuestaWS.error = "";
             return  respuestaWS;
         } catch (TalendorseException ex) {

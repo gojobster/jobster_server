@@ -21,12 +21,13 @@ public class RespuestaWSMyEndorse {
 	public Integer time_from_start;
 	public Integer time_to_end;
 	public String candidate;
+		public String path_image_candidate;
 	public int idCandidate;
 	public String status;
 
 	public RespuestaWSMyEndorse(int id_offer, String nameCompany, String path_image_company, String position, String summary, String city,
-                                int reward, Integer salary_min, Integer salary_max, Timestamp date_start, Timestamp date_end, String candidate,
-								int idCandidate, int status) {
+                                int reward, Integer salary_min, Integer salary_max, Timestamp date_start, Timestamp date_end,
+								String candidate, String path_image_candidate, int idCandidate, int status) {
 		this.id_offer = id_offer;
 		this.nameCompany = nameCompany;
 		this.path_image_company = path_image_company;
@@ -40,8 +41,9 @@ public class RespuestaWSMyEndorse {
 		this.date_start = date_start;
 		this.time_from_start = daysFromNow(date_start);
 		this.time_to_end = daysFromNow(date_end);
-		this.candidate = candidate;
 		this.idCandidate = idCandidate;
+		this.candidate = candidate;
+		this.path_image_candidate = path_image_candidate;
 		this.status = statusName(status);
 	}
 

@@ -22,12 +22,15 @@ public class EndorseCandidate {
     public RespuestaWS<String> validateEmail(
             @FormParam("id_endorser") Integer id_endorser,
             @FormParam("id_offer") Integer id_offer,
+            @FormParam("name") String nameCandidate,
+            @FormParam("endorserCandidateRelation") Integer endorserCandidateRelation,
+            @FormParam("description") String description,
             @FormParam("email_candidate") String email_candidate){
         RespuestaWS<String> respuestaWS = new RespuestaWS<>();
         try {
             String urlPlatform = uriInfo.getBaseUri().toString().replace("ws/","");
             respuestaWS.responseStatus = 200;
-            respuestaWS.message = EndorsementManagement.sendRecomendatioToCandidate(id_endorser, id_offer, email_candidate);
+            respuestaWS.message = EndorsementManagement.sendRecomendatioToCandidate(id_endorser, id_offer, email_candidate, nameCandidate, endorserCandidateRelation, description);
             respuestaWS.error = "";
             return  respuestaWS;
         } catch (TalendorseException ex) {
