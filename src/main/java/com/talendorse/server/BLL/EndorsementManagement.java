@@ -117,7 +117,7 @@ public class EndorsementManagement {
     }
 
 
-    public static String sendRecomendatioToCandidate(int id_endorser, int id_offer, String email_candidate) throws TalendorseException{
+    public static String sendRecomendatioToCandidate(int id_endorser, int id_offer, String email_candidate, String nameCandidate, int relation, String description) throws TalendorseException{
         ConnectionBDManager connection = new ConnectionBDManager();
 
         email_candidate = email_candidate.trim();
@@ -134,6 +134,9 @@ public class EndorsementManagement {
             ref.setIdEndorser(id_endorser);
             ref.setCode(getRandomCodeOffer());
             ref.setEmailCandidate(email_candidate);
+            ref.setNamecandidate(nameCandidate);
+            ref.setRelation(relation);
+            ref.setDescription(description);
             ref.store();
 
             UsersRecord user = UserManagement.getUser(id_endorser);

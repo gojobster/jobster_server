@@ -1,19 +1,14 @@
 package com.talendorse.server.BLL;
 
-import com.talendorse.server.DTO.RespuestaWSOffer;
-import com.talendorse.server.DTO.RespuestaWSOfferCity;
-import com.talendorse.server.DTO.RespuestaWSOfferFilters;
+import com.talendorse.server.DTO.*;
 import com.talendorse.server.POCO.Offer;
-import com.talendorse.server.model.tables.Referrals;
 import com.talendorse.server.model.tables.records.CompaniesRecord;
 import com.talendorse.server.model.tables.records.OffersRecord;
 import com.talendorse.server.model.tables.records.ReferralsRecord;
+import com.talendorse.server.model.tables.records.UsersRecord;
 import com.talendorse.server.util.Fechas;
 import com.talendorse.server.model.Tables;
-import org.jooq.DSLContext;
-import org.jooq.Record;
-import org.jooq.Result;
-import org.jooq.SelectConditionStep;
+import org.jooq.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,10 +99,25 @@ public class OffersManagement {
         return listOffers;
     }
 
-    public static List<RespuestaWSOffer> getUserEndorsements(String token) throws TalendorseException{
+    public static List<RespuestaWSMyOffer> getMyOffers(String token) throws TalendorseException{
         ConnectionBDManager connection = new ConnectionBDManager();
-        List<RespuestaWSOffer> listOffers = getWSOffers(connection.create, getUserEndorsementsRecord(connection.create, token));
+        int userId = UserManagement.GetUserIdfromToken(token);
+
+        List<RespuestaWSMyOffer> listOffers = getWSMyOffers(connection.create,
+                ReferralsManagement.getAllCandidateRefferralsByUserId(connection.create, userId));
         connection.closeConnection();
+
+        return listOffers;
+    }
+
+    public static List<RespuestaWSMyEndorse> getUserMyEndorse(String token) throws TalendorseException{
+        ConnectionBDManager connection = new ConnectionBDManager();
+        int userId = UserManagement.GetUserIdfromToken(token);
+
+        List<RespuestaWSMyEndorse> listOffers = getWSMyEndorse(connection.create,
+                ReferralsManagement.getAllEndorserRefferralsByUserId(connection.create, userId));
+        connection.closeConnection();
+
         return listOffers;
     }
 
@@ -144,6 +154,45 @@ public class OffersManagement {
         return listOffers;
     }
 
+    private static List<RespuestaWSMyOffer> getWSMyOffers(DSLContext create, List<ReferralsRecord> result) {
+        List<RespuestaWSMyOffer> listOffers = new ArrayList<>();
+        try {
+            for (ReferralsRecord referral : result) {
+                Offer offer = OffersManagement.getOffer(create,referral.getValue(Tables.REFERRALS.ID_OFFER));
+                UsersRecord endorser = UserManagement.getUser(referral.getValue(Tables.REFERRALS.ID_ENDORSER));
+
+                RespuestaWSMyOffer respuestaOffer = new RespuestaWSMyOffer(offer.idOffer,  offer.nameCompany,
+                        offer.path_image_company, offer.position, offer.summary,
+                        offer.city,  offer.reward, offer.salary_min,
+                        offer.salary_max, offer.date_ini, offer.date_end, endorser.getName() + " " +endorser.getSurname(), endorser.getPictureUrl(), endorser.getIdUser(), referral.getState());
+                listOffers.add(respuestaOffer);
+            }
+        } catch (TalendorseException e) {
+            e.printStackTrace();
+        }
+        return listOffers;
+    }
+
+    private static List<RespuestaWSMyEndorse> getWSMyEndorse(DSLContext create, List<ReferralsRecord> result) {
+        List<RespuestaWSMyEndorse> listOffers = new ArrayList<>();
+        try {
+            for (ReferralsRecord referralRecord : result) {
+                Offer offer = OffersManagement.getOffer(create, referralRecord.getValue(Tables.REFERRALS.ID_OFFER));
+                UsersRecord candidate = UserManagement.getUser(referralRecord.getValue(Tables.REFERRALS.ID_CANDIDATE));
+
+                RespuestaWSMyEndorse myEndorse = new RespuestaWSMyEndorse(offer.idOffer,  offer.nameCompany,
+                offer.path_image_company, offer.position, offer.summary,
+                        offer.city,  offer.reward, offer.salary_min,
+                        offer.salary_max, offer.date_ini, offer.date_end, candidate.getName() + " " +candidate.getSurname(), candidate.getPictureUrl(), candidate.getIdUser(), referralRecord.getState());
+
+                listOffers.add(myEndorse);
+            }
+        } catch (TalendorseException e) {
+            e.printStackTrace();
+        }
+        return listOffers;
+    }
+
     public static RespuestaWSOfferFilters getAllOffersFilters(String Keyword) throws TalendorseException {
         ConnectionBDManager connection = new ConnectionBDManager();
 
@@ -163,8 +212,17 @@ public class OffersManagement {
     public static Offer getOffer(int id) throws TalendorseException {
         ConnectionBDManager connection = new ConnectionBDManager();
 
-        OffersRecord offer = connection.create.select().from(Tables.OFFERS).where(Tables.OFFERS.ID_OFFER.equal(id)).fetchAnyInto(OffersRecord.class);
-        CompaniesRecord company = CompaniesManagement.getCompanyRecord(connection.create, offer.getValue(Tables.OFFERS.ID_COMPANY));
+        OffersRecord offerRecord = connection.create.select().from(Tables.OFFERS).where(Tables.OFFERS.ID_OFFER.equal(id)).fetchAnyInto(OffersRecord.class);
+        CompaniesRecord company = CompaniesManagement.getCompanyRecord(connection.create, offerRecord.getValue(Tables.OFFERS.ID_COMPANY));
+        Offer offer = new Offer(offerRecord, company);
+
+        connection.closeConnection();
+        return offer;
+    }
+
+    public static Offer getOffer(DSLContext create, int id) throws TalendorseException {
+        OffersRecord offer = create.select().from(Tables.OFFERS).where(Tables.OFFERS.ID_OFFER.equal(id)).fetchAnyInto(OffersRecord.class);
+        CompaniesRecord company = CompaniesManagement.getCompanyRecord(create, offer.getValue(Tables.OFFERS.ID_COMPANY));
 
         return new Offer(offer, company);
     }
@@ -186,8 +244,7 @@ public class OffersManagement {
         return create.select().from(Tables.OFFERS).where(Tables.OFFERS.ID_OFFER.in(offers)).fetchInto(OffersRecord.class);
     }
 
-    private static List<OffersRecord> getUserEndorsementsRecord(DSLContext create, String token) throws TalendorseException{
-        int idUser = create.select().from(Tables.TOKENS).where(Tables.TOKENS.TOKEN.contains(token)).fetchSingle(Tables.TOKENS.ID_USER);
+    private static List<OffersRecord> getUserEndorsementsOffersRecord(DSLContext create, int idUser) throws TalendorseException{
         List<Integer> offers = create.select().from(Tables.REFERRALS).where(Tables.REFERRALS.ID_ENDORSER.contains(idUser)).fetch(Tables.REFERRALS.ID_OFFER, Integer.class);
         return create.select().from(Tables.OFFERS).where(Tables.OFFERS.ID_OFFER.in(offers)).fetchInto(OffersRecord.class);
     }

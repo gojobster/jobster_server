@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Referrals extends TableImpl<ReferralsRecord> {
 
-    private static final long serialVersionUID = 23374797;
+    private static final long serialVersionUID = -497085050;
 
     /**
      * The reference instance of <code>database.referrals</code>
@@ -96,6 +96,21 @@ public class Referrals extends TableImpl<ReferralsRecord> {
      * The column <code>database.referrals.email_candidate</code>.
      */
     public final TableField<ReferralsRecord, String> EMAIL_CANDIDATE = createField("email_candidate", org.jooq.impl.SQLDataType.VARCHAR(80).nullable(false), this, "");
+
+    /**
+     * The column <code>database.referrals.nameCandidate</code>.
+     */
+    public final TableField<ReferralsRecord, String> NAMECANDIDATE = createField("nameCandidate", org.jooq.impl.SQLDataType.VARCHAR(200), this, "");
+
+    /**
+     * The column <code>database.referrals.description</code>.
+     */
+    public final TableField<ReferralsRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.VARCHAR(800), this, "");
+
+    /**
+     * The column <code>database.referrals.relation</code>. Relation between Endroser and Candidate
+     */
+    public final TableField<ReferralsRecord, Integer> RELATION = createField("relation", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("-1", org.jooq.impl.SQLDataType.INTEGER)), this, "Relation between Endroser and Candidate");
 
     /**
      * The column <code>database.referrals.date_creation</code>.
