@@ -3,9 +3,10 @@ package com.talendorse.server.types;
 public enum StatusType {
     CANCELLED(-1),
     PENDING(0),
-    JOINED(1),
+    IN_PROGRESS(1),
     PRESELECTED(2),
-    ACCEPTED(3);
+    HIRED(3),
+    REJECTED(4);
 
     private final int code;
 

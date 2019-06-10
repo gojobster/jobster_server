@@ -3,6 +3,7 @@ package com.talendorse.server.DTO;
 import org.json.JSONObject;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -21,9 +22,11 @@ public class RespuestaWSMyEndorse {
 	public Integer time_from_start;
 	public Integer time_to_end;
 	public String candidate;
-		public String path_image_candidate;
+	public String path_image_candidate;
 	public int idCandidate;
-	public String status;
+	public int status;
+	public String date_start_string;
+	public String date_end_string;
 
 	public RespuestaWSMyEndorse(int id_offer, String nameCompany, String path_image_company, String position, String summary, String city,
                                 int reward, Integer salary_min, Integer salary_max, Timestamp date_start, Timestamp date_end,
@@ -44,7 +47,9 @@ public class RespuestaWSMyEndorse {
 		this.idCandidate = idCandidate;
 		this.candidate = candidate;
 		this.path_image_candidate = path_image_candidate;
-		this.status = statusName(status);
+		this.status = status;
+		this.date_start_string = dateToString(date_start);
+		this.date_end_string = dateToString(date_end);
 	}
 
 	public RespuestaWSMyEndorse(JSONObject object){
@@ -64,7 +69,9 @@ public class RespuestaWSMyEndorse {
 			this.time_to_end = daysFromNow(date_end);
 			this.candidate = object.getString("candidate");
 			this.idCandidate = object.getInt("idCandidate");
-			this.status = object.getString("status");
+			this.status = object.getInt("status");
+			this.date_start_string = dateToString(date_start);
+			this.date_end_string = dateToString(date_end);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -99,5 +106,8 @@ public class RespuestaWSMyEndorse {
 				break;
 		}
 		return estado;
+	}
+	private String dateToString(Timestamp timestamp) {
+		return new SimpleDateFormat("dd/MM/yyyy").format(timestamp);
 	}
 }
