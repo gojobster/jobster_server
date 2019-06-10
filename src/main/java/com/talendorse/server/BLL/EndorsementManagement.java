@@ -10,10 +10,6 @@ import com.talendorse.server.util.Fechas;
 import com.talendorse.server.util.RandomString;
 import com.talendorse.server.model.Tables;
 import org.jooq.DSLContext;
-import org.jooq.Record1;
-import org.jooq.Result;
-
-import static org.jooq.impl.DSL.count;
 
 public class EndorsementManagement {
 
@@ -61,12 +57,13 @@ public class EndorsementManagement {
 //    }
 
     private static boolean recomendationLimit(DSLContext create, int id_offer, String email) {
-        Result<Record1<Integer>> num = create.selectCount()
+        int num = create.selectCount()
                 .from(Tables.REFERRALS)
                 .where(Tables.REFERRALS.ID_OFFER.equal(id_offer).and(Tables.REFERRALS.EMAIL_CANDIDATE.equal(email)))
-                .fetch();
+                .fetchOne(0, int.class);
 //TODO: obtener el real
-        return false;
+
+        return num >= Constantes.MAX_RECOMENDATION_PER_OFFER;
     }
 
     private static String getRandomCodeOffer() throws TalendorseException {
@@ -119,7 +116,7 @@ public class EndorsementManagement {
         if(!UserManagement.userExist(connection.create, id_endorser)) throw new TalendorseException(TalendorseErrorType.USER_NOT_EXISTS);
         if (!OffersManagement.offerExist(connection.create, id_offer)) throw new TalendorseException(TalendorseErrorType.OFFER_NOT_EXISTS);
         if (recomendationLimit(connection.create, id_offer, email_candidate)) throw new TalendorseException(TalendorseErrorType.REFERRAL_EXCEED_LIMIT);
-
+        //TODO: prevenir SPAN a un usuario con mulyiples recomendaciones.
 
         try {
             ReferralsRecord ref = connection.create.newRecord(Tables.REFERRALS);
@@ -135,7 +132,7 @@ public class EndorsementManagement {
 
             UsersRecord user = UserManagement.getUser(id_endorser);
 
-            Email.sendEmailrecomendation(email_candidate, user.getName() + " " + user.getSurname(), "Andreu Marí", ""+ref.getIdOffer(), ref.getCode());
+            Email.sendEmailrecomendation(email_candidate, user.getName() + " " + user.getSurname(), nameCandidate, ""+ref.getIdOffer(), ref.getCode());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -148,6 +145,7 @@ public class EndorsementManagement {
     public static String applyCandidate(Integer id_candidate, String code) throws TalendorseException{
         ConnectionBDManager connection = new ConnectionBDManager();
 
+        if(code == "") throw new TalendorseException(TalendorseErrorType.GENERIC_ERROR);
         if(!UserManagement.userExist(connection.create, id_candidate)) throw new TalendorseException(TalendorseErrorType.USER_NOT_EXISTS);
 
         ReferralsRecord ref = connection.create.select()
@@ -155,8 +153,11 @@ public class EndorsementManagement {
                 .where(Tables.REFERRALS.CODE.equal(code))
                 .fetchAnyInto(ReferralsRecord.class);
 
+        if(ref == null) throw new TalendorseException(TalendorseErrorType.GENERIC_ERROR);
+
         ref.setIdCandidate(id_candidate);
         ref.setState(StatusType.HIRED.toInt());
+        ref.setCode("");
         ref.setDateAccepted(Fechas.getCurrentTimestampLong());
         ref.store();
 

@@ -28,7 +28,9 @@ public class ConnectionBDManager {
 
     public void closeConnection() throws TalendorseException {
         try {
-            conn.close();
+            if(!conn.isClosed())
+                conn.close();
+
             create.close();
         } catch (SQLException e) {
             LogManagement.addLog(TAG,""+e.getMessage());

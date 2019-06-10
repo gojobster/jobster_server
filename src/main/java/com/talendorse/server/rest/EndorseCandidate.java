@@ -8,9 +8,7 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.*;
 
 @Path("/{recomend : (?i)recomend}")
 public class EndorseCandidate {
@@ -19,7 +17,7 @@ public class EndorseCandidate {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public RespuestaWS<String> validateEmail(
+    public RespuestaWS<String> validateEmail(@Context HttpHeaders httpheaders,
             @FormParam("id_endorser") Integer id_endorser,
             @FormParam("id_offer") Integer id_offer,
             @FormParam("name") String nameCandidate,
@@ -28,6 +26,8 @@ public class EndorseCandidate {
             @FormParam("email_candidate") String email_candidate){
         RespuestaWS<String> respuestaWS = new RespuestaWS<>();
         try {
+            String token = httpheaders.getHeaderString("Authorization");
+
             String urlPlatform = uriInfo.getBaseUri().toString().replace("ws/","");
             respuestaWS.responseStatus = 200;
             respuestaWS.message = EndorsementManagement.sendRecomendatioToCandidate(id_endorser, id_offer, email_candidate, nameCandidate, endorserCandidateRelation, description);

@@ -3,7 +3,7 @@ package com.talendorse.server.BLL;
 import org.jooq.True;
 
 public class Constantes {
-    private static final boolean IS_DEBUG = true;
+    private static final boolean IS_DEBUG = false;
 
     private static final String TALENDORSE_URL_LOCALHOST = "http://localhost:8080/";
     private static final String TALENDORSE_URL_SERVER = "http://www.talendorse.com:8080/";
@@ -35,7 +35,7 @@ public class Constantes {
 
     /****************************************************************************
      ************************* Web Services ***********************************
-     ****************************************************************************/
+     *****************************************c ***********************************/
 
 
     public static final String WS_GET_ALL_OFFERS = WS_TALENDORSE_URL + "getAllWsOffers";
@@ -115,5 +115,7 @@ public class Constantes {
     public static final String EQUALS = "=";
 
 
+    /////////////////////////////////////////
+    public static final int MAX_RECOMENDATION_PER_OFFER = 3;
 
 }
