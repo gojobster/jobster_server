@@ -12,12 +12,6 @@ import com.talendorse.server.model.Tables;
 import org.jooq.DSLContext;
 import org.jooq.Record1;
 import org.jooq.Result;
-import org.jooq.SQLDialect;
-import org.jooq.impl.DSL;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 import static org.jooq.impl.DSL.count;
 
@@ -162,7 +156,7 @@ public class EndorsementManagement {
                 .fetchAnyInto(ReferralsRecord.class);
 
         ref.setIdCandidate(id_candidate);
-        ref.setState(StatusType.ACCEPTED.toInt());
+        ref.setState(StatusType.HIRED.toInt());
         ref.setDateAccepted(Fechas.getCurrentTimestampLong());
         ref.store();
 

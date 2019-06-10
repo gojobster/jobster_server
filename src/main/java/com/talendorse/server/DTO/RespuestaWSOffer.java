@@ -21,6 +21,8 @@ public class RespuestaWSOffer {
 	public Timestamp date_end;
 	public Integer time_from_start;
 	public Integer time_to_end;
+	public String date_start_string;
+	public String date_end_string;
 
 	public RespuestaWSOffer(int id_offer, String nameCompany, String path_image_company, String position, String summary, String city,
 							int reward, Integer salary_min, Integer salary_max, Timestamp date_start, Timestamp date_end) {
@@ -37,6 +39,8 @@ public class RespuestaWSOffer {
 		this.date_start = date_start;
 		this.time_from_start = daysFromNow(date_start);
 		this.time_to_end = daysFromNow(date_end);
+		this.date_start_string = dateToString(date_start);
+		this.date_end_string = dateToString(date_end);
 	}
 
 	public RespuestaWSOffer(JSONObject object){
@@ -54,6 +58,8 @@ public class RespuestaWSOffer {
 			this.date_end = new Timestamp(Long.parseLong(object.getString("date_end")));
 			this.time_from_start = daysFromNow(date_start);
 			this.time_to_end = daysFromNow(date_end);
+			this.date_start_string = dateToString(date_start);
+			this.date_end_string = dateToString(date_end);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -64,6 +70,9 @@ public class RespuestaWSOffer {
 		LocalDate theDate = myDate.toLocalDateTime().toLocalDate();
 		Period period = Period.between(theDate, now);
 		return Math.abs(period.getDays());
+	}
+	private String dateToString(Timestamp timestamp) {
+		return new SimpleDateFormat("dd/MM/yyyy").format(timestamp);
 	}
 
 }

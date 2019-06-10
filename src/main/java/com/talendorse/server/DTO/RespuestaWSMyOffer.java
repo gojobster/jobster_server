@@ -2,6 +2,7 @@ package com.talendorse.server.DTO;
 
 import org.json.JSONObject;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 
@@ -23,6 +24,8 @@ public class RespuestaWSMyOffer {
 	public String path_image_endorser;
 	public int idEndorser;
 	public String status;
+	public String date_start_string;
+	public String date_end_string;
 
 	public RespuestaWSMyOffer(int id_offer, String nameCompany, String path_image_company, String position, String summary, String city,
 							  int reward, Integer salary_min, Integer salary_max, Timestamp date_start, Timestamp date_end,
@@ -44,6 +47,8 @@ public class RespuestaWSMyOffer {
 		this.path_image_endorser = path_image_endorser;
 		this.idEndorser = idEndorser;
 		this.status = statusName(status);
+		this.date_start_string = dateToString(date_start);
+		this.date_end_string = dateToString(date_end);
 	}
 
 	public RespuestaWSMyOffer(JSONObject object){
@@ -64,6 +69,8 @@ public class RespuestaWSMyOffer {
 			this.endorser = object.getString("endorser");
 			this.idEndorser = object.getInt("idEndorser");
 			this.status = object.getString("status");
+			this.date_start_string = dateToString(date_start);
+			this.date_end_string = dateToString(date_end);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -98,5 +105,8 @@ public class RespuestaWSMyOffer {
 				break;
 		}
 		return estado;
+	}
+	private String dateToString(Timestamp timestamp) {
+		return new SimpleDateFormat("dd/MM/yyyy").format(timestamp);
 	}
 }
