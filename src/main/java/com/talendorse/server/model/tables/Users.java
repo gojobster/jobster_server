@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users extends TableImpl<UsersRecord> {
 
-    private static final long serialVersionUID = 1394100406;
+    private static final long serialVersionUID = -1508324642;
 
     /**
      * The reference instance of <code>database.users</code>
@@ -61,6 +61,11 @@ public class Users extends TableImpl<UsersRecord> {
      * The column <code>database.users.id_user</code>.
      */
     public final TableField<UsersRecord, Integer> ID_USER = createField("id_user", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
+
+    /**
+     * The column <code>database.users.role</code>. - Endorser: 0\n- Company: 1\n- Admin: 2
+     */
+    public final TableField<UsersRecord, Integer> ROLE = createField("role", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "- Endorser: 0\\n- Company: 1\\n- Admin: 2");
 
     /**
      * The column <code>database.users.id_linkedin</code>.

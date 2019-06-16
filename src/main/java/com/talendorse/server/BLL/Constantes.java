@@ -3,7 +3,7 @@ package com.talendorse.server.BLL;
 import org.jooq.True;
 
 public class Constantes {
-    private static final boolean IS_DEBUG = false;
+    private static final boolean IS_DEBUG = true;
 
     private static final String TALENDORSE_URL_LOCALHOST = "http://localhost:8080/";
     private static final String TALENDORSE_URL_SERVER = "http://www.talendorse.com:8080/";

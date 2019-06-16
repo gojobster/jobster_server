@@ -27,7 +27,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UsersRecord extends UpdatableRecordImpl<UsersRecord> {
 
-    private static final long serialVersionUID = -29234094;
+    private static final long serialVersionUID = 105157549;
 
     /**
      * Setter for <code>database.users.id_user</code>.
@@ -44,325 +44,339 @@ public class UsersRecord extends UpdatableRecordImpl<UsersRecord> {
     }
 
     /**
+     * Setter for <code>database.users.role</code>. - Endorser: 0\n- Company: 1\n- Admin: 2
+     */
+    public void setRole(Integer value) {
+        set(1, value);
+    }
+
+    /**
+     * Getter for <code>database.users.role</code>. - Endorser: 0\n- Company: 1\n- Admin: 2
+     */
+    public Integer getRole() {
+        return (Integer) get(1);
+    }
+
+    /**
      * Setter for <code>database.users.id_linkedin</code>.
      */
     public void setIdLinkedin(String value) {
-        set(1, value);
+        set(2, value);
     }
 
     /**
      * Getter for <code>database.users.id_linkedin</code>.
      */
     public String getIdLinkedin() {
-        return (String) get(1);
+        return (String) get(2);
     }
 
     /**
      * Setter for <code>database.users.token_linkedin</code>.
      */
     public void setTokenLinkedin(String value) {
-        set(2, value);
+        set(3, value);
     }
 
     /**
      * Getter for <code>database.users.token_linkedin</code>.
      */
     public String getTokenLinkedin() {
-        return (String) get(2);
+        return (String) get(3);
     }
 
     /**
      * Setter for <code>database.users.name</code>.
      */
     public void setName(String value) {
-        set(3, value);
+        set(4, value);
     }
 
     /**
      * Getter for <code>database.users.name</code>.
      */
     public String getName() {
-        return (String) get(3);
+        return (String) get(4);
     }
 
     /**
      * Setter for <code>database.users.surname</code>.
      */
     public void setSurname(String value) {
-        set(4, value);
+        set(5, value);
     }
 
     /**
      * Getter for <code>database.users.surname</code>.
      */
     public String getSurname() {
-        return (String) get(4);
+        return (String) get(5);
     }
 
     /**
      * Setter for <code>database.users.email</code>.
      */
     public void setEmail(String value) {
-        set(5, value);
+        set(6, value);
     }
 
     /**
      * Getter for <code>database.users.email</code>.
      */
     public String getEmail() {
-        return (String) get(5);
+        return (String) get(6);
     }
 
     /**
      * Setter for <code>database.users.current_position</code>.
      */
     public void setCurrentPosition(String value) {
-        set(6, value);
+        set(7, value);
     }
 
     /**
      * Getter for <code>database.users.current_position</code>.
      */
     public String getCurrentPosition() {
-        return (String) get(6);
+        return (String) get(7);
     }
 
     /**
      * Setter for <code>database.users.date_birthday</code>.
      */
     public void setDateBirthday(Timestamp value) {
-        set(7, value);
+        set(8, value);
     }
 
     /**
      * Getter for <code>database.users.date_birthday</code>.
      */
     public Timestamp getDateBirthday() {
-        return (Timestamp) get(7);
+        return (Timestamp) get(8);
     }
 
     /**
      * Setter for <code>database.users.gender</code>.
      */
     public void setGender(String value) {
-        set(8, value);
+        set(9, value);
     }
 
     /**
      * Getter for <code>database.users.gender</code>.
      */
     public String getGender() {
-        return (String) get(8);
+        return (String) get(9);
     }
 
     /**
      * Setter for <code>database.users.sector</code>.
      */
     public void setSector(String value) {
-        set(9, value);
+        set(10, value);
     }
 
     /**
      * Getter for <code>database.users.sector</code>.
      */
     public String getSector() {
-        return (String) get(9);
+        return (String) get(10);
     }
 
     /**
      * Setter for <code>database.users.headline</code>.
      */
     public void setHeadline(String value) {
-        set(10, value);
+        set(11, value);
     }
 
     /**
      * Getter for <code>database.users.headline</code>.
      */
     public String getHeadline() {
-        return (String) get(10);
+        return (String) get(11);
     }
 
     /**
      * Setter for <code>database.users.picture_url</code>.
      */
     public void setPictureUrl(String value) {
-        set(11, value);
+        set(12, value);
     }
 
     /**
      * Getter for <code>database.users.picture_url</code>.
      */
     public String getPictureUrl() {
-        return (String) get(11);
+        return (String) get(12);
     }
 
     /**
      * Setter for <code>database.users.thumb_url</code>.
      */
     public void setThumbUrl(String value) {
-        set(12, value);
+        set(13, value);
     }
 
     /**
      * Getter for <code>database.users.thumb_url</code>.
      */
     public String getThumbUrl() {
-        return (String) get(12);
+        return (String) get(13);
     }
 
     /**
      * Setter for <code>database.users.verified_email</code>.
      */
     public void setVerifiedEmail(Integer value) {
-        set(13, value);
+        set(14, value);
     }
 
     /**
      * Getter for <code>database.users.verified_email</code>.
      */
     public Integer getVerifiedEmail() {
-        return (Integer) get(13);
+        return (Integer) get(14);
     }
 
     /**
      * Setter for <code>database.users.user_name</code>.
      */
     public void setUserName(String value) {
-        set(14, value);
+        set(15, value);
     }
 
     /**
      * Getter for <code>database.users.user_name</code>.
      */
     public String getUserName() {
-        return (String) get(14);
+        return (String) get(15);
     }
 
     /**
      * Setter for <code>database.users.password</code>.
      */
     public void setPassword(String value) {
-        set(15, value);
+        set(16, value);
     }
 
     /**
      * Getter for <code>database.users.password</code>.
      */
     public String getPassword() {
-        return (String) get(15);
+        return (String) get(16);
     }
 
     /**
      * Setter for <code>database.users.salt</code>.
      */
     public void setSalt(String value) {
-        set(16, value);
+        set(17, value);
     }
 
     /**
      * Getter for <code>database.users.salt</code>.
      */
     public String getSalt() {
-        return (String) get(16);
+        return (String) get(17);
     }
 
     /**
      * Setter for <code>database.users.last_connection</code>.
      */
     public void setLastConnection(Timestamp value) {
-        set(17, value);
+        set(18, value);
     }
 
     /**
      * Getter for <code>database.users.last_connection</code>.
      */
     public Timestamp getLastConnection() {
-        return (Timestamp) get(17);
+        return (Timestamp) get(18);
     }
 
     /**
      * Setter for <code>database.users.phone_number</code>.
      */
     public void setPhoneNumber(String value) {
-        set(18, value);
+        set(19, value);
     }
 
     /**
      * Getter for <code>database.users.phone_number</code>.
      */
     public String getPhoneNumber() {
-        return (String) get(18);
+        return (String) get(19);
     }
 
     /**
      * Setter for <code>database.users.verified_phone_number</code>.
      */
     public void setVerifiedPhoneNumber(Integer value) {
-        set(19, value);
+        set(20, value);
     }
 
     /**
      * Getter for <code>database.users.verified_phone_number</code>.
      */
     public Integer getVerifiedPhoneNumber() {
-        return (Integer) get(19);
+        return (Integer) get(20);
     }
 
     /**
      * Setter for <code>database.users.language</code>.
      */
     public void setLanguage(String value) {
-        set(20, value);
+        set(21, value);
     }
 
     /**
      * Getter for <code>database.users.language</code>.
      */
     public String getLanguage() {
-        return (String) get(20);
+        return (String) get(21);
     }
 
     /**
      * Setter for <code>database.users.validation_token</code>.
      */
     public void setValidationToken(String value) {
-        set(21, value);
+        set(22, value);
     }
 
     /**
      * Getter for <code>database.users.validation_token</code>.
      */
     public String getValidationToken() {
-        return (String) get(21);
+        return (String) get(22);
     }
 
     /**
      * Setter for <code>database.users.date_created</code>.
      */
     public void setDateCreated(Timestamp value) {
-        set(22, value);
+        set(23, value);
     }
 
     /**
      * Getter for <code>database.users.date_created</code>.
      */
     public Timestamp getDateCreated() {
-        return (Timestamp) get(22);
+        return (Timestamp) get(23);
     }
 
     /**
      * Setter for <code>database.users.date_modification</code>.
      */
     public void setDateModification(Timestamp value) {
-        set(23, value);
+        set(24, value);
     }
 
     /**
      * Getter for <code>database.users.date_modification</code>.
      */
     public Timestamp getDateModification() {
-        return (Timestamp) get(23);
+        return (Timestamp) get(24);
     }
 
     // -------------------------------------------------------------------------
@@ -391,32 +405,33 @@ public class UsersRecord extends UpdatableRecordImpl<UsersRecord> {
     /**
      * Create a detached, initialised UsersRecord
      */
-    public UsersRecord(Integer idUser, String idLinkedin, String tokenLinkedin, String name, String surname, String email, String currentPosition, Timestamp dateBirthday, String gender, String sector, String headline, String pictureUrl, String thumbUrl, Integer verifiedEmail, String userName, String password, String salt, Timestamp lastConnection, String phoneNumber, Integer verifiedPhoneNumber, String language, String validationToken, Timestamp dateCreated, Timestamp dateModification) {
+    public UsersRecord(Integer idUser, Integer role, String idLinkedin, String tokenLinkedin, String name, String surname, String email, String currentPosition, Timestamp dateBirthday, String gender, String sector, String headline, String pictureUrl, String thumbUrl, Integer verifiedEmail, String userName, String password, String salt, Timestamp lastConnection, String phoneNumber, Integer verifiedPhoneNumber, String language, String validationToken, Timestamp dateCreated, Timestamp dateModification) {
         super(Users.USERS);
 
         set(0, idUser);
-        set(1, idLinkedin);
-        set(2, tokenLinkedin);
-        set(3, name);
-        set(4, surname);
-        set(5, email);
-        set(6, currentPosition);
-        set(7, dateBirthday);
-        set(8, gender);
-        set(9, sector);
-        set(10, headline);
-        set(11, pictureUrl);
-        set(12, thumbUrl);
-        set(13, verifiedEmail);
-        set(14, userName);
-        set(15, password);
-        set(16, salt);
-        set(17, lastConnection);
-        set(18, phoneNumber);
-        set(19, verifiedPhoneNumber);
-        set(20, language);
-        set(21, validationToken);
-        set(22, dateCreated);
-        set(23, dateModification);
+        set(1, role);
+        set(2, idLinkedin);
+        set(3, tokenLinkedin);
+        set(4, name);
+        set(5, surname);
+        set(6, email);
+        set(7, currentPosition);
+        set(8, dateBirthday);
+        set(9, gender);
+        set(10, sector);
+        set(11, headline);
+        set(12, pictureUrl);
+        set(13, thumbUrl);
+        set(14, verifiedEmail);
+        set(15, userName);
+        set(16, password);
+        set(17, salt);
+        set(18, lastConnection);
+        set(19, phoneNumber);
+        set(20, verifiedPhoneNumber);
+        set(21, language);
+        set(22, validationToken);
+        set(23, dateCreated);
+        set(24, dateModification);
     }
 }
