@@ -1,5 +1,6 @@
 package com.talendorse.server.BLL;
 
+import com.talendorse.server.POCO.UserPOCO;
 import com.talendorse.server.types.TalendorseErrorType;
 import com.talendorse.server.util.*;
 import com.talendorse.server.DTO.RespuestaWSAllInfoUser;
@@ -326,6 +327,30 @@ public class UserManagement {
         return listUsers;
     }
 
+    public static List<UserPOCO> getAllUsersPOCO() throws TalendorseException {
+        ConnectionBDManager connection = new ConnectionBDManager();
+
+        Result<Record> result = connection.create.select().from(Tables.USERS).fetch();
+
+        List<UserPOCO> listUsers = new ArrayList<>();
+        for (Record r : result) {
+            UserPOCO user = new UserPOCO (
+                    r.getValue(Tables.USERS.ID_USER),
+                    r.getValue(Tables.USERS.NAME),
+                    r.getValue(Tables.USERS.SURNAME),
+                    r.getValue(Tables.USERS.PICTURE_URL),
+                    r.getValue(Tables.USERS.EMAIL),
+                    r.getValue(Tables.USERS.PHONE_NUMBER),
+                    r.getValue(Tables.USERS.LANGUAGE),
+                    r.getValue(Tables.USERS.DATE_CREATED),
+                    r.getValue(Tables.USERS.LAST_CONNECTION)
+                    );
+            listUsers.add(user);
+        }
+        connection.closeConnection();
+        return listUsers;
+    }
+
     public static boolean userExist(DSLContext create, int id_user) {
         UsersRecord usr = create.select()
                 .from(Tables.USERS)
@@ -477,5 +502,6 @@ public class UserManagement {
         user.setLanguage(linkedinUser.getLanguage());
         user.setPictureUrl(linkedinUser.getPictureUrl());
         user.setThumbUrl(linkedinUser.getThumbUrl());
+        user.setLastConnection(Fechas.getCurrentTimestampLong());
     }
 }
