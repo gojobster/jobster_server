@@ -42,6 +42,15 @@ public class CookiesManagement {
         }
         return null;
     }
+    public static String getLastUrlFromCookie(HttpServletRequest request) throws TalendorseException {
+        if (request.getCookies() != null) {
+            for (Cookie c : request.getCookies()) {
+                if (c.getName().equals("last_url"))
+                    return c.getValue();
+            }
+        }
+        return null;
+    }
     public static void deleteTokenCookie (HttpServletResponse response) throws TalendorseException, IOException{
         Cookie cookie = new Cookie("token", "");
         cookie.setMaxAge(0);
