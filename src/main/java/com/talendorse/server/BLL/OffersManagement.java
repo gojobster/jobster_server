@@ -169,6 +169,7 @@ public class OffersManagement {
             }
         } catch (TalendorseException e) {
             e.printStackTrace();
+            LogManagement.addLog("getWSMyOffers", e.toString());
         }
         return listOffers;
     }
@@ -178,17 +179,30 @@ public class OffersManagement {
         try {
             for (ReferralsRecord referralRecord : result) {
                 Offer offer = OffersManagement.getOffer(create, referralRecord.getValue(Tables.REFERRALS.ID_OFFER));
-                UsersRecord candidate = UserManagement.getUser(referralRecord.getValue(Tables.REFERRALS.ID_CANDIDATE));
 
-                RespuestaWSMyEndorse myEndorse = new RespuestaWSMyEndorse(offer.idOffer,  offer.nameCompany,
-                offer.path_image_company, offer.position, offer.summary,
-                        offer.city,  offer.reward, offer.salary_min,
-                        offer.salary_max, offer.date_ini, offer.date_end, candidate.getName() + " " +candidate.getSurname(), candidate.getPictureUrl(), candidate.getIdUser(), referralRecord.getState());
+                Integer id_candidate = referralRecord.getValue(Tables.REFERRALS.ID_CANDIDATE);
+
+                RespuestaWSMyEndorse myEndorse = null;
+                if (id_candidate != null) {
+                    UsersRecord candidate = UserManagement.getUser(id_candidate);
+
+                    myEndorse = new RespuestaWSMyEndorse(offer.idOffer,  offer.nameCompany,
+                            offer.path_image_company, offer.position, offer.summary,
+                            offer.city,  offer.reward, offer.salary_min,
+                            offer.salary_max, offer.date_ini, offer.date_end, candidate.getName() + " " +candidate.getSurname(), candidate.getPictureUrl(), referralRecord.getEmailCandidate(), candidate.getIdUser(), referralRecord.getState());
+                }
+                else {
+                    myEndorse = new RespuestaWSMyEndorse(offer.idOffer,  offer.nameCompany,
+                            offer.path_image_company, offer.position, offer.summary,
+                            offer.city,  offer.reward, offer.salary_min,
+                            offer.salary_max, offer.date_ini, offer.date_end, referralRecord.getNamecandidate(), "", referralRecord.getEmailCandidate(), -1, referralRecord.getState());
+                }
 
                 listOffers.add(myEndorse);
             }
         } catch (TalendorseException e) {
             e.printStackTrace();
+            LogManagement.addLog("getWSMyEndorse", e.toString());
         }
         return listOffers;
     }

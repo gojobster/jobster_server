@@ -67,6 +67,16 @@ public class UserManagement {
         if(token == null) throw new TalendorseException(TalendorseErrorType.TOKEN_NOT_FOUND);
     }
 
+    public static void check_token(String token_string, int id_user) throws TalendorseException {
+        ConnectionBDManager connection = new ConnectionBDManager();
+        TokensRecord token = connection.create.select()
+                .from(Tables.TOKENS)
+                .where(Tables.TOKENS.TOKEN.equal(token_string)).and(Tables.TOKENS.ID_USER.equal(id_user))
+                .fetchAnyInto(TokensRecord.class);
+
+        if(token == null) throw new TalendorseException(TalendorseErrorType.TOKEN_NOT_FOUND);
+    }
+
 
     public static String InsertarUsuario(String email, String password, String name, String surname, String birthday, String gender,
                                          String salt, String idioma, String telefono, String url) throws TalendorseException {

@@ -23,7 +23,7 @@ public class RespuestaWSMyOffer {
 	public String endorser;
 	public String path_image_endorser;
 	public int idEndorser;
-	public String status;
+	public int status;
 	public String date_start_string;
 	public String date_end_string;
 
@@ -46,7 +46,7 @@ public class RespuestaWSMyOffer {
 		this.endorser = endorser;
 		this.path_image_endorser = path_image_endorser;
 		this.idEndorser = idEndorser;
-		this.status = statusName(status);
+		this.status = status;
 		this.date_start_string = dateToString(date_start);
 		this.date_end_string = dateToString(date_end);
 	}
@@ -68,7 +68,7 @@ public class RespuestaWSMyOffer {
 			this.time_to_end = daysFromNow(date_end);
 			this.endorser = object.getString("endorser");
 			this.idEndorser = object.getInt("idEndorser");
-			this.status = object.getString("status");
+			this.status = object.getInt("status");
 			this.date_start_string = dateToString(date_start);
 			this.date_end_string = dateToString(date_end);
 
@@ -81,30 +81,6 @@ public class RespuestaWSMyOffer {
 		LocalDate theDate = myDate.toLocalDateTime().toLocalDate();
 		Period period = Period.between(theDate, now);
 		return Math.abs(period.getDays());
-	}
-	private String statusName(int status){
-		String estado;
-		switch(status){
-			case -1:
-				estado = "Cancelado";
-				break;
-			case 0:
-				estado = "Pendiente";
-				break;
-			case 1:
-				estado = "Unido";
-				break;
-			case 2:
-				estado = "Preseleccionado";
-				break;
-			case 3:
-				estado = "Aceptado";
-				break;
-			default:
-				estado = "No Disponible";
-				break;
-		}
-		return estado;
 	}
 	private String dateToString(Timestamp timestamp) {
 		return new SimpleDateFormat("dd/MM/yyyy").format(timestamp);

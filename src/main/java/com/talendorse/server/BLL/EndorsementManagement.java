@@ -156,7 +156,7 @@ public class EndorsementManagement {
         if(ref == null) throw new TalendorseException(TalendorseErrorType.GENERIC_ERROR);
 
         ref.setIdCandidate(id_candidate);
-        ref.setState(StatusType.HIRED.toInt());
+        ref.setState(StatusType.IN_PROGRESS.toInt());
         ref.setCode("");
         ref.setDateAccepted(Fechas.getCurrentTimestampLong());
         ref.store();

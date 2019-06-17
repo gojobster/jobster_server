@@ -23,6 +23,7 @@ public class RespuestaWSMyEndorse {
 	public Integer time_to_end;
 	public String candidate;
 	public String path_image_candidate;
+	public String email_candidate;
 	public int idCandidate;
 	public int status;
 	public String date_start_string;
@@ -30,7 +31,7 @@ public class RespuestaWSMyEndorse {
 
 	public RespuestaWSMyEndorse(int id_offer, String nameCompany, String path_image_company, String position, String summary, String city,
                                 int reward, Integer salary_min, Integer salary_max, Timestamp date_start, Timestamp date_end,
-								String candidate, String path_image_candidate, int idCandidate, int status) {
+								String candidate, String path_image_candidate, String email_candidate, int idCandidate, int status) {
 		this.id_offer = id_offer;
 		this.nameCompany = nameCompany;
 		this.path_image_company = path_image_company;
@@ -47,35 +48,10 @@ public class RespuestaWSMyEndorse {
 		this.idCandidate = idCandidate;
 		this.candidate = candidate;
 		this.path_image_candidate = path_image_candidate;
+		this.email_candidate = email_candidate;
 		this.status = status;
 		this.date_start_string = dateToString(date_start);
 		this.date_end_string = dateToString(date_end);
-	}
-
-	public RespuestaWSMyEndorse(JSONObject object){
-		try {
-			this.id_offer = object.getInt("id_offer");
-			this.nameCompany = object.getString("nameCompany");
-			this.path_image_company = object.getString("path_image_company");;
-			this.position = object.getString("position");
-			this.summary = object.getString("summary");
-			this.city = object.getString("city");
-			this.reward = object.getInt("reward");
-			this.salary_min = object.getInt("salary_min");
-			this.salary_max = object.getInt("salary_max");
-			this.date_start = new Timestamp(Long.parseLong(object.getString("date_start")));
-			this.date_end = new Timestamp(Long.parseLong(object.getString("date_end")));
-			this.time_from_start = daysFromNow(date_start);
-			this.time_to_end = daysFromNow(date_end);
-			this.candidate = object.getString("candidate");
-			this.idCandidate = object.getInt("idCandidate");
-			this.status = object.getInt("status");
-			this.date_start_string = dateToString(date_start);
-			this.date_end_string = dateToString(date_end);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 	private Integer daysFromNow(Timestamp myDate){
 		LocalDate now = LocalDate.now();
