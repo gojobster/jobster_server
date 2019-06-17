@@ -1,5 +1,7 @@
 package com.talendorse.server.BLL;
 
+import com.talendorse.server.types.TalendorseErrorType;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.ServletException;
@@ -33,7 +35,7 @@ public class CookiesManagement {
         }
         return -1;
     }
-    public static String getTokenFromCookie(HttpServletRequest request) throws TalendorseException {
+    public static String getTokenFromCookie(HttpServletRequest request){
         if (request.getCookies() != null) {
             for (Cookie c : request.getCookies()) {
                 if (c.getName().equals("token"))
@@ -42,7 +44,7 @@ public class CookiesManagement {
         }
         return null;
     }
-    public static String getLastUrlFromCookie(HttpServletRequest request) throws TalendorseException {
+    public static String getLastUrlFromCookie(HttpServletRequest request){
         if (request.getCookies() != null) {
             for (Cookie c : request.getCookies()) {
                 if (c.getName().equals("last_url"))
@@ -51,11 +53,15 @@ public class CookiesManagement {
         }
         return null;
     }
-    public static void deleteTokenCookie (HttpServletResponse response) throws TalendorseException, IOException{
-        Cookie cookie = new Cookie("token", "");
-        cookie.setMaxAge(0);
-        response.addCookie(cookie);
-        response.sendRedirect("/");
+    public static void deleteTokenCookie (HttpServletResponse response) throws TalendorseException{
+        try {
+            Cookie cookie = new Cookie("token", "");
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
+            response.sendRedirect("/");
+        } catch (IOException e) {
+            throw new TalendorseException(TalendorseErrorType.GENERIC_ERROR);
+        }
     }
 }
 
