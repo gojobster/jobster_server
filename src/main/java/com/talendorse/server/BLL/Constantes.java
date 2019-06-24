@@ -14,8 +14,8 @@ public class Constantes {
     private static final String WS_TALENDORSE_RELEASE = TALENDORSE_URL + "ws/";
     public static final String WS_TALENDORSE_URL = IS_DEBUG ? WS_TALENDORSE_DEBUG : WS_TALENDORSE_RELEASE;
 
-//    public static final String DB_PASS_LOCALHOST = "1234";
-    public static final String DB_PASS_LOCALHOST = "Jobster2018!";
+    public static final String DB_PASS_LOCALHOST = "1234";
+//    public static final String DB_PASS_LOCALHOST = "Jobster2018!";
     public static final String DB_PASS_SERVER = "Jobster2018!";
 
     public static final String DB_USER = "root";
@@ -37,10 +37,8 @@ public class Constantes {
      ************************* Web Services ***********************************
      *****************************************c ***********************************/
 
-
     public static final String WS_GET_ALL_OFFERS = WS_TALENDORSE_URL + "getAllWsOffers";
     public static final String WS_GET_TOP_OFFERS = WS_TALENDORSE_URL + "getTopOffers";
-
 
 
     public static final String URL_EMAIL_VALIDATION_ACCOUNT_URL_ES = "email/activation_es";//WS_TALENDORSE_URL + "email/email_activation_es.html";

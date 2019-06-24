@@ -1,6 +1,7 @@
 package com.talendorse.server.BLL;
 
 import com.talendorse.server.POCO.UserPOCO;
+import com.talendorse.server.types.RoleType;
 import com.talendorse.server.types.TalendorseErrorType;
 import com.talendorse.server.util.*;
 import com.talendorse.server.DTO.RespuestaWSAllInfoUser;
@@ -168,6 +169,7 @@ public class UserManagement {
 
         Email.sendEmail(email, email_subject, textoEmail);
 
+        connection.closeConnection();
         return "OK";
     }
 
@@ -513,5 +515,18 @@ public class UserManagement {
         user.setPictureUrl(linkedinUser.getPictureUrl());
         user.setThumbUrl(linkedinUser.getThumbUrl());
         user.setLastConnection(Fechas.getCurrentTimestampLong());
+    }
+
+    public static void check_AdminToken(String token_string) throws Exception{
+        ConnectionBDManager connection = new ConnectionBDManager();
+        TokensRecord token = connection.create.select()
+                .from(Tables.TOKENS)
+                .where(Tables.TOKENS.TOKEN.equal(token_string))
+                .fetchAnyInto(TokensRecord.class);
+
+        if(token == null) throw new TalendorseException(TalendorseErrorType.TOKEN_NOT_FOUND);
+
+        if (UserManagement.GetUserfromToken(token_string).getRole() != RoleType.ADMIN.toInt())
+            throw new TalendorseException(TalendorseErrorType.BAD_ACCESS);
     }
 }

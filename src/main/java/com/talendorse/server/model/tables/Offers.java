@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Offers extends TableImpl<OffersRecord> {
 
-    private static final long serialVersionUID = 168602278;
+    private static final long serialVersionUID = 624587876;
 
     /**
      * The reference instance of <code>database.offers</code>
@@ -142,6 +142,13 @@ Tipo de jornada:
      * The column <code>database.offers.priority</code>.
      */
     public final TableField<OffersRecord, Integer> PRIORITY = createField("priority", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+
+    /**
+     * The column <code>database.offers.state</code>. 0 -&gt; Inactiva
+1 -&gt; Activa
+2 -&gt; Finalizada
+     */
+    public final TableField<OffersRecord, Integer> STATE = createField("state", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "0 -> Inactiva\n1 -> Activa\n2 -> Finalizada");
 
     /**
      * The column <code>database.offers.date_init</code>.

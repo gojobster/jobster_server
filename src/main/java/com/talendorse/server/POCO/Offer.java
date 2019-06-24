@@ -2,6 +2,7 @@ package com.talendorse.server.POCO;
 
 import com.talendorse.server.model.tables.records.CompaniesRecord;
 import com.talendorse.server.model.tables.records.OffersRecord;
+import com.talendorse.server.util.Fechas;
 import com.talendorse.server.util.Util;
 
 import java.sql.Timestamp;
@@ -57,5 +58,13 @@ public class Offer {
         this.idCompany = company.getIdCompany();
         this.nameCompany = company.getName();
         this.path_image_company = company.getPathImg();
+    }
+
+    public String getDate_ini() {
+        return Fechas.getDateStringFromTimeStamp(this.date_ini);
+    }
+
+    public String getDate_end() {
+        return Fechas.getDateStringFromTimeStamp(this.date_end);
     }
 }

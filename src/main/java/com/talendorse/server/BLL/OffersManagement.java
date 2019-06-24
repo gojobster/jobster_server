@@ -8,10 +8,12 @@ import com.talendorse.server.model.tables.records.ReferralsRecord;
 import com.talendorse.server.model.tables.records.UsersRecord;
 import com.talendorse.server.util.Fechas;
 import com.talendorse.server.model.Tables;
+import com.talendorse.server.util.Seguridad;
 import org.jooq.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.jooq.impl.DSL.*;
 
@@ -45,6 +47,14 @@ public class OffersManagement {
         connection.closeConnection();
         return listOffers;
     }
+
+    public static List<Offer> getAllOffers() throws TalendorseException {
+        ConnectionBDManager connection = new ConnectionBDManager();
+        List<Offer> listOffers = getOffers(connection.create, getAllOffersRecord(connection.create));
+        connection.closeConnection();
+        return listOffers;
+    }
+
     public static List<RespuestaWSOffer> getAllFilteredOffers(String keyword, int salary, int experience, List<String> positions, List<String> cities) throws TalendorseException {
         ConnectionBDManager connection = new ConnectionBDManager();
         List<RespuestaWSOffer> listOffers = getWSOffers(connection.create, getAllFilteredOffersRecord(connection.create, keyword,salary,experience,positions,cities));
@@ -69,9 +79,13 @@ public class OffersManagement {
     }
 
 
-    private static List<OffersRecord> getAllOffersRecord(DSLContext create, String Keyword) throws TalendorseException {
+    private static List<OffersRecord> getAllOffersRecord(DSLContext create, String Keyword) {
         return create.select().from(Tables.OFFERS)
                 .where(Tables.OFFERS.JOB_FUNCTIONS.contains(Keyword).or(Tables.OFFERS.POSITION.contains(Keyword)).or(Tables.OFFERS.SUMMARY.contains(Keyword))).fetchInto(OffersRecord.class);
+    }
+
+    private static List<OffersRecord> getAllOffersRecord(DSLContext create) {
+        return create.select().from(Tables.OFFERS).fetchInto(OffersRecord.class);
     }
 
     public static boolean offerExist(DSLContext create, int id_offer) {
@@ -273,5 +287,45 @@ public class OffersManagement {
                                         .and(Tables.REFERRALS.ID_CANDIDATE.eq(userId)))
                                 .fetchAnyInto(ReferralsRecord.class);
         return ref != null;
+    }
+
+
+    public static String saveOffer(Integer id_offer, String position, String summary, String jobFunctions, String country, String city,
+                                   Integer experience, Integer stateOffer, Integer workingDayType, Integer priority,
+                                   Integer maxSalary, Integer minSalary, Integer reward, String dateIni, String dateEnd) {
+        try {
+            ConnectionBDManager connection = new ConnectionBDManager();
+            OffersRecord offer = null;
+
+            if(id_offer == null)
+                offer = connection.create.newRecord(Tables.OFFERS);
+            else
+                offer = connection.create
+                                    .select()
+                                    .from(Tables.OFFERS)
+                                    .where(Tables.OFFERS.ID_OFFER.equal(id_offer))
+                                    .fetchAnyInto(OffersRecord.class);
+
+            offer.setPosition(position);
+            offer.setSummary(summary);
+            offer.setJobFunctions(jobFunctions);
+            offer.setCountry(country);
+            offer.setCity(city);
+            offer.setExperience(experience);
+            offer.setState(stateOffer);
+            offer.setTipoJornada(workingDayType);
+            offer.setPriority(priority);
+            offer.setSalaryMax(maxSalary);
+            offer.setSalaryMin(minSalary);
+            offer.setReward(reward);
+            offer.setDateInit(Fechas.getTimeStampgFromString(dateIni));
+            offer.setDateEnd(Fechas.getTimeStampgFromString(dateEnd));
+            offer.store();
+        } catch (TalendorseException e) {
+            e.printStackTrace();
+            return "KO";
+        }
+
+        return "OK";
     }
 }
