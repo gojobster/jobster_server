@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Referrals extends TableImpl<ReferralsRecord> {
 
-    private static final long serialVersionUID = -1425336126;
+    private static final long serialVersionUID = -497085050;
 
     /**
      * The reference instance of <code>database.referrals</code>
@@ -108,9 +108,9 @@ public class Referrals extends TableImpl<ReferralsRecord> {
     public final TableField<ReferralsRecord, String> DESCRIPTION = createField("description", org.jooq.impl.SQLDataType.VARCHAR(800), this, "");
 
     /**
-     * The column <code>database.referrals.relation</code>.
+     * The column <code>database.referrals.relation</code>. Relation between Endroser and Candidate
      */
-    public final TableField<ReferralsRecord, Integer> RELATION = createField("relation", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("-1", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+    public final TableField<ReferralsRecord, Integer> RELATION = createField("relation", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("-1", org.jooq.impl.SQLDataType.INTEGER)), this, "Relation between Endroser and Candidate");
 
     /**
      * The column <code>database.referrals.date_creation</code>.

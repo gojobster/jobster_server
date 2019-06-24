@@ -1,5 +1,6 @@
 package com.talendorse.server.DTO;
 
+import com.talendorse.server.util.Fechas;
 import org.json.JSONObject;
 
 import java.sql.Timestamp;
@@ -37,10 +38,10 @@ public class RespuestaWSOffer {
 		this.salary_max = salary_max;
 		this.date_end = date_end;
 		this.date_start = date_start;
-		this.time_from_start = daysFromNow(date_start);
-		this.time_to_end = daysFromNow(date_end);
-		this.date_start_string = dateToString(date_start);
-		this.date_end_string = dateToString(date_end);
+		this.time_from_start = Fechas.daysFromNow(date_start);
+		this.time_to_end = Fechas.daysFromNow(date_end);
+		this.date_start_string = Fechas.getDateStringFromTimeStamp(date_start);
+		this.date_end_string = Fechas.getDateStringFromTimeStamp(date_end);
 	}
 
 	public RespuestaWSOffer(JSONObject object){
@@ -56,23 +57,13 @@ public class RespuestaWSOffer {
 			this.salary_max = object.getInt("salary_max");
 			this.date_start = new Timestamp(Long.parseLong(object.getString("date_start")));
 			this.date_end = new Timestamp(Long.parseLong(object.getString("date_end")));
-			this.time_from_start = daysFromNow(date_start);
-			this.time_to_end = daysFromNow(date_end);
-			this.date_start_string = dateToString(date_start);
-			this.date_end_string = dateToString(date_end);
+			this.time_from_start = Fechas.daysFromNow(date_start);
+			this.time_to_end = Fechas.daysFromNow(date_end);
+			this.date_start_string = Fechas.getDateStringFromTimeStamp(date_start);
+			this.date_end_string = Fechas.getDateStringFromTimeStamp(date_end);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	private Integer daysFromNow(Timestamp myDate){
-		LocalDate now = LocalDate.now();
-		LocalDate theDate = myDate.toLocalDateTime().toLocalDate();
-		Period period = Period.between(theDate, now);
-		return Math.abs(period.getDays());
-	}
-	private String dateToString(Timestamp timestamp) {
-		return new SimpleDateFormat("dd/MM/yyyy").format(timestamp);
-	}
-
 }

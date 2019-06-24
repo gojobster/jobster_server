@@ -27,7 +27,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class UsersRecord extends UpdatableRecordImpl<UsersRecord> {
 
-    private static final long serialVersionUID = 2037712493;
+    private static final long serialVersionUID = -358942419;
 
     /**
      * Setter for <code>database.users.id_user</code>.
@@ -44,32 +44,36 @@ public class UsersRecord extends UpdatableRecordImpl<UsersRecord> {
     }
 
     /**
-     * Setter for <code>database.users.role</code>.
+     * Setter for <code>database.users.role</code>. - Endorser: 0
+
+- Company: 1
+
+- Admin: 2
      */
     public void setRole(Integer value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>database.users.role</code>.
+     * Getter for <code>database.users.role</code>. - Endorser: 0
+
+- Company: 1
+
+- Admin: 2
      */
     public Integer getRole() {
         return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>database.users.id_linkedin</code>. - Endorser: 0
-- Company: 1
-- Admin: 2
+     * Setter for <code>database.users.id_linkedin</code>.
      */
     public void setIdLinkedin(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>database.users.id_linkedin</code>. - Endorser: 0
-- Company: 1
-- Admin: 2
+     * Getter for <code>database.users.id_linkedin</code>.
      */
     public String getIdLinkedin() {
         return (String) get(2);

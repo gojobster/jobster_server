@@ -30,7 +30,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ReferralsRecord extends UpdatableRecordImpl<ReferralsRecord> implements Record13<Integer, Integer, Integer, Integer, Integer, String, Integer, String, String, String, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -645177324;
+    private static final long serialVersionUID = -242254888;
 
     /**
      * Setter for <code>database.referrals.id_referral</code>.
@@ -173,14 +173,14 @@ public class ReferralsRecord extends UpdatableRecordImpl<ReferralsRecord> implem
     }
 
     /**
-     * Setter for <code>database.referrals.relation</code>.
+     * Setter for <code>database.referrals.relation</code>. Relation between Endroser and Candidate
      */
     public void setRelation(Integer value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>database.referrals.relation</code>.
+     * Getter for <code>database.referrals.relation</code>. Relation between Endroser and Candidate
      */
     public Integer getRelation() {
         return (Integer) get(10);
