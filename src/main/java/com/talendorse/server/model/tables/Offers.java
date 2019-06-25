@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Offers extends TableImpl<OffersRecord> {
 
-    private static final long serialVersionUID = 231383965;
+    private static final long serialVersionUID = 723043867;
 
     /**
      * The reference instance of <code>database.offers</code>
@@ -158,12 +158,12 @@ Tipo de jornada:
     /**
      * The column <code>database.offers.date_created</code>.
      */
-    public final TableField<OffersRecord, Timestamp> DATE_CREATED = createField("date_created", org.jooq.impl.SQLDataType.TIMESTAMP.defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
+    public final TableField<OffersRecord, Timestamp> DATE_CREATED = createField("date_created", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaultValue(org.jooq.impl.DSL.field("CURRENT_TIMESTAMP", org.jooq.impl.SQLDataType.TIMESTAMP)), this, "");
 
     /**
      * The column <code>database.offers.date_end</code>.
      */
-    public final TableField<OffersRecord, Timestamp> DATE_END = createField("date_end", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
+    public final TableField<OffersRecord, Timestamp> DATE_END = createField("date_end", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false), this, "");
 
     /**
      * Create a <code>database.offers</code> table reference

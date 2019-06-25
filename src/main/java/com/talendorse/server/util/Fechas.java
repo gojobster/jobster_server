@@ -27,7 +27,7 @@ public final class Fechas {
 
     public static Timestamp getTimeStampgFromString(String dateString) {
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
             Date parsedDate = dateFormat.parse(dateString);
             return new java.sql.Timestamp(parsedDate.getTime());
         } catch(Exception e) { //this generic but you can control another types of exception

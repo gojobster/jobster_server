@@ -318,8 +318,13 @@ public class OffersManagement {
             offer.setSalaryMax(maxSalary);
             offer.setSalaryMin(minSalary);
             offer.setReward(reward);
-            offer.setDateInit(Fechas.getTimeStampgFromString(dateIni));
-            offer.setDateEnd(Fechas.getTimeStampgFromString(dateEnd));
+
+            if (dateIni != null)
+                offer.setDateInit(Fechas.getTimeStampgFromString(dateIni));
+
+            if (dateEnd != null)
+                offer.setDateEnd(Fechas.getTimeStampgFromString(dateEnd));
+
             offer.store();
         } catch (TalendorseException e) {
             e.printStackTrace();
