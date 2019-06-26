@@ -20,12 +20,11 @@ public class ConnectionBDManager {
             Class.forName(Constantes.DB_DRIVER).newInstance();
             conn = DriverManager.getConnection(Constantes.DB_URL, Constantes.DB_USER, Constantes.DB_PASS);
             create = DSL.using(conn, SQLDialect.MYSQL);
-        } catch (InstantiationException | SQLException | IllegalAccessException | ClassNotFoundException ex) {
-            LogManagement.addLog(TAG,""+ex.getMessage());
-            throw new TalendorseException(TalendorseErrorType.GENERIC_ERROR);
+        } catch (SQLException | IllegalAccessException | InstantiationException | ClassNotFoundException ex) {
+            //LogManagement.addLog(TAG,""+ex.getMessage());
+            throw new TalendorseException(TalendorseErrorType.CLOSE_BD_ERROR);
         }
     }
-
     public void closeConnection() throws TalendorseException {
         try {
             if(!conn.isClosed())

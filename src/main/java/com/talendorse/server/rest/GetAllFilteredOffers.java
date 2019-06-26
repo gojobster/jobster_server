@@ -25,12 +25,14 @@ public class GetAllFilteredOffers {
             @FormParam("salary") int salary,
             @FormParam("experience") int experience,
             @FormParam("positions") List<String> positions,
-            @FormParam("cities") List<String> cities){
+            @FormParam("cities") List<String> cities,
+            @FormParam("pageSize") int pageSize,
+            @FormParam("numPage") int numPage){
         RespuestaWS<List<RespuestaWSOffer>> respuestaWS = new RespuestaWS<>();
         try {
             Util.check_token(httpheaders);
             respuestaWS.responseStatus = 200;
-            respuestaWS.message = OffersManagement.getAllFilteredOffers(keyword,salary,experience,positions,cities);
+            respuestaWS.message = OffersManagement.getAllFilteredOffers(keyword,salary,experience,positions,cities, pageSize, numPage);
             respuestaWS.error = "";
             return  respuestaWS;
         } catch (TalendorseException ex) {

@@ -28,7 +28,9 @@ public enum TalendorseErrorType {
     SKILL_ALREADY_EXISTS(-800, "SKILL ALREADY EXISTS"),
     USER_NOT_EXISTS(-900, "USER NOT EXISTS"),
     OFFER_NOT_EXISTS(-901, "OFFER NOT EXISTS"),
-    REFERRAL_EXCEED_LIMIT(-902, "THIS USER EXCEED THE LIMIT");
+    REFERRAL_EXCEED_LIMIT(-902, "THIS USER EXCEED THE LIMIT"),
+    LOG_ERROR(-998, "LOG ERROR"),
+    BD_ERROR(-999, "BD ERROR");
 
     private final int code;
     private final String description;

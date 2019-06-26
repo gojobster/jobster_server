@@ -6,10 +6,12 @@ import com.talendorse.server.model.tables.records.CompaniesRecord;
 import com.talendorse.server.model.tables.records.OffersRecord;
 import com.talendorse.server.model.tables.records.ReferralsRecord;
 import com.talendorse.server.model.tables.records.UsersRecord;
+import com.talendorse.server.types.TalendorseErrorType;
 import com.talendorse.server.util.Fechas;
 import com.talendorse.server.model.Tables;
 import com.talendorse.server.util.Seguridad;
 import org.jooq.*;
+import org.jooq.exception.DataAccessException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,27 +57,40 @@ public class OffersManagement {
         return listOffers;
     }
 
-    public static List<RespuestaWSOffer> getAllFilteredOffers(String keyword, int salary, int experience, List<String> positions, List<String> cities) throws TalendorseException {
+    public static List<RespuestaWSOffer> getAllFilteredOffers(String keyword, int salary, int experience, List<String> positions, List<String> cities, int pageSize, int numPage) throws TalendorseException {
         ConnectionBDManager connection = new ConnectionBDManager();
-        List<RespuestaWSOffer> listOffers = getWSOffers(connection.create, getAllFilteredOffersRecord(connection.create, keyword,salary,experience,positions,cities));
+        List<RespuestaWSOffer> listOffers = new ArrayList<>();
+        try {
+            listOffers = getWSOffers(connection.create, getAllFilteredOffersRecord(connection.create, keyword,salary,experience,positions,cities, pageSize, numPage));
+        } catch (TalendorseException e) {
+            throw new TalendorseException(TalendorseErrorType.GENERIC_ERROR);
+        }
         connection.closeConnection();
         return listOffers;
     }
 
-    private static List<OffersRecord> getAllFilteredOffersRecord(DSLContext create, String keyword, int salary, int experience, List<String> positions, List<String> cities) throws TalendorseException {
+    private static List<OffersRecord> getAllFilteredOffersRecord(DSLContext create, String keyword, int salary, int experience, List<String> positions, List<String> cities, int pageSize, int numPage) throws TalendorseException {
+        List<OffersRecord> lst = new ArrayList<>();
 
-        SelectConditionStep<Record> newQuery = create.select().from(Tables.OFFERS)
-                .where(
-                        (Tables.OFFERS.JOB_FUNCTIONS.contains(keyword).or(Tables.OFFERS.POSITION.contains(keyword)).or(Tables.OFFERS.SUMMARY.contains(keyword))
-                                .and(Tables.OFFERS.SALARY_MIN.ge(salary))
-                                .and(Tables.OFFERS.EXPERIENCE.le(experience))
-                        ));
-        if(!(cities.size() > 0 && cities.get(0).equals("")))
-            newQuery.and(Tables.OFFERS.CITY.in(cities));
-        if(!(positions.size() > 0 && positions.get(0).equals("")))
-            newQuery.and(Tables.OFFERS.POSITION.in(positions));
+        try {
+            SelectConditionStep<Record> newQuery = create.select().from(Tables.OFFERS)
+                    .where(
+                            (Tables.OFFERS.JOB_FUNCTIONS.contains(keyword).or(Tables.OFFERS.POSITION.contains(keyword)).or(Tables.OFFERS.SUMMARY.contains(keyword))
+                                    .and(Tables.OFFERS.SALARY_MIN.ge(salary))
+                                    .and(Tables.OFFERS.EXPERIENCE.le(experience))
+                            ));
+            if(!(cities.size() > 0 && cities.get(0).equals("")))
+                newQuery.and(Tables.OFFERS.CITY.in(cities));
+            if(!(positions.size() > 0 && positions.get(0).equals("")))
+                newQuery.and(Tables.OFFERS.POSITION.in(positions));
 
-        return newQuery.fetchInto(OffersRecord.class);
+            lst =  newQuery.limit(pageSize).offset(pageSize*numPage).fetchInto(OffersRecord.class);
+//            lst = newQuery.fetchInto(OffersRecord.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new TalendorseException(TalendorseErrorType.BD_ERROR);
+        }
+        return lst;
     }
 
 

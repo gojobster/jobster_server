@@ -325,15 +325,19 @@ public class UserManagement {
         Result<Record> result = connection.create.select().from(Tables.USERS).fetch();
 
         List<RespuestaWSUser> listUsers = new ArrayList<>();
-        for (Record r : result) {
-            RespuestaWSUser user = new RespuestaWSUser (
-                    r.getValue(Tables.USERS.NAME),
-                    r.getValue(Tables.USERS.SURNAME),
-                    r.getValue(Tables.USERS.EMAIL),
-                    r.getValue(Tables.USERS.PICTURE_URL),
-                    r.getValue(Tables.USERS.PHONE_NUMBER),
-                    r.getValue(Tables.USERS.ID_USER));
-            listUsers.add(user);
+        try {
+            for (Record r : result) {
+                RespuestaWSUser user = new RespuestaWSUser (
+                        r.getValue(Tables.USERS.NAME),
+                        r.getValue(Tables.USERS.SURNAME),
+                        r.getValue(Tables.USERS.EMAIL),
+                        r.getValue(Tables.USERS.PICTURE_URL),
+                        r.getValue(Tables.USERS.PHONE_NUMBER),
+                        r.getValue(Tables.USERS.ID_USER));
+                listUsers.add(user);
+            }
+        } catch (IllegalArgumentException e) {
+            throw new TalendorseException(TalendorseErrorType.GENERIC_ERROR);
         }
         connection.closeConnection();
         return listUsers;
