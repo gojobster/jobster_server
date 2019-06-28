@@ -42,7 +42,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users extends TableImpl<UsersRecord> {
 
-    private static final long serialVersionUID = -1865198748;
+    private static final long serialVersionUID = 1899486316;
 
     /**
      * The reference instance of <code>database.users</code>
@@ -63,18 +63,16 @@ public class Users extends TableImpl<UsersRecord> {
     public final TableField<UsersRecord, Integer> ID_USER = createField("id_user", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>database.users.role</code>. - Endorser: 0
-
-- Company: 1
-
-- Admin: 2
+     * The column <code>database.users.role</code>.
      */
-    public final TableField<UsersRecord, Integer> ROLE = createField("role", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "- Endorser: 0\n\n- Company: 1\n\n- Admin: 2");
+    public final TableField<UsersRecord, Integer> ROLE = createField("role", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
-     * The column <code>database.users.id_linkedin</code>.
+     * The column <code>database.users.id_linkedin</code>. - Endorser: 0
+- Company: 1
+- Admin: 2
      */
-    public final TableField<UsersRecord, String> ID_LINKEDIN = createField("id_linkedin", org.jooq.impl.SQLDataType.VARCHAR(90), this, "");
+    public final TableField<UsersRecord, String> ID_LINKEDIN = createField("id_linkedin", org.jooq.impl.SQLDataType.VARCHAR(90), this, "- Endorser: 0\n- Company: 1\n- Admin: 2");
 
     /**
      * The column <code>database.users.token_linkedin</code>.

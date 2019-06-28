@@ -65,6 +65,7 @@ public class UserManagement {
                 .where(Tables.TOKENS.TOKEN.equal(token_string))
                 .fetchAnyInto(TokensRecord.class);
 
+        connection.closeConnection();
         if(token == null) throw new TalendorseException(TalendorseErrorType.TOKEN_NOT_FOUND);
     }
 
@@ -75,6 +76,7 @@ public class UserManagement {
                 .where(Tables.TOKENS.TOKEN.equal(token_string)).and(Tables.TOKENS.ID_USER.equal(id_user))
                 .fetchAnyInto(TokensRecord.class);
 
+        connection.closeConnection();
         if(token == null) throw new TalendorseException(TalendorseErrorType.TOKEN_NOT_FOUND);
     }
 
@@ -225,12 +227,14 @@ public class UserManagement {
     public static String GetUserTokenLinkedInFromId(int id) throws  TalendorseException {
         ConnectionBDManager connection = new ConnectionBDManager();
         String tknUsr = connection.create.select().from(Tables.USERS).where(Tables.USERS.ID_USER.contains(id)).fetchSingle(Tables.USERS.TOKEN_LINKEDIN);
+        connection.closeConnection();
         return tknUsr;
     }
 
     public static String GetUservalidationTokenFromId(int id) throws  TalendorseException {
         ConnectionBDManager connection = new ConnectionBDManager();
         String tknUsr = connection.create.select().from(Tables.USERS).where(Tables.USERS.ID_USER.contains(id)).fetchSingle(Tables.USERS.VALIDATION_TOKEN);
+        connection.closeConnection();
         return tknUsr;
     }
 
@@ -257,6 +261,7 @@ public class UserManagement {
         try {
             ConnectionBDManager connection = new ConnectionBDManager();
             idUsr = connection.create.select().from(Tables.TOKENS).where(Tables.TOKENS.TOKEN.contains(token)).fetchSingle(Tables.TOKENS.ID_USER);
+            connection.closeConnection();
         } catch (TalendorseException | DataAccessException e) {
             e.printStackTrace();
             throw new TalendorseException(TalendorseErrorType.GENERIC_ERROR);
@@ -453,7 +458,7 @@ public class UserManagement {
                 .from(Tables.USERS)
                 .where(Tables.USERS.ID_USER.equal(idUser))
                 .fetchAnyInto(UsersRecord.class);
-
+        connection.closeConnection();
         if (user == null) throw new TalendorseException(TalendorseErrorType.USER_NOT_FOUND);
         return user;
     }
@@ -527,7 +532,7 @@ public class UserManagement {
                 .from(Tables.TOKENS)
                 .where(Tables.TOKENS.TOKEN.equal(token_string))
                 .fetchAnyInto(TokensRecord.class);
-
+        connection.closeConnection();
         if(token == null) throw new TalendorseException(TalendorseErrorType.TOKEN_NOT_FOUND);
 
         if (UserManagement.GetUserfromToken(token_string).getRole() != RoleType.ADMIN.toInt())

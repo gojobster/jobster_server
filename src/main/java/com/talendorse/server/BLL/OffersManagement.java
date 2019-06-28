@@ -301,6 +301,7 @@ public class OffersManagement {
                                 .where(Tables.REFERRALS.ID_OFFER.eq(idOffer)
                                         .and(Tables.REFERRALS.ID_CANDIDATE.eq(userId)))
                                 .fetchAnyInto(ReferralsRecord.class);
+        connection.closeConnection();
         return ref != null;
     }
 
@@ -341,6 +342,7 @@ public class OffersManagement {
                 offer.setDateEnd(Fechas.getTimeStampgFromString(dateEnd));
 
             offer.store();
+            connection.closeConnection();
         } catch (TalendorseException e) {
             e.printStackTrace();
             return "KO";

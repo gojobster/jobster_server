@@ -83,7 +83,7 @@ public class EndorsementManagement {
             if (offer == null) validCode = true;
         }
 
-            connection.closeConnection();
+        connection.closeConnection();
         return code;
     }
 
@@ -129,6 +129,7 @@ public class EndorsementManagement {
             ref.setRelation(relation);
             ref.setDescription(description);
             ref.store();
+            connection.closeConnection();
 
             UsersRecord user = UserManagement.getUser(id_endorser);
 
