@@ -6,16 +6,14 @@ import com.talendorse.server.model.tables.records.CompaniesRecord;
 import com.talendorse.server.model.tables.records.OffersRecord;
 import com.talendorse.server.model.tables.records.ReferralsRecord;
 import com.talendorse.server.model.tables.records.UsersRecord;
+import com.talendorse.server.types.OfferStatusType;
 import com.talendorse.server.types.TalendorseErrorType;
 import com.talendorse.server.util.Fechas;
 import com.talendorse.server.model.Tables;
-import com.talendorse.server.util.Seguridad;
 import org.jooq.*;
-import org.jooq.exception.DataAccessException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static org.jooq.impl.DSL.*;
 
@@ -38,17 +36,19 @@ public class OffersManagement {
 
     public static List<RespuestaWSOffer> getAllWsOffers(String keyword) throws TalendorseException {
         ConnectionBDManager connection = new ConnectionBDManager();
-        List<RespuestaWSOffer> listOffers = getWSOffers(connection.create, getAllOffersRecord(connection.create, keyword));
+        List<RespuestaWSOffer> listOffers = getWSOffers(connection.create, getAllOffersByStatusRecord(connection.create, keyword, OfferStatusType.OPEN.toInt()));
         connection.closeConnection();
         return listOffers;
     }
 
-    public static List<Offer> getAllOffers(String keyword, String city) throws TalendorseException {
+    public static List<Offer> getAllOpenOffers(String keyword, String city) throws TalendorseException {
         ConnectionBDManager connection = new ConnectionBDManager();
-        List<Offer> listOffers = getOffers(connection.create, getAllOffersRecord(connection.create, keyword));
+        List<Offer> listOffers = getOffers(connection.create, getAllOffersByStatusRecord(connection.create, keyword, OfferStatusType.OPEN.toInt()));
         connection.closeConnection();
         return listOffers;
     }
+
+
 
     public static List<Offer> getAllOffers() throws TalendorseException {
         ConnectionBDManager connection = new ConnectionBDManager();
@@ -93,10 +93,21 @@ public class OffersManagement {
         return lst;
     }
 
-
-    private static List<OffersRecord> getAllOffersRecord(DSLContext create, String Keyword) {
+    private static List<OffersRecord> getAllOffersByStatusRecord(DSLContext create, String Keyword, int status) {
         return create.select().from(Tables.OFFERS)
-                .where(Tables.OFFERS.JOB_FUNCTIONS.contains(Keyword).or(Tables.OFFERS.POSITION.contains(Keyword)).or(Tables.OFFERS.SUMMARY.contains(Keyword))).fetchInto(OffersRecord.class);
+                .where(Tables.OFFERS.STATE.eq(OfferStatusType.OPEN.toInt())
+                        .and(Tables.OFFERS.STATE.eq(status)
+                                .and(Tables.OFFERS.JOB_FUNCTIONS.contains(Keyword))
+                                .or(Tables.OFFERS.POSITION.contains(Keyword))
+                                .or(Tables.OFFERS.SUMMARY.contains(Keyword))))
+                .fetchInto(OffersRecord.class);
+    }
+
+    private static List<OffersRecord> getAllOpenRelatedOffersRecord(DSLContext create, int idOffer) {
+        return create.select().from(Tables.OFFERS)
+                .where(Tables.OFFERS.ID_OFFER.notEqual(idOffer)
+                    .and(Tables.OFFERS.STATE.eq(OfferStatusType.OPEN.toInt())))
+                .fetchInto(OffersRecord.class);
     }
 
     private static List<OffersRecord> getAllOffersRecord(DSLContext create) {
@@ -252,22 +263,27 @@ public class OffersManagement {
 
     }
 
-    public static Offer getOffer(int id) throws TalendorseException {
+    public static Offer getOffer(int idOffer) throws TalendorseException {
         ConnectionBDManager connection = new ConnectionBDManager();
 
-        OffersRecord offerRecord = connection.create.select().from(Tables.OFFERS).where(Tables.OFFERS.ID_OFFER.equal(id)).fetchAnyInto(OffersRecord.class);
+        OffersRecord offerRecord = connection.create.select().from(Tables.OFFERS).where(Tables.OFFERS.ID_OFFER.equal(idOffer)).fetchAnyInto(OffersRecord.class);
         CompaniesRecord company = CompaniesManagement.getCompanyRecord(connection.create, offerRecord.getValue(Tables.OFFERS.ID_COMPANY));
-        Offer offer = new Offer(offerRecord, company);
+
+        int applications = ReferralsManagement.getApplicationsOffer(connection.create, idOffer);
+
+        Offer offer = new Offer(offerRecord, company, applications);
 
         connection.closeConnection();
         return offer;
     }
 
-    public static Offer getOffer(DSLContext create, int id) throws TalendorseException {
-        OffersRecord offer = create.select().from(Tables.OFFERS).where(Tables.OFFERS.ID_OFFER.equal(id)).fetchAnyInto(OffersRecord.class);
+    public static Offer getOffer(DSLContext create, int idOffer) throws TalendorseException {
+        OffersRecord offer = create.select().from(Tables.OFFERS).where(Tables.OFFERS.ID_OFFER.equal(idOffer)).fetchAnyInto(OffersRecord.class);
         CompaniesRecord company = CompaniesManagement.getCompanyRecord(create, offer.getValue(Tables.OFFERS.ID_COMPANY));
 
-        return new Offer(offer, company);
+        int applications = ReferralsManagement.getApplicationsOffer(create, idOffer);
+
+        return new Offer(offer, company, applications);
     }
 
     private static List<Offer> getOffers(DSLContext create, List<OffersRecord> listOffersRecord) {
@@ -275,7 +291,9 @@ public class OffersManagement {
         for (OffersRecord offerRecord : listOffersRecord) {
             CompaniesRecord company = CompaniesManagement.getCompanyRecord(create, offerRecord.getValue(Tables.OFFERS.ID_COMPANY));
 
-            Offer offer = new Offer (offerRecord, company);
+            int applications = ReferralsManagement.getApplicationsOffer(create, offerRecord.getIdOffer());
+
+            Offer offer = new Offer (offerRecord, company, applications);
             listOffers.add(offer);
         }
         return listOffers;
@@ -349,5 +367,23 @@ public class OffersManagement {
         }
 
         return "OK";
+    }
+
+    public static List<Offer> getRelatedOffers(int idOffer) {
+        List<Offer> listOffers = new ArrayList<>();
+        try {
+            ConnectionBDManager connection = new ConnectionBDManager();
+            for (OffersRecord offerRecord : getAllOpenRelatedOffersRecord(connection.create, idOffer)) {
+                CompaniesRecord company = CompaniesManagement.getCompanyRecord(connection.create, offerRecord.getValue(Tables.OFFERS.ID_COMPANY));
+                int applications = ReferralsManagement.getApplicationsOffer(connection.create, offerRecord.getIdOffer());
+
+                Offer offer = new Offer (offerRecord, company, applications);
+                listOffers.add(offer);
+            }
+            connection.closeConnection();
+        } catch (TalendorseException e) {
+            e.printStackTrace();
+        }
+        return listOffers;
     }
 }

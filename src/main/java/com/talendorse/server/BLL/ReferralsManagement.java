@@ -2,6 +2,7 @@ package com.talendorse.server.BLL;
 
 import com.talendorse.server.model.Tables;
 import com.talendorse.server.model.tables.records.ReferralsRecord;
+import com.talendorse.server.types.StatusType;
 import org.jooq.DSLContext;
 
 import java.util.List;
@@ -24,6 +25,15 @@ public class ReferralsManagement {
         return create.select()
                 .from(Tables.REFERRALS)
                 .where(Tables.REFERRALS.ID_CANDIDATE.equal(userId)).fetchInto(ReferralsRecord.class);
+    }
+
+    public static int getApplicationsOffer(DSLContext create, int idOffer) {
+        return create.selectCount()
+                .from(Tables.REFERRALS)
+                .where(Tables.REFERRALS.ID_OFFER.equal(idOffer)
+                        .and(Tables.REFERRALS.STATE.eq(StatusType.IN_PROGRESS.toInt())
+                        .or(Tables.REFERRALS.STATE.eq(StatusType.PRESELECTED.toInt()))
+                        .or(Tables.REFERRALS.STATE.eq(StatusType.HIRED.toInt())))).fetchOne(0, int.class);
     }
 
 

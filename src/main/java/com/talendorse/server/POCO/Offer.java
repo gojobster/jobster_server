@@ -35,7 +35,7 @@ public class Offer {
     public String date_start_string;
     public String date_end_string;
 
-    public Offer(OffersRecord offer, CompaniesRecord company) {
+    public Offer(OffersRecord offer, CompaniesRecord company, int applications) {
         this.idOffer = offer.getIdOffer();
         this.idCompany = offer.getIdCompany();
         this.position = offer.getPosition();
@@ -53,7 +53,7 @@ public class Offer {
         this.reward = offer.getReward();
         this.proprity = offer.getPriority();
         this.displayed = 15;    //TODO: obtener de la oferta;
-        this.applications = 5;  //TODO: obtener de la oferta;
+        this.applications = applications;
         this.city = offer.getCity();
         this.country = offer.getCountry();
         this.date_ini = offer.getDateInit();

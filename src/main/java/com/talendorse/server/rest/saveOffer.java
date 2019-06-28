@@ -15,7 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
 @Path("/{saveOffer : (?i)saveOffer}")
-public class EditOffer {
+public class saveOffer {
     @Context
     private UriInfo uriInfo;
 
