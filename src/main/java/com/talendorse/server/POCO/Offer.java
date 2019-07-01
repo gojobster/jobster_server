@@ -18,11 +18,8 @@ public class Offer {
     public String job_functions;
     public Integer people_in_charge;
     public String tipo_jornada;
-    public Integer tipo_jornadaInt;
     public String tipo_contrato;
-    public Integer tipo_contratoInt;
     public Integer hours;
-    public Integer state;
     public Integer salary_min;
     public Integer salary_max;
     public Integer reward;
@@ -47,10 +44,7 @@ public class Offer {
         this.job_functions = offer.getJobFunctions();
         this.people_in_charge = offer.getPeopleInCharge();
 
-        this.state = offer.getState();
-        this.tipo_contratoInt = offer.getTipoContrato();
         this.tipo_contrato = Util.getContractTypeString(offer.getTipoContrato());
-        this.tipo_jornadaInt = offer.getTipoJornada();
         this.tipo_jornada = Util.getJornadaTypeString(offer.getTipoJornada());
 
         this.hours = offer.getHours();

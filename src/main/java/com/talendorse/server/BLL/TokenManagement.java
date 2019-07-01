@@ -5,7 +5,6 @@ import com.talendorse.server.model.tables.records.TokensRecord;
 import com.talendorse.server.types.TalendorseErrorType;
 import com.talendorse.server.util.Fechas;
 import com.talendorse.server.util.Util;
-import org.jooq.exception.DataAccessException;
 
 public class TokenManagement {
     public static TokensRecord addToken(int idUser) throws TalendorseException {
@@ -56,17 +55,11 @@ public class TokenManagement {
     }
     public static int getUserIdFromToken(String token) throws TalendorseException {
 
-        Integer id = null;
-        try {
-            ConnectionBDManager connection = new ConnectionBDManager();
+        ConnectionBDManager connection = new ConnectionBDManager();
 
-            id = connection.create.select().from(Tables.TOKENS).where(Tables.TOKENS.TOKEN.equal(token).and(Tables.TOKENS.EXPIRATION_DATE.greaterThan(Fechas.getCurrentTimestampLong()))).fetchSingle(Tables.TOKENS.ID_USER);
+        Integer id = connection.create.select().from(Tables.TOKENS).where(Tables.TOKENS.TOKEN.equal(token).and(Tables.TOKENS.EXPIRATION_DATE.greaterThan(Fechas.getCurrentTimestampLong()))).fetchSingle(Tables.TOKENS.ID_USER);
 
-            connection.closeConnection();
-        } catch (TalendorseException | DataAccessException e) {
-            e.printStackTrace();
-            throw new TalendorseException(TalendorseErrorType.GENERIC_ERROR);
-        }
+        connection.closeConnection();
 
         return  id == null ? -1 : id;
     }

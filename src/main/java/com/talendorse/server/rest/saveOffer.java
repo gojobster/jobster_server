@@ -32,7 +32,6 @@ public class saveOffer {
             @FormParam("stateOffer") Integer stateOffer,
             @FormParam("contractType") Integer contractType,
             @FormParam("workingDayType") Integer workingDayType,
-            @FormParam("personasACargo") Integer personasACargo,
             @FormParam("priority") Integer priority,
             @FormParam("maxSalary") Integer maxSalary,
             @FormParam("minSalary") Integer minSalary,
@@ -48,7 +47,7 @@ public class saveOffer {
 
             respuestaWS.responseStatus = 200;
             respuestaWS.message = OffersManagement.saveOffer(idOffer, position, summary, jobFunctions,
-                    country, city, experience, stateOffer, workingDayType, personasACargo, priority, maxSalary, minSalary, reward, dateIni, dateEnd);
+                    country, city, experience, stateOffer, workingDayType, priority, maxSalary, minSalary, reward, dateIni, dateEnd);
             respuestaWS.error = "";
             return  respuestaWS;
         } catch (TalendorseException ex) {

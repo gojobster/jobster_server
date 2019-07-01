@@ -311,7 +311,7 @@ public class OffersManagement {
     }
 
     public static boolean userApplied(int idOffer, Integer userId) throws TalendorseException{
-        if(userId == null | userId == -1) return false;
+        if(userId == null) return false;
 
         ConnectionBDManager connection = new ConnectionBDManager();
 
@@ -325,7 +325,7 @@ public class OffersManagement {
 
 
     public static String saveOffer(Integer id_offer, String position, String summary, String jobFunctions, String country, String city,
-                                   Integer experience, Integer stateOffer, Integer workingDayType, Integer personasACargo, Integer priority,
+                                   Integer experience, Integer stateOffer, Integer workingDayType, Integer priority,
                                    Integer maxSalary, Integer minSalary, Integer reward, String dateIni, String dateEnd) {
         try {
             ConnectionBDManager connection = new ConnectionBDManager();
@@ -348,7 +348,6 @@ public class OffersManagement {
             offer.setExperience(experience);
             offer.setState(stateOffer);
             offer.setTipoJornada(workingDayType);
-            offer.setPeopleInCharge(personasACargo);
             offer.setPriority(priority);
             offer.setSalaryMax(maxSalary);
             offer.setSalaryMin(minSalary);
@@ -382,7 +381,7 @@ public class OffersManagement {
                 listOffers.add(offer);
             }
             connection.closeConnection();
-        } catch (Exception e) {
+        } catch (TalendorseException e) {
             e.printStackTrace();
         }
         return listOffers;

@@ -27,15 +27,11 @@ public class CookiesManagement {
         return false;
     }
     public static int getIdFromCookie(HttpServletRequest request) throws TalendorseException {
-        try {
-            if (request.getCookies() != null) {
-                for (Cookie c : request.getCookies()) {
-                    if (c.getName().equals("token"))
-                        return TokenManagement.getUserIdFromToken(c.getValue());
-                }
+        if (request.getCookies() != null) {
+            for (Cookie c : request.getCookies()) {
+                if (c.getName().equals("token"))
+                    return TokenManagement.getUserIdFromToken(c.getValue());
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return -1;
     }
