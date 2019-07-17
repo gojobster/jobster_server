@@ -10,6 +10,7 @@ import com.talendorse.server.types.OfferStatusType;
 import com.talendorse.server.types.TalendorseErrorType;
 import com.talendorse.server.util.Fechas;
 import com.talendorse.server.model.Tables;
+import javafx.scene.control.Tab;
 import org.jooq.*;
 
 import java.util.ArrayList;
@@ -57,11 +58,11 @@ public class OffersManagement {
         return listOffers;
     }
 
-    public static List<RespuestaWSOffer> getAllFilteredOffers(String keyword, int salary, int experience, List<String> positions, List<String> cities, int pageSize, int numPage) throws TalendorseException {
-        ConnectionBDManager connection = new ConnectionBDManager();
+    public static List<RespuestaWSOffer> getAllFilteredOffers(String keyword, int salary, int experience, List<String> positions, List<String> cities, int pageSize, int numPage, String order) throws TalendorseException {
         List<RespuestaWSOffer> listOffers = new ArrayList<>();
+        ConnectionBDManager connection = new ConnectionBDManager();
         try {
-            listOffers = getWSOffers(connection.create, getAllFilteredOffersRecord(connection.create, keyword,salary,experience,positions,cities, pageSize, numPage));
+            listOffers = getWSOffers(connection.create, getAllFilteredOffersRecord(connection.create, keyword,salary,experience,positions,cities, pageSize, numPage, order));
         } catch (TalendorseException e) {
             throw new TalendorseException(TalendorseErrorType.GENERIC_ERROR);
         }
@@ -69,22 +70,26 @@ public class OffersManagement {
         return listOffers;
     }
 
-    private static List<OffersRecord> getAllFilteredOffersRecord(DSLContext create, String keyword, int salary, int experience, List<String> positions, List<String> cities, int pageSize, int numPage) throws TalendorseException {
+    private static List<OffersRecord> getAllFilteredOffersRecord(DSLContext create, String keyword, int salary, int experience, List<String> positions, List<String> cities, int pageSize, int numPage, String order) throws TalendorseException {
         List<OffersRecord> lst = new ArrayList<>();
 
         try {
-            SelectConditionStep<Record> newQuery = create.select().from(Tables.OFFERS)
-                    .where(
-                            (Tables.OFFERS.JOB_FUNCTIONS.contains(keyword).or(Tables.OFFERS.POSITION.contains(keyword)).or(Tables.OFFERS.SUMMARY.contains(keyword))
-                                    .and(Tables.OFFERS.SALARY_MIN.ge(salary))
-                                    .and(Tables.OFFERS.EXPERIENCE.le(experience))
-                            ));
+            SelectConditionStep<Record> newQuery = create.select().from(Tables.OFFERS).where(Tables.OFFERS.SALARY_MIN.ge(salary)).and(Tables.OFFERS.EXPERIENCE.ge(experience));
+
+            if(!keyword.isEmpty())
+                newQuery.and(Tables.OFFERS.JOB_FUNCTIONS.contains(keyword).or(Tables.OFFERS.POSITION.contains(keyword)).or(Tables.OFFERS.SUMMARY.contains(keyword)));
+
             if(!(cities.size() > 0 && cities.get(0).equals("")))
                 newQuery.and(Tables.OFFERS.CITY.in(cities));
             if(!(positions.size() > 0 && positions.get(0).equals("")))
                 newQuery.and(Tables.OFFERS.POSITION.in(positions));
+            if (order.equals("ASC"))
+                newQuery.orderBy(Tables.OFFERS.DATE_INIT.asc(), Tables.OFFERS.DATE_END.desc());
+            if (order.equals("DESC"))
+                newQuery.orderBy(Tables.OFFERS.DATE_INIT.desc(), Tables.OFFERS.DATE_END.asc());
 
             lst =  newQuery.limit(pageSize).offset(pageSize*numPage).fetchInto(OffersRecord.class);
+
 //            lst = newQuery.fetchInto(OffersRecord.class);
         } catch (Exception e) {
             e.printStackTrace();
