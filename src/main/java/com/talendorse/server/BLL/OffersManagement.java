@@ -79,9 +79,9 @@ public class OffersManagement {
             if(!keyword.isEmpty())
                 newQuery.and(Tables.OFFERS.JOB_FUNCTIONS.contains(keyword).or(Tables.OFFERS.POSITION.contains(keyword)).or(Tables.OFFERS.SUMMARY.contains(keyword)));
 
-            if(!(cities.size() > 0 && cities.get(0).equals("")))
+            if(cities.size() > 0 && !cities.get(0).equals(""))
                 newQuery.and(Tables.OFFERS.CITY.in(cities));
-            if(!(positions.size() > 0 && positions.get(0).equals("")))
+            if(positions.size() > 0 && !positions.get(0).equals(""))
                 newQuery.and(Tables.OFFERS.POSITION.in(positions));
             if (order.equals("ASC"))
                 newQuery.orderBy(Tables.OFFERS.DATE_INIT.asc(), Tables.OFFERS.DATE_END.desc());
@@ -89,8 +89,6 @@ public class OffersManagement {
                 newQuery.orderBy(Tables.OFFERS.DATE_INIT.desc(), Tables.OFFERS.DATE_END.asc());
 
             lst =  newQuery.limit(pageSize).offset(pageSize*numPage).fetchInto(OffersRecord.class);
-
-//            lst = newQuery.fetchInto(OffersRecord.class);
         } catch (Exception e) {
             e.printStackTrace();
             throw new TalendorseException(TalendorseErrorType.BD_ERROR);
