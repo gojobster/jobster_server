@@ -48,7 +48,7 @@ public class saveOffer {
 
             respuestaWS.responseStatus = 200;
             respuestaWS.message = OffersManagement.saveOffer(idOffer, position, summary, jobFunctions,
-                    country, city, experience, stateOffer, workingDayType, personasACargo, priority, maxSalary, minSalary, reward, dateIni, dateEnd);
+                    country, city, experience, stateOffer, contractType, workingDayType, personasACargo, priority, maxSalary, minSalary, reward, dateIni, dateEnd);
             respuestaWS.error = "";
             return  respuestaWS;
         } catch (TalendorseException ex) {

@@ -24,6 +24,7 @@ public class Apply {
     public RespuestaWS<String> apply(
             @FormParam("token") String token,
             @FormParam("id_candidate") Integer id_candidate,
+            @FormParam("id_offer") Integer id_offer,
             @FormParam("code") String code){
         RespuestaWS<String> respuestaWS = new RespuestaWS<>();
         try {
@@ -32,7 +33,7 @@ public class Apply {
             if(idTokenUser != id_candidate) throw new TalendorseException(TalendorseErrorType.BAD_ACCESS);
 
             respuestaWS.responseStatus = 200;
-            respuestaWS.message = EndorsementManagement.applyCandidate(id_candidate, code);
+            respuestaWS.message = EndorsementManagement.applyCandidate(id_candidate, id_offer, code);
             respuestaWS.error = "";
             return  respuestaWS;
         } catch (TalendorseException ex) {

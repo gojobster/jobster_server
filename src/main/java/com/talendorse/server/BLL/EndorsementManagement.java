@@ -143,7 +143,7 @@ public class EndorsementManagement {
         return "OK";
     }
 
-    public static String applyCandidate(Integer id_candidate, String code) throws TalendorseException{
+    public static String applyCandidate(Integer id_candidate, Integer idOffer, String code) throws TalendorseException{
         ConnectionBDManager connection = new ConnectionBDManager();
 
         if(code == "") throw new TalendorseException(TalendorseErrorType.GENERIC_ERROR);
@@ -151,7 +151,7 @@ public class EndorsementManagement {
 
         ReferralsRecord ref = connection.create.select()
                 .from(Tables.REFERRALS)
-                .where(Tables.REFERRALS.CODE.equal(code))
+                .where(Tables.REFERRALS.CODE.equal(code)).and(Tables.REFERRALS.ID_OFFER.equal(idOffer))
                 .fetchAnyInto(ReferralsRecord.class);
 
         if(ref == null) throw new TalendorseException(TalendorseErrorType.GENERIC_ERROR);

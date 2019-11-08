@@ -69,7 +69,6 @@ public class Constantes {
     public static final String EMAIL_SUBJECT_NEW_USER_ES = "Talendorse: Bienvenido";
 
 
-
     public static final String EMAIL_SUBJECT_RECOVER_PASSWORD_EN = "Talendorse - Recover Password";
     public static final String EMAIL_SUBJECT_USER_ACTIVATION_EN = "Talendorse - endorser's activation ";
     public static final String EMAIL_SUBJECT_OFFER_RECOMENDATION_EN = "Talendorse - Job offer recomendation from ";

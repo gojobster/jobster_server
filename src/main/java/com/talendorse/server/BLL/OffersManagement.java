@@ -328,7 +328,7 @@ public class OffersManagement {
 
 
     public static String saveOffer(Integer id_offer, String position, String summary, String jobFunctions, String country, String city,
-                                   Integer experience, Integer stateOffer, Integer workingDayType, Integer personasACargo, Integer priority,
+                                   Integer experience, Integer stateOffer, Integer contractType, Integer workingDayType, Integer personasACargo, Integer priority,
                                    Integer maxSalary, Integer minSalary, Integer reward, String dateIni, String dateEnd) {
         try {
             ConnectionBDManager connection = new ConnectionBDManager();
@@ -350,6 +350,7 @@ public class OffersManagement {
             offer.setCity(city);
             offer.setExperience(experience);
             offer.setState(stateOffer);
+            offer.setTipoContrato(contractType);
             offer.setTipoJornada(workingDayType);
             offer.setPeopleInCharge(personasACargo);
             offer.setPriority(priority);
